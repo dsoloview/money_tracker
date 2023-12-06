@@ -16,8 +16,7 @@ class UserController extends Controller
 {
     public function __construct(
         private readonly IUserService $userService
-    )
-    {
+    ) {
     }
 
     public function index()
@@ -28,6 +27,7 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         $data = UserCreateData::from($request);
+
         return new UserResource($this->userService->store($data));
     }
 

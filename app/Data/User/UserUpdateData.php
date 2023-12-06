@@ -2,9 +2,7 @@
 
 namespace App\Data\User;
 
-use App\Http\Requests\User\UserUpdateRequest;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Optional;
 
 class UserUpdateData extends Data
 {
@@ -12,8 +10,7 @@ class UserUpdateData extends Data
         public string $email,
         public string $name,
         public ?string $password
-    )
-    {
+    ) {
     }
 
     public function all(): array
@@ -29,5 +26,4 @@ class UserUpdateData extends Data
 
         return $data;
     }
-
 }

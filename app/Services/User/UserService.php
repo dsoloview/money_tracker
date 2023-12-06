@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 final readonly class UserService implements IUserService
 {
-
     public function index(): Collection
     {
         return User::all();
