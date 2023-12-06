@@ -10,6 +10,8 @@ interface IUserService
 {
     public function index();
 
+    public function indexPaginated(int $perPage = 10);
+
     public function store(UserCreateData $data);
 
     public function show(User $user);
