@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Currency;
 
+use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserSetting\UserSettingResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,6 +17,8 @@ class CurrencyResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'symbol' => $this->symbol,
+            'user_settings' => UserSettingResource::collection($this->whenLoaded('userSettings')),
+            'users' => UserResource::collection($this->whenLoaded('user')),
         ];
     }
 }

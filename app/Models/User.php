@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Currency\Currency;
+use App\Models\Language\Language;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +46,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function settings(): HasOne
+    {
+        return $this->hasOne(UserSetting::class, 'user_id', 'id');
+    }
+
+    public function language(): HasOneThrough
+    {
+        return $this->hasOneThrough(Language::class, UserSetting::class, 'user_id', 'id', 'id', 'language_id');
+    }
+
+    public function currency(): HasOneThrough
+    {
+        return $this->hasOneThrough(Currency::class, UserSetting::class, 'user_id', 'id', 'id', 'currency_id');
+    }
 }

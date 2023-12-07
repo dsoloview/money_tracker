@@ -4,12 +4,11 @@ namespace App\Services\User;
 
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;
-use App\Interfaces\Services\IUserService;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-final readonly class UserService implements IUserService
+final readonly class UserService
 {
     public function index(): Collection
     {
@@ -28,7 +27,7 @@ final readonly class UserService implements IUserService
 
     public function show(User $user): User
     {
-        return $user->load('roles');
+        return $user->load('roles', 'userSettings.language', 'userSettings.currency');
     }
 
     public function update(UserUpdateData $data, User $user): User

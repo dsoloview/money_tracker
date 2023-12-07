@@ -10,14 +10,14 @@ use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
-use App\Interfaces\Services\IUserService;
 use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     public function __construct(
-        private readonly IUserService $userService
+        private readonly UserService $userService
     ) {
     }
 

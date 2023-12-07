@@ -7,14 +7,12 @@ use App\Http\Resources\Currency\CurrencyCollection;
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Currency\Currency;
 use App\Services\Currency\CurrencyService;
-use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
 {
     public function __construct(
         private readonly CurrencyService $currencyService
-    )
-    {
+    ) {
     }
 
     public function index(): CurrencyCollection
