@@ -7,11 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryRequest;
 use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Category\DefaultCategory\DefaultCategoryCollection;
 use App\Models\Category\Category;
 use App\Models\User;
 use App\Services\Category\CategoryService;
 use App\Services\User\UserService;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -51,5 +51,12 @@ class CategoryController extends Controller
         return response()->json([
             'success' => $this->categoryService->delete($category)
         ]);
+    }
+
+    public function default(User $user)
+    {
+        $categories = $this->categoryService->getDefaultForLanguage($user->language);
+
+        return new DefaultCategoryCollection($categories);
     }
 }

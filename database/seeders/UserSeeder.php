@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\Role\Roles;
+use App\Models\Currency\Currency;
+use App\Models\Language\Language;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +22,7 @@ class UserSeeder extends Seeder
     private function createSuperadmin(): void
     {
         $superadmin = User::firstOrCreate([
-            'email' => 'superadmin@siperadmin.com',
+            'email' => 'superadmin@superadmin.com',
         ], [
             'name' => 'Superadmin',
             'email' => 'superadmin@superadmin.com',
@@ -28,5 +30,11 @@ class UserSeeder extends Seeder
         ]);
 
         $superadmin->assignRole(Roles::admin);
+        $superadmin->settings()->create(
+            [
+                'main_currency_id' => Currency::where('code', 'EUR')->first()->id,
+                'language_id' => Language::where('code', 'ru')->first()->id,
+            ]
+        );
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('icon')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('type')->default('expense');
             $table->timestamps();
 
             $table->foreign('parent_category_id')->references('id')->on('categories');

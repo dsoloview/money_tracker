@@ -36,6 +36,9 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('users.categories', CategoryController::class)->shallow();
+    Route::prefix('users/{user}')->group(function () {
+        Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
+    });
 
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);
