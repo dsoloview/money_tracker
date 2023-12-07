@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -51,7 +52,7 @@ class User extends Authenticatable
 
     public function settings(): HasOne
     {
-        return $this->hasOne(UserSetting::class, 'user_id', 'id');
+        return $this->hasOne(UserSetting::class);
     }
 
     public function language(): HasOneThrough
@@ -67,5 +68,10 @@ class User extends Authenticatable
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'user_id', 'id');
+    }
+
+    public static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }

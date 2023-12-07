@@ -16,11 +16,11 @@ class UserSettingFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'main_currency_id' => Currency::factory(),
-            'language_id' => Language::factory(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+
+            'main_currency_id' => Currency::factory(),
+            'language_id' => Language::factory(),
         ];
     }
 }

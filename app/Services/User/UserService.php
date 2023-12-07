@@ -19,7 +19,7 @@ final readonly class UserService
 
     public function indexPaginated(int $perPage = 10): LengthAwarePaginator
     {
-        return User::paginate($perPage);
+        return User::with('settings')->paginate($perPage);
     }
 
     public function store(UserCreateData $data): User
@@ -29,7 +29,7 @@ final readonly class UserService
 
     public function show(User $user): User
     {
-        return $user->load('roles', 'settings.language', 'settings.currency');
+        return $user->load('roles', 'settings', 'settings.language', 'settings.mainCurrency');
     }
 
     public function update(UserUpdateData $data, User $user): User

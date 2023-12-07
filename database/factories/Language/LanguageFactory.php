@@ -15,6 +15,7 @@ class LanguageFactory extends Factory
         return [
             'code' => $this->faker->word(),
             'name' => $this->faker->name(),
+            'native_name' => $this->faker->name(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

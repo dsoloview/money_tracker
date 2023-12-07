@@ -20,27 +20,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::prefix('auth')->controller(AuthController::class)->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-    });
-});
+//Route::prefix('auth')->controller(AuthController::class)->group(function () {
+//    Route::post('register', 'register');
+//    Route::post('login', 'login');
+//
+//    Route::middleware('auth:sanctum')->group(function () {
+//        Route::post('logout', [AuthController::class, 'logout']);
+//    });
+//});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
-    Route::apiResource('users.categories', CategoryController::class)->shallow();
-    Route::prefix('users/{user}')->group(function () {
-        Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
-    });
-
-    Route::apiResource('roles', RoleController::class);
+//    Route::apiResource('users.categories', CategoryController::class)->shallow();
+//    Route::prefix('users/{user}')->group(function () {
+//        Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
+//    });
+//
+//    Route::apiResource('roles', RoleController::class);
     Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);
     Route::apiResource('languages', LanguageController::class)->only(['index', 'show']);
 });
