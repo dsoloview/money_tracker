@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\v1\User;
+namespace App\Http\Controllers\Api\v1\User;
 
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;

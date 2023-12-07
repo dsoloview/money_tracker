@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'email' => 'superadmin@siperadmin.com',
         ], [
             'name' => 'Superadmin',
-            'email' => 'superadmin@siperadmin.com',
+            'email' => 'superadmin@superadmin.com',
             'password' => 'password',
         ]);
 

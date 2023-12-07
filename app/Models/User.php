@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,5 +62,10 @@ class User extends Authenticatable
     public function currency(): HasOneThrough
     {
         return $this->hasOneThrough(Currency::class, UserSetting::class, 'user_id', 'id', 'id', 'currency_id');
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class, 'user_id', 'id');
     }
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\api\v1\Auth;
+namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Data\User\UserCreateData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Resources\User\UserResource;
-use App\Interfaces\Services\IUserService;
+use App\Services\User\UserService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function __construct(
-        private readonly IUserService $userService
+        private readonly UserService $userService
     ) {
     }
 

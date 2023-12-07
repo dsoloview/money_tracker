@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\v1\Role;
+namespace App\Http\Controllers\Api\v1\Role;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Role\RoleCollection;
