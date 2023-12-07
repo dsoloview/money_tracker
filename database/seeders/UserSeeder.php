@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
     private function createSuperadmin(): void
     {
         $superadmin = User::firstOrCreate([
+            'email' => 'superadmin@siperadmin.com',
+        ], [
             'name' => 'Superadmin',
             'email' => 'superadmin@siperadmin.com',
             'password' => 'password',
