@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\Currency\CurrencySeeder;
+use Database\Seeders\Language\LanguageSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +20,10 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
             ]);
         }
+
+        $this->call([
+            CurrencySeeder::class,
+            LanguageSeeder::class,
+        ]);
     }
 }
