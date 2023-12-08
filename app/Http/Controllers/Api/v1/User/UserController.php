@@ -45,7 +45,7 @@ class UserController extends Controller
     }
 
     #[Endpoint('Get a user by id')]
-    #[ResponseFromApiResource(UserResource::class, User::class)]
+    #[ResponseFromApiResource(UserResource::class, User::class, with: ['roles', 'settings', 'settings.language', 'settings.mainCurrency'])]
     public function show(User $user): UserResource
     {
         return new UserResource($this->userService->show($user));

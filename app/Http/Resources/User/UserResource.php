@@ -17,7 +17,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
-            'settings' => $this->whenLoaded('settings', new UserSettingResource($this->settings)),
+            'settings' => new UserSettingResource($this->whenLoaded('settings')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

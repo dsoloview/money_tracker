@@ -36,7 +36,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (! Auth::attempt($credentials)) {
-            throw new AuthenticationException();
+            throw new AuthenticationException('Invalid credentials');
         }
 
         $token = Auth::user()->createToken('auth_token')->plainTextToken;
