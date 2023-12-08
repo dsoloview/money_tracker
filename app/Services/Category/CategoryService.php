@@ -15,7 +15,7 @@ class CategoryService
 {
     public function getUsersCategories(User $user)
     {
-        return $user->categories;
+        return $user->categories->load('parentCategory');
     }
 
     public function update(Category $category, CategoryData $data): Category

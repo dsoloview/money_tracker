@@ -12,7 +12,14 @@ use App\Models\Category\Category;
 use App\Models\User;
 use App\Services\Category\CategoryService;
 use App\Services\User\UserService;
+use Knuckles\Scribe\Attributes\Authenticated;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 
+#[Group(name: 'Category', description: 'Category management')]
+#[Authenticated]
 class CategoryController extends Controller
 {
     public function __construct(
@@ -22,11 +29,15 @@ class CategoryController extends Controller
     {
     }
 
-    public function index(User $user)
+    #[Endpoint('Get all categories for a user')]
+    #[ResponseFromApiResource(CategoryCollection::class, Category::class)]
+    public function index(User $user): CategoryCollection
     {
         return new CategoryCollection($this->categoryService->getUsersCategories($user));
     }
 
+    #[Endpoint('Create a new category for a user')]
+    #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function store(User $user, CategoryRequest $request)
     {
         $data = CategoryData::from($request);
@@ -34,11 +45,15 @@ class CategoryController extends Controller
         return new CategoryResource($this->userService->createUsersCategory($user, $data));
     }
 
+    #[Endpoint('Get a category by id')]
+    #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return new CategoryResource($category->load('parentCategory'));
     }
 
+    #[Endpoint('Update a category')]
+    #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function update(CategoryRequest $request, Category $category)
     {
         $data = CategoryData::from($request);
@@ -46,6 +61,8 @@ class CategoryController extends Controller
         return new CategoryResource($this->categoryService->update($category, $data));
     }
 
+    #[Endpoint('Delete a category')]
+    #[Response(['success' => true])]
     public function destroy(Category $category)
     {
         return response()->json([
@@ -53,7 +70,9 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function default(User $user)
+    #[Endpoint('Get default categories for a user')]
+    #[ResponseFromApiResource(DefaultCategoryCollection::class, Category::class)]
+    public function default(User $user): DefaultCategoryCollection
     {
         $categories = $this->categoryService->getDefaultForLanguage($user->language);
 

@@ -4,6 +4,7 @@ namespace Database\Factories\Category;
 
 use App\Models\Category\Category;
 use App\Models\User;
+use Closure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
@@ -17,8 +18,8 @@ class CategoryFactory extends Factory
             'income',
             'expense',
         ];
+
         return [
-            'parent_category_id' => Category::factory(),
             'user_id' => User::factory(),
             'icon' => $this->faker->word(),
             'name' => $this->faker->name(),
@@ -27,5 +28,16 @@ class CategoryFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
+    }
+
+    public function configure(): CategoryFactory
+    {
+        return $this->afterCreating(function (Category $category) {
+            $rand = rand(0, 1);
+            if ($rand === 1) {
+                $category->parentCategory()->associate(Category::factory()->create());
+                $category->save();
+            }
+        });
     }
 }

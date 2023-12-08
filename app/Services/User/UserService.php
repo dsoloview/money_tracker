@@ -46,6 +46,6 @@ final readonly class UserService
 
     public function createUsersCategory(User $user, CategoryData $data): Category
     {
-        return $user->categories()->create($data->all());
+        return $user->categories()->create($data->all())->load('parentCategory');
     }
 }

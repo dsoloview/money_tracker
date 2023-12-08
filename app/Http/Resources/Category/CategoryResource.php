@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Category;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -12,8 +13,8 @@ class CategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'parent_category_id' => $this->parent_category_id,
-            'user_id' => $this->user_id,
+            'parent_category_id' => new CategoryResource($this->whenLoaded('parentCategory')),
+            'user_id' => new UserResource($this->whenLoaded('user')),
             'icon' => $this->icon,
             'name' => $this->name,
             'type' => $this->type,

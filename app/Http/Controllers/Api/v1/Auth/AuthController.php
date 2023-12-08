@@ -7,10 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Resources\User\UserResource;
+use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Knuckles\Scribe\Attributes\Authenticated;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Response;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 
+#[Group(name: 'Auth', description: 'Authentication')]
 class AuthController extends Controller
 {
     public function __construct(
@@ -18,7 +26,9 @@ class AuthController extends Controller
     ) {
     }
 
-    public function register(UserCreateRequest $request)
+    #[Endpoint('Register a new user')]
+    #[ResponseFromApiResource(UserResource::class, User::class, additional: ['access_token' => 'string', 'token_type' => 'string'])]
+    public function register(UserCreateRequest $request): JsonResponse
     {
         $user = $this->userService->store(UserCreateData::from($request));
 
@@ -31,7 +41,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(LoginRequest $request)
+    #[Endpoint('Login a user')]
+    #[ResponseFromApiResource(UserResource::class, User::class, additional: ['access_token' => 'string', 'token_type' => 'string'])]
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
 
@@ -48,8 +60,10 @@ class AuthController extends Controller
         ]);
 
     }
-
-    public function logout()
+    #[Endpoint('Logout a user')]
+    #[Authenticated]
+    #[Response(['message' => 'Tokens Revoked'])]
+    public function logout(): JsonResponse
     {
         Auth::user()->tokens()->delete();
 
