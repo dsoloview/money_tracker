@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
@@ -68,6 +69,11 @@ class User extends Authenticatable
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'user_id', 'id');
+    }
+
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class, 'user_id', 'id');
     }
 
     public static function newFactory(): UserFactory

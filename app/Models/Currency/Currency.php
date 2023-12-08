@@ -2,6 +2,7 @@
 
 namespace App\Models\Currency;
 
+use App\Models\Account\Account;
 use App\Models\User;
 use App\Models\UserSetting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,5 +22,10 @@ class Currency extends Model
     public function user(): HasManyThrough
     {
         return $this->hasManyThrough(UserSetting::class, User::class, 'main_currency_id', 'user_id', 'id', 'id');
+    }
+
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class);
     }
 }
