@@ -2,12 +2,16 @@
 
 namespace App\Models\Account;
 
+use App\Models\Category\Category;
 use App\Models\Currency\Currency;
+use App\Models\Transaction\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
@@ -21,6 +25,11 @@ class Account extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     public function balance(): Attribute

@@ -19,7 +19,7 @@ class AccountFactory extends Factory
             'currency_id' => Currency::factory(),
             'name' => $this->faker->name(),
             'bank' => $this->faker->word(),
-            'balance' => $this->faker->randomNumber(),
+            'balance' => $this->faker->randomFloat(2),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

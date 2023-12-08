@@ -3,9 +3,12 @@
 namespace App\Models\Category;
 
 use App\Enums\Category\CategoryTypes;
+use App\Models\Transaction\Transaction;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -16,7 +19,12 @@ class Category extends Model
     ];
     public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function transactions(): BelongsToMany
+    {
+        return $this->belongsToMany(Transaction::class, 'categories_transactions', 'category_id', 'transaction_id');
     }
 
     public function parentCategory(): BelongsTo
