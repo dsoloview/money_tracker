@@ -13,6 +13,8 @@ class Language extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['*'];
+
     public function userSettings(): HasMany
     {
         return $this->hasMany(UserSetting::class, 'language_id', 'id');

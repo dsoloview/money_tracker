@@ -14,6 +14,8 @@ class Currency extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['*'];
+
     public function userSettings(): HasMany
     {
         return $this->hasMany(UserSetting::class, 'main_currency_id', 'id');

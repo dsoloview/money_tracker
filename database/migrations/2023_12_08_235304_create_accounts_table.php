@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('bank');
             $table->integer('balance');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')

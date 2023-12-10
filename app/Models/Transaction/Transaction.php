@@ -15,6 +15,12 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'account_id',
+        'amount',
+        'type',
+    ];
+
     protected $casts = [
         'type' => CategoryTransactionTypes::class,
     ];

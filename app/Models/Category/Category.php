@@ -14,6 +14,13 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'parent_category_id',
+        'name',
+        'type',
+    ];
+
     protected $casts = [
         'type' => CategoryTransactionTypes::class,
     ];

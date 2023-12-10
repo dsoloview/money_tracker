@@ -4,16 +4,26 @@ namespace App\Models\Account;
 
 use App\Models\Currency\Currency;
 use App\Models\Transaction\Transaction;
+use App\Models\Transfer\transfer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Account extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'currency_id',
+        'name',
+        'balance',
+        'bank'
+    ];
 
     public function user(): BelongsTo
     {
@@ -28,6 +38,21 @@ class Account extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function transferTo(): HasMany
+    {
+        return $this->hasMany(Transfer::class, 'account_to_id');
+    }
+
+    public function transferFrom(): HasMany
+    {
+        return $this->hasMany(Transfer::class, 'account_from_id');
+    }
+
+    public function getTransfersAttribute(): Collection
+    {
+        return $this->transferTo->merge($this->transferFrom);
     }
 
     public function balance(): Attribute

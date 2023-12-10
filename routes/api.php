@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\Currency\CurrencyController;
 use App\Http\Controllers\Api\v1\Language\LanguageController;
 use App\Http\Controllers\Api\v1\Role\RoleController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
+use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
+    Route::apiResource('accounts.transfers', TransferController::class)->shallow();
     Route::apiResource('accounts.transactions', TransactionController::class)->shallow();
     Route::prefix('users/{user}')->group(function () {
         Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
