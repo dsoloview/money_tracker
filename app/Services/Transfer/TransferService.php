@@ -13,8 +13,7 @@ final readonly class TransferService
 {
     public function __construct(
         private readonly AccountService $accountService
-    )
-    {
+    ) {
     }
 
     public function getAccountTransfers(Account $account): Collection
@@ -60,13 +59,11 @@ final readonly class TransferService
             $this->accountService->increaseAccountBalance($oldTransferFrom, $transfer->amount);
             $this->accountService->decreaseAccountBalance($oldTransferTo, $transfer->amount);
 
-
             $newTransferFrom = Account::findOrFail($data->account_from_id);
             $newTransferTo = Account::findOrFail($data->account_to_id);
 
             $this->accountService->decreaseAccountBalance($newTransferFrom, $data->amount);
             $this->accountService->increaseAccountBalance($newTransferTo, $data->amount);
-
 
             $transfer->update([
                 'account_from_id' => $newTransferFrom->id,

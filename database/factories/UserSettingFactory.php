@@ -18,8 +18,8 @@ class UserSettingFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
-            'main_currency_id' => Currency::inRandomOrder()->first()->id,
-            'language_id' => Language::inRandomOrder()->first()->id,
+            'main_currency_id' => Currency::inRandomOrder()->first()->id ?? Currency::factory(),
+            'language_id' => Language::inRandomOrder()->first()->id ?? Language::factory(),
         ];
     }
 }

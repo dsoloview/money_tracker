@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('transfers', function (Blueprint $table) {
@@ -12,7 +13,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('account_from_id');
             $table->unsignedBigInteger('account_to_id');
             $table->string('comment')->nullable();
-            $table->integer('amount');
+            $table->bigInteger('amount');
             $table->timestamps();
 
             $table->foreign('account_from_id')

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->string('comment')->nullable();
-            $table->integer('amount');
+            $table->bigInteger('amount');
             $table->string('type')->default('expense');
             $table->timestamps();
 

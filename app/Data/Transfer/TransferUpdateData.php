@@ -11,7 +11,6 @@ class TransferUpdateData extends Data
         public int $account_to_id,
         public ?string $comment,
         public int $amount,
-    )
-    {
+    ) {
     }
 }

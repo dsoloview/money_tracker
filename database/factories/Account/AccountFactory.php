@@ -16,7 +16,7 @@ class AccountFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'currency_id' => Currency::factory(),
+            'currency_id' => Currency::inRandomOrder()->first()->id ?? Currency::factory(),
             'name' => $this->faker->name(),
             'bank' => $this->faker->word(),
             'balance' => $this->faker->randomFloat(2),

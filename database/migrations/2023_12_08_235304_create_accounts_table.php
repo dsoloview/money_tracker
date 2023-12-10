@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->string('name');
             $table->string('bank');
-            $table->integer('balance');
+            $table->bigInteger('balance');
             $table->timestamps();
             $table->softDeletes();
 

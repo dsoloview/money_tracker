@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\Transfer\Transfer;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -13,7 +13,7 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $user = User::factory()->createOne();
-        dd($user);
+        $transfer = Transfer::factory()->createOne();
+        dd($transfer);
     }
 }

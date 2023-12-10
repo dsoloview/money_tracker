@@ -10,7 +10,7 @@ use App\Http\Requests\Transfer\TransferUpdateRequest;
 use App\Http\Resources\Transfer\TransferCollection;
 use App\Http\Resources\Transfer\TransferResource;
 use App\Models\Account\Account;
-use App\Models\Transfer\transfer;
+use App\Models\Transfer\Transfer;
 use App\Services\Transfer\TransferService;
 use Illuminate\Http\JsonResponse;
 use Knuckles\Scribe\Attributes\Authenticated;
@@ -25,8 +25,7 @@ class TransferController extends Controller
 {
     public function __construct(
         private readonly TransferService $transferService
-    )
-    {
+    ) {
     }
 
     #[Endpoint('Get account transfers')]
@@ -72,7 +71,7 @@ class TransferController extends Controller
         $this->transferService->deleteTransfer($transfer);
 
         return response()->json([
-            'message' => 'Transfer deleted successfully'
+            'message' => 'Transfer deleted successfully',
         ]);
     }
 }

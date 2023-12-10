@@ -4,7 +4,7 @@ namespace App\Models\Account;
 
 use App\Models\Currency\Currency;
 use App\Models\Transaction\Transaction;
-use App\Models\Transfer\transfer;
+use App\Models\Transfer\Transfer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +22,7 @@ class Account extends Model
         'currency_id',
         'name',
         'balance',
-        'bank'
+        'bank',
     ];
 
     public function user(): BelongsTo

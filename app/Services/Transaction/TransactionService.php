@@ -38,7 +38,7 @@ class TransactionService
                 $this->accountService->decreaseAccountBalance($account, $transaction->amount);
             }
 
-            return $transaction;
+            return $transaction->load('categories');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Transfer;
 
+use App\Http\Resources\Account\AccountResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -12,12 +13,13 @@ class TransferResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'account_from_id' => $this->account_from_id,
-            'account_to_id' => $this->account_to_id,
             'comment' => $this->comment,
             'amount' => $this->amount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+
+            'account_from' => new AccountResource($this->whenLoaded('accountFrom')),
+            'account_to' => new AccountResource($this->whenLoaded('accountTo')),
         ];
     }
 }
