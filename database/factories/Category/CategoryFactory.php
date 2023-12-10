@@ -4,7 +4,6 @@ namespace Database\Factories\Category;
 
 use App\Models\Category\Category;
 use App\Models\User;
-use Closure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

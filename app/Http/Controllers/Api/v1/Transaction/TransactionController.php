@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\Api\v1\Transaction;
 
 use App\Data\Transaction\TransactionData;
 use App\Http\Controllers\Controller;
@@ -23,11 +23,10 @@ class TransactionController extends Controller
 {
     public function __construct(
         private readonly TransactionService $transactionService,
-    )
-    {
+    ) {
     }
 
-    #[Endpoint("Get all transactions for an account")]
+    #[Endpoint('Get all transactions for an account')]
     #[ResponseFromApiResource(TransactionCollection::class, Transaction::class, with: ['categories'], paginate: 10)]
     public function index(Account $account): TransactionCollection
     {
@@ -36,7 +35,7 @@ class TransactionController extends Controller
         return new TransactionCollection($accountTransactions);
     }
 
-    #[Endpoint("Create a new transaction for an account")]
+    #[Endpoint('Create a new transaction for an account')]
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['categories'])]
     public function store(Account $account, TransactionRequest $request): TransactionResource
     {
@@ -46,14 +45,14 @@ class TransactionController extends Controller
         return new TransactionResource($transaction);
     }
 
-    #[Endpoint("Get a transaction")]
+    #[Endpoint('Get a transaction')]
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['account', 'categories'])]
     public function show(Transaction $transaction): TransactionResource
     {
         return new TransactionResource($transaction->load('account', 'categories'));
     }
 
-    #[Endpoint("Update a transaction")]
+    #[Endpoint('Update a transaction')]
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['categories'])]
     public function update(TransactionRequest $request, Transaction $transaction): TransactionResource
     {
@@ -63,11 +62,11 @@ class TransactionController extends Controller
         return new TransactionResource($transaction);
     }
 
-    #[Endpoint("Delete a transaction")]
+    #[Endpoint('Delete a transaction')]
     #[Response(['message' => 'Transaction deleted successfully'])]
     public function destroy(Transaction $transaction): JsonResponse
     {
-        $transaction->delete();
+        $this->transactionService->deleteTransaction($transaction);
 
         return response()->json([
             'message' => 'Transaction deleted successfully',

@@ -12,7 +12,6 @@ class AccountData extends Data
         public int $balance,
         public string $name,
         public string $bank,
-    )
-    {
+    ) {
     }
 }

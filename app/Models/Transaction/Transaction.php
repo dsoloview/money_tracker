@@ -2,6 +2,7 @@
 
 namespace App\Models\Transaction;
 
+use App\Enums\Category\CategoryTransactionTypes;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,6 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Transaction extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'type' => CategoryTransactionTypes::class,
+    ];
 
     public function account(): BelongsTo
     {

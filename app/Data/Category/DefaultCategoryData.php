@@ -9,8 +9,7 @@ class DefaultCategoryData extends Data
     public function __construct(
         public string $name,
         public string $type
-    )
-    {
+    ) {
     }
 
     public static function fromArray(array $data): self

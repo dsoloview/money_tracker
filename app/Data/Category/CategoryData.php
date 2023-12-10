@@ -12,7 +12,6 @@ class CategoryData extends Data
         public ?string $icon,
         public string $name,
         public ?string $description,
-    )
-    {
+    ) {
     }
 }

@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
 
                 if ($e instanceof AuthenticationException) {
                     return response()->json([
-                        'message' =>  $e->getMessage(),
+                        'message' => $e->getMessage(),
                     ], 401);
                 }
 

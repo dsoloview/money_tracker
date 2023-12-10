@@ -3,13 +3,19 @@
 namespace App\Services\Transaction;
 
 use App\Data\Transaction\TransactionData;
-use App\Http\Requests\Transaction\TransactionRequest;
+use App\Enums\Category\CategoryTransactionTypes;
 use App\Models\Account\Account;
 use App\Models\Transaction\Transaction;
+use App\Services\Account\AccountService;
 use Illuminate\Support\Collection;
 
 class TransactionService
 {
+    public function __construct(
+        private readonly AccountService $accountService
+    ) {
+    }
+
     public function getAccountTransactions(Account $account): Collection
     {
         return $account->transactions->load('categories');
@@ -22,16 +28,46 @@ class TransactionService
 
     public function createTransactionForAccount(Account $account, TransactionData $data): Transaction
     {
-        return $account->transactions()->create([
-            'comment' => $data->comment,
-            'amount' => $data->amount,
-        ])->load('categories');
+        return \DB::transaction(function () use ($account, $data) {
+            $transaction = $account->transactions()->create($data->all());
+            $transaction->categories()->sync($data->categories_ids);
+
+            if ($transaction->type === CategoryTransactionTypes::INCOME) {
+                $this->accountService->increaseAccountBalance($account, $transaction->amount);
+            } else {
+                $this->accountService->decreaseAccountBalance($account, $transaction->amount);
+            }
+
+            return $transaction;
+        });
     }
 
     public function updateTransaction(Transaction $transaction, TransactionData $data): Transaction
     {
-        $transaction->update($data->all());
+        return \DB::transaction(function () use ($transaction, $data) {
+            $transaction->update($data->all());
+            $transaction->categories()->sync($data->categories_ids);
 
-        return $transaction->load('categories');
+            if ($transaction->type === CategoryTransactionTypes::INCOME) {
+                $this->accountService->decreaseAccountBalance($transaction->account, $transaction->amount);
+            } else {
+                $this->accountService->increaseAccountBalance($transaction->account, $transaction->amount);
+            }
+
+            return $transaction;
+        });
+    }
+
+    public function deleteTransaction(Transaction $transaction): void
+    {
+        \DB::transaction(function () use ($transaction) {
+            if ($transaction->type === CategoryTransactionTypes::INCOME) {
+                $this->accountService->decreaseAccountBalance($transaction->account, $transaction->amount);
+            } else {
+                $this->accountService->increaseAccountBalance($transaction->account, $transaction->amount);
+            }
+
+            $transaction->delete();
+        });
     }
 }

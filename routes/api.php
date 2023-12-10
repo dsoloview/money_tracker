@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\v1\Category\CategoryController;
 use App\Http\Controllers\Api\v1\Currency\CurrencyController;
 use App\Http\Controllers\Api\v1\Language\LanguageController;
 use App\Http\Controllers\Api\v1\Role\RoleController;
-use App\Http\Controllers\Api\v1\TransactionController;
+use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\User\UserController;
 use Illuminate\Support\Facades\Route;
 

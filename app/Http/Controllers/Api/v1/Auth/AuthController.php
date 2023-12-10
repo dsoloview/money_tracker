@@ -60,6 +60,7 @@ class AuthController extends Controller
         ]);
 
     }
+
     #[Endpoint('Logout a user')]
     #[Authenticated]
     #[Response(['message' => 'Tokens Revoked'])]

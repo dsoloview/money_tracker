@@ -2,7 +2,7 @@
 
 namespace App\Models\Category;
 
-use App\Enums\Category\CategoryTypes;
+use App\Enums\Category\CategoryTransactionTypes;
 use App\Models\Transaction\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,8 +15,9 @@ class Category extends Model
     use HasFactory;
 
     protected $casts = [
-        'type' => CategoryTypes::class
+        'type' => CategoryTransactionTypes::class,
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

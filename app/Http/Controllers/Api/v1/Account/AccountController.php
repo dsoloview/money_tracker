@@ -22,8 +22,7 @@ class AccountController extends Controller
 {
     public function __construct(
         private readonly AccountService $accountService
-    )
-    {
+    ) {
     }
 
     #[Endpoint('Get all accounts for a user')]
@@ -68,8 +67,9 @@ class AccountController extends Controller
     public function destroy(Account $account)
     {
         $account->delete();
+
         return response()->json([
-            'message' => 'Account deleted successfully'
+            'message' => 'Account deleted successfully',
         ]);
     }
 }

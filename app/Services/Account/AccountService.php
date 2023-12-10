@@ -22,6 +22,23 @@ class AccountService
     public function updateAccount(Account $account, AccountData $data): Account
     {
         $account->update($data->all());
+
+        return $account->load('currency');
+    }
+
+    public function increaseAccountBalance(Account $account, float $amount): Account
+    {
+        $account->balance += $amount;
+        $account->save();
+
+        return $account->load('currency');
+    }
+
+    public function decreaseAccountBalance(Account $account, float $amount): Account
+    {
+        $account->balance -= $amount;
+        $account->save();
+
         return $account->load('currency');
     }
 }

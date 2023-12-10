@@ -25,8 +25,7 @@ class CategoryController extends Controller
     public function __construct(
         private readonly CategoryService $categoryService,
         private readonly UserService $userService
-    )
-    {
+    ) {
     }
 
     #[Endpoint('Get all categories for a user')]
@@ -66,7 +65,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         return response()->json([
-            'success' => $this->categoryService->delete($category)
+            'success' => $this->categoryService->delete($category),
         ]);
     }
 

@@ -52,7 +52,6 @@ class CategoryService
             ]));
         }
 
-
         \Cache::put("default_categories_{$language->code}", $categories, 60 * 60 * 24);
 
         return $categories;

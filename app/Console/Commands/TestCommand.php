@@ -13,7 +13,7 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-       $user = User::factory()->createOne();
-       dd($user);
+        $user = User::factory()->createOne();
+        dd($user);
     }
 }

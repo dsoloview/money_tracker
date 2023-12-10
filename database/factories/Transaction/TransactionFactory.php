@@ -17,6 +17,7 @@ class TransactionFactory extends Factory
         return [
             'comment' => $this->faker->word(),
             'amount' => $this->faker->randomFloat(2),
+            'type' => $this->faker->randomElement(['income', 'expense']),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
