@@ -5,13 +5,20 @@ namespace App\Services\User;
 use App\Data\Category\CategoryData;
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;
+use App\Enums\Role\Roles;
 use App\Models\Category\Category;
 use App\Models\User;
+use App\Services\User\Setting\UserSettingService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Models\Role;
 
 final readonly class UserService
 {
+    public function __construct(
+        private readonly UserSettingService $userSettingService
+    ) {
+    }
     public function index(): Collection
     {
         return User::all();
@@ -24,7 +31,15 @@ final readonly class UserService
 
     public function store(UserCreateData $data): User
     {
-        return User::firstOrCreate($data->all());
+        return \DB::transaction(function () use ($data) {
+            $user = User::create($data->except('settings')->all());
+
+            $user->assignRole(Roles::user->value);
+
+            $this->userSettingService->createSettingForUser($user, $data->settings);
+
+            return $user;
+        });
     }
 
     public function show(User $user): User

@@ -9,8 +9,8 @@ class TransferUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'account_from_id' => ['required', 'exists:accounts'],
-            'account_to_id' => ['required', 'exists:accounts'],
+            'account_from_id' => ['required', 'exists:accounts,id'],
+            'account_to_id' => ['required', 'exists:accounts,id'],
             'comment' => ['nullable', 'string', 'max:255'],
             'amount' => ['required', 'integer'],
         ];

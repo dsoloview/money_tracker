@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->unsignedBigInteger('main_currency_id')->nullable();
             $table->unsignedBigInteger('language_id')->nullable();
             $table->timestamps();

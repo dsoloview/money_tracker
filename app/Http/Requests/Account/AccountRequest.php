@@ -9,8 +9,7 @@ class AccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'exists:users'],
-            'currency_id' => ['required', 'exists:currencies'],
+            'currency_id' => ['required', 'exists:currencies,id', 'integer'],
             'name' => ['required', 'string', 'max:255'],
             'bank' => ['required', 'string', 'max:255'],
             'balance' => ['required', 'integer'],

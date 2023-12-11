@@ -13,6 +13,9 @@ class UserCreateRequest extends FormRequest
             'email' => ['required', 'email', 'max:254', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:8', 'max:254'],
             'password_confirmation' => ['required'],
+            'settings' => ['array'],
+            'settings.main_currency_id' => ['required', 'exists:currencies,id', 'int'],
+            'settings.language_id' => ['required', 'exists:languages,id', 'int'],
         ];
     }
 
