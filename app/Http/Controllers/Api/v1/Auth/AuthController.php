@@ -61,7 +61,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => new UserResource(auth()->user()->load('roles')),
+            'user' => new UserResource(auth()->user()->load('roles', 'settings', 'settings.language', 'settings.mainCurrency')),
         ]);
 
     }

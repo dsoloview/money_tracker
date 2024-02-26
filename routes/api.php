@@ -33,6 +33,8 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
+    Route::patch('users/{user}/settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
+    Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update_password');
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
     Route::apiResource('accounts.transfers', TransferController::class)->shallow();
@@ -42,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('roles', RoleController::class);
-    Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);
-    Route::apiResource('languages', LanguageController::class)->only(['index', 'show']);
 });
+
+Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);
+Route::apiResource('languages', LanguageController::class)->only(['index', 'show']);

@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
+use App\Data\User\Setting\UserSettingData;
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;
+use App\Data\User\UserUpdatePasswordData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserUpdatePasswordRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\User\UserUpdateSettingsRequest;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserSetting\UserSettingResource;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -57,7 +62,27 @@ class UserController extends Controller
     {
         $data = UserUpdateData::from($request);
 
-        return new UserResource($this->userService->update($data, $user));
+        return new UserResource($this->userService->update($data, $user)->load('roles', 'settings', 'settings.language', 'settings.mainCurrency'));
+    }
+
+    public function updateSettings(UserUpdateSettingsRequest $request, User $user): UserSettingResource
+    {
+        $data = UserSettingData::from($request);
+
+        $updatedSettings = $this->userService->updateSettings($data, $user)->load('language', 'mainCurrency');
+
+        return new UserSettingResource($updatedSettings);
+    }
+
+    public function updatePassword(UserUpdatePasswordRequest $request, User $user): JsonResponse
+    {
+        $data = UserUpdatePasswordData::from($request);
+
+        $success = $this->userService->updatePassword($data, $user);
+
+        return response()->json([
+            'success' => $success,
+        ]);
     }
 
     #[Endpoint('Delete a user')]

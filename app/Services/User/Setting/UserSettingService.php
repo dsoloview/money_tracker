@@ -12,4 +12,11 @@ class UserSettingService
     {
         return $user->settings()->create($settingData->all());
     }
+
+    public function updateSettingForUser(User $user, UserSettingData $settingData): UserSetting
+    {
+        $user->settings->update($settingData->all());
+
+        return $user->settings;
+    }
 }

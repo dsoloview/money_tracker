@@ -12,8 +12,9 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email', 'max:254', Rule::unique('users')->ignore($this->user ?? null)],
-            'password' => ['exclude_if:password,null'],
-            'password_confirmation' => ['required_unless:password,null'],
+            'settings' => ['required', 'array'],
+            'settings.language_id' => ['required', 'exists:languages,id'],
+            'settings.main_currency_id' => ['required', 'exists:currencies,id'],
         ];
     }
 

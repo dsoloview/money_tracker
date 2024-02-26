@@ -34,39 +34,42 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e) {
             if (request()->is('api/*')) {
 
-                if (config('app.debug')) {
-                    return response()->json([
-                        'message' => $e->getMessage(),
-                        'trace' => $e->getTrace(),
-                    ], 500);
-                }
+
                 if ($e instanceof ValidationException) {
+                    $errors = collect($e->errors())->undot();
                     return response()->json([
+                        'type' => 'validation_error',
                         'message' => 'The given data was invalid.',
-                        'errors' => $e->errors(),
+                        'errors' => $errors,
                     ], 422);
                 }
 
                 if ($e instanceof ModelNotFoundException) {
                     return response()->json([
+                        'type' => 'not_found',
                         'message' => 'Resource not found.',
                     ], 404);
                 }
 
                 if ($e instanceof AuthorizationException) {
                     return response()->json([
+                        'type' => 'unauthorized',
                         'message' => 'This action is unauthorized.',
                     ], 403);
                 }
 
                 if ($e instanceof AuthenticationException) {
                     return response()->json([
+                        'type' => 'unauthenticated',
                         'message' => $e->getMessage(),
                     ], 401);
                 }
 
                 return response()->json([
+                    'type' => 'internal_server_error',
                     'message' => 'Internal server error.',
+                    'exception' => $e->getMessage(),
+                    'file' => $e->getFile(),
                 ], 500);
             }
         });
