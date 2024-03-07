@@ -16,6 +16,7 @@ class TransactionRequest extends FormRequest
             'amount' => ['required', 'integer'],
             'categories_ids' => ['nullable', 'array'],
             'categories_ids.*' => ['required', 'exists:categories,id'],
+            'date' => ['required', 'date'],
             'type' => ['required', 'string', Rule::enum(CategoryTransactionTypes::class)],
         ];
     }

@@ -2,6 +2,8 @@
 
 namespace App\Models\Transaction;
 
+use Abbasudo\Purity\Traits\Filterable;
+use Abbasudo\Purity\Traits\Sortable;
 use App\Enums\Category\CategoryTransactionTypes;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
@@ -14,11 +16,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Transaction extends Model
 {
     use HasFactory;
+    use Filterable;
+    use Sortable;
 
     protected $fillable = [
         'account_id',
         'amount',
         'type',
+        'comment',
+        'date',
+        'account_balance'
     ];
 
     protected $casts = [

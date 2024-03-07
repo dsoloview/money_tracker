@@ -29,7 +29,8 @@ class TransactionService
     public function createTransactionForAccount(Account $account, TransactionData $data): Transaction
     {
         return \DB::transaction(function () use ($account, $data) {
-            $transaction = $account->transactions()->create($data->all());
+            $saveData = $data->except('categories_ids');
+            $transaction = $account->transactions()->create($saveData->all());
             $transaction->categories()->sync($data->categories_ids);
 
             if ($transaction->type === CategoryTransactionTypes::INCOME) {
@@ -45,7 +46,8 @@ class TransactionService
     public function updateTransaction(Transaction $transaction, TransactionData $data): Transaction
     {
         return \DB::transaction(function () use ($transaction, $data) {
-            $transaction->update($data->all());
+            $saveData = $data->except('categories_ids');
+            $transaction->update($saveData->all());
             $transaction->categories()->sync($data->categories_ids);
 
             if ($transaction->type === CategoryTransactionTypes::INCOME) {

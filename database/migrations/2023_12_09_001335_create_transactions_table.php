@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('comment')->nullable();
             $table->bigInteger('amount');
             $table->string('type')->default('expense');
+            $table->dateTime('date')->useCurrent();
             $table->timestamps();
 
             $table->foreign('account_id')

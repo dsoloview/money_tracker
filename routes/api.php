@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\v1\Role\RoleController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
+use App\Http\Controllers\Api\v1\User\UserTransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::patch('users/{user}/settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
     Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update_password');
+    Route::get('users/{user}/transactions', [UserTransactionController::class, 'index'])->name('users.transactions.index');
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
     Route::apiResource('accounts.transfers', TransferController::class)->shallow();

@@ -6,15 +6,14 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Category\Category */
 class CategoryResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'parent_category_id' => new CategoryResource($this->whenLoaded('parentCategory')),
-            'user_id' => new UserResource($this->whenLoaded('user')),
+            'parent_category' => new CategoryResource($this->whenLoaded('parentCategory')),
+            'user' => new UserResource($this->whenLoaded('user')),
             'icon' => $this->icon,
             'name' => $this->name,
             'type' => $this->type,

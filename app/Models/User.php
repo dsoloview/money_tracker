@@ -6,9 +6,11 @@ use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
+use App\Models\Transaction\Transaction;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -74,6 +76,11 @@ class User extends Authenticatable
     public function accounts(): HasMany
     {
         return $this->hasMany(Account::class, 'user_id', 'id');
+    }
+
+    public function transactions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Transaction::class, Account::class);
     }
 
     public static function newFactory(): UserFactory

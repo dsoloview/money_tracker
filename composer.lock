@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84e53c4cfac6d73f71b28dd2eebcec65",
+    "content-hash": "640a481fa8109376e4f864dcf792b93a",
     "packages": [
+        {
+            "name": "abbasudo/laravel-purity",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abbasudo/laravel-purity.git",
+                "reference": "23bfe72df7e9cfe5db3fef15b816eadd2cf90749"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abbasudo/laravel-purity/zipball/23bfe72df7e9cfe5db3fef15b816eadd2cf90749",
+                "reference": "23bfe72df7e9cfe5db3fef15b816eadd2cf90749",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0|^9.0|^8.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "8.*",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Abbasudo\\Purity\\PurityServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Abbasudo\\Purity\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "abbas mkhzomi",
+                    "email": "llabbasmkhll@gmail.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "elegant way to add filter and sort in laravel",
+            "support": {
+                "issues": "https://github.com/abbasudo/laravel-purity/issues",
+                "source": "https://github.com/abbasudo/laravel-purity/tree/v3.0.1"
+            },
+            "time": "2024-02-21T14:14:27+00:00"
+        },
         {
             "name": "amphp/amp",
             "version": "v3.0.0",

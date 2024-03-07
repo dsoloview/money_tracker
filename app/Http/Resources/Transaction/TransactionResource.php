@@ -18,8 +18,10 @@ class TransactionResource extends JsonResource
             'comment' => $this->comment,
             'amount' => $this->amount,
             'account' => new AccountResource($this->whenLoaded('account')),
+            'type' => $this->type,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
 
+            'date' => $this->date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
