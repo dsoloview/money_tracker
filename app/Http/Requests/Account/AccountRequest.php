@@ -12,7 +12,7 @@ class AccountRequest extends FormRequest
             'currency_id' => ['required', 'exists:currencies,id', 'integer'],
             'name' => ['required', 'string', 'max:255'],
             'bank' => ['required', 'string', 'max:255'],
-            'balance' => ['required', 'integer'],
+            'balance' => ['required', 'numeric'],
         ];
     }
 

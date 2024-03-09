@@ -27,7 +27,9 @@ class UserTransactionController extends Controller
     public function index(User $user)
     {
         $transactions = $this->userTransactionService->getUserTransactionsPaginated($user);
+        $minAmount = $this->userTransactionService->getMinTransactionAmount($user);
+        $maxAmount = $this->userTransactionService->getMaxTransactionAmount($user);
 
-        return new TransactionCollection($transactions);
+        return new TransactionCollection($transactions, $minAmount, $maxAmount);
     }
 }

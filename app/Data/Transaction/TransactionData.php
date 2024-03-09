@@ -9,7 +9,7 @@ class TransactionData extends Data
 {
     public function __construct(
         public ?string $comment,
-        public int $amount,
+        public float $amount,
         public array $categories_ids,
         public CategoryTransactionTypes $type,
     ) {

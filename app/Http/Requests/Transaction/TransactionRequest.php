@@ -13,7 +13,7 @@ class TransactionRequest extends FormRequest
         return [
             'account_id' => ['required', 'exists:accounts,id'],
             'comment' => ['nullable', 'string', 'max:255'],
-            'amount' => ['required', 'integer'],
+            'amount' => ['required', 'numeric'],
             'categories_ids' => ['nullable', 'array'],
             'categories_ids.*' => ['required', 'exists:categories,id'],
             'date' => ['required', 'date'],
