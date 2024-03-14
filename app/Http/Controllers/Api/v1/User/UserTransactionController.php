@@ -7,6 +7,7 @@ use App\Http\Resources\Transaction\TransactionCollection;
 use App\Models\Transaction\Transaction;
 use App\Models\User;
 use App\Services\User\Transaction\UserTransactionService;
+use Illuminate\Http\JsonResponse;
 use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
@@ -31,5 +32,16 @@ class UserTransactionController extends Controller
         $maxAmount = $this->userTransactionService->getMaxTransactionAmount($user);
 
         return new TransactionCollection($transactions, $minAmount, $maxAmount);
+    }
+
+    #[Endpoint('Get min and max transaction amounts')]
+    public function minMax(User $user)
+    {
+        return new JsonResponse([
+            'data' => [
+                'min' => $this->userTransactionService->getMinTransactionAmount($user),
+                'max' => $this->userTransactionService->getMaxTransactionAmount($user),
+            ],
+        ]);
     }
 }

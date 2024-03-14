@@ -21,6 +21,8 @@ class UserTransactionService
     {
         $minAmount =  $user
             ->transactions()
+            ->filterBy('$eq')
+            ->filter()
             ->min('amount');
 
         return $minAmount / 100;
@@ -30,6 +32,8 @@ class UserTransactionService
     {
         $maxAmount = $user
             ->transactions()
+            ->filterBy('$eq')
+            ->filter()
             ->max('amount');
 
         return $maxAmount / 100;
