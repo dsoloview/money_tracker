@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -33,8 +34,6 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e) {
             if (request()->is('api/*')) {
-
-
                 if ($e instanceof ValidationException) {
                     $errors = collect($e->errors())->undot();
                     return response()->json([
@@ -51,7 +50,7 @@ class Handler extends ExceptionHandler
                     ], 404);
                 }
 
-                if ($e instanceof AuthorizationException) {
+                if ($e instanceof AuthorizationException || $e instanceof AccessDeniedHttpException) {
                     return response()->json([
                         'type' => 'unauthorized',
                         'message' => 'This action is unauthorized.',

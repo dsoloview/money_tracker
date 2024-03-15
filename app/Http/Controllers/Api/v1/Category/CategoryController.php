@@ -32,6 +32,7 @@ class CategoryController extends Controller
     #[ResponseFromApiResource(CategoryCollection::class, Category::class)]
     public function index(User $user): CategoryCollection
     {
+        $this->authorize('viewAny', [Category::class, $user]);
         return new CategoryCollection($this->categoryService->getUsersCategories($user));
     }
 
@@ -39,6 +40,7 @@ class CategoryController extends Controller
     #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function store(User $user, CategoryRequest $request)
     {
+        $this->authorize('create', [Category::class, $user]);
         $data = CategoryData::from($request);
 
         return new CategoryResource($this->userService->createUsersCategory($user, $data));
@@ -48,6 +50,7 @@ class CategoryController extends Controller
     #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function show(Category $category)
     {
+        $this->authorize('view', $category);
         return new CategoryResource($category->load('parentCategory'));
     }
 
@@ -55,6 +58,7 @@ class CategoryController extends Controller
     #[ResponseFromApiResource(CategoryResource::class, Category::class)]
     public function update(CategoryRequest $request, Category $category)
     {
+        $this->authorize('update', $category);
         $data = CategoryData::from($request);
 
         return new CategoryResource($this->categoryService->update($category, $data));
@@ -64,6 +68,7 @@ class CategoryController extends Controller
     #[Response(['success' => true])]
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
         return response()->json([
             'success' => $this->categoryService->delete($category),
         ]);

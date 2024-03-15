@@ -79,6 +79,10 @@ final readonly class UserService
 
     public function destroy(User $user): bool
     {
+        $currentUser = auth()->user();
+        if ($currentUser->id === $user->id) {
+            throw new \Exception('You cannot delete yourself');
+        }
         return $user->delete();
     }
 

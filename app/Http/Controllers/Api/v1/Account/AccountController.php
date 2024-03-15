@@ -29,6 +29,7 @@ class AccountController extends Controller
     #[ResponseFromApiResource(AccountCollection::class, Account::class, with: ['currency'])]
     public function index(User $user): AccountCollection
     {
+        $this->authorize('viewAny', [Account::class, $user]);
         $userAccounts = $this->accountService->getUserAccounts($user);
 
         return new AccountCollection($userAccounts);
@@ -38,6 +39,7 @@ class AccountController extends Controller
     #[ResponseFromApiResource(AccountResource::class, Account::class, with: ['currency'])]
     public function store(User $user, AccountRequest $request)
     {
+        $this->authorize('create', [Account::class, $user]);
         $data = AccountData::from($request);
         $account = $this->accountService->saveAccountForUser($user, $data);
 
@@ -49,6 +51,7 @@ class AccountController extends Controller
     #[ResponseFromApiResource(AccountResource::class, Account::class, with: ['currency'])]
     public function show(Account $account)
     {
+        $this->authorize('view', $account);
         return new AccountResource($account->load('currency'));
     }
 
@@ -56,6 +59,8 @@ class AccountController extends Controller
     #[ResponseFromApiResource(AccountResource::class, Account::class, with: ['currency'])]
     public function update(AccountRequest $request, Account $account)
     {
+
+        $this->authorize('update', $account);
         $data = AccountData::from($request);
         $account = $this->accountService->updateAccount($account, $data);
 
@@ -66,6 +71,7 @@ class AccountController extends Controller
     #[Response(['message' => 'Account deleted successfully'])]
     public function destroy(Account $account)
     {
+        $this->authorize('delete', $account);
         $account->delete();
 
         return response()->json([

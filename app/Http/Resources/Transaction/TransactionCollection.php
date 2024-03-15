@@ -11,11 +11,9 @@ class TransactionCollection extends ResourceCollection
     private int $minAmount;
     private int $maxAmount;
 
-    public function __construct($resource, int $minAmount, int $maxAmount)
+    public function __construct($resource)
     {
         parent::__construct($resource);
-        $this->minAmount = $minAmount;
-        $this->maxAmount = $maxAmount;
     }
 
 
@@ -23,8 +21,6 @@ class TransactionCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'min_amount' => $this->minAmount,
-            'max_amount' => $this->maxAmount,
         ];
     }
 }

@@ -32,6 +32,7 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferCollection::class, Transfer::class, paginate: 10)]
     public function index(Account $account): TransferCollection
     {
+        $this->authorize('viewAny', [Transfer::class, $account]);
         $transfers = $this->transferService->getAccountTransfersPaginated($account);
 
         return new TransferCollection($transfers);
@@ -41,6 +42,8 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferResource::class, Transfer::class)]
     public function store(Account $account, TransferCreateRequest $request): TransferResource
     {
+        $this->authorize('create', [Transfer::class, $account, $request->to_account_id]);
+
         $data = TransferData::from($request);
         $transferFrom = $this->transferService->createTransfer($account, $data);
 
@@ -51,6 +54,7 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferResource::class, Transfer::class)]
     public function show(Transfer $transfer): TransferResource
     {
+        $this->authorize('view', $transfer);
         return new TransferResource($transfer);
     }
 
@@ -58,6 +62,7 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferResource::class, Transfer::class)]
     public function update(Transfer $transfer, TransferUpdateRequest $request): TransferResource
     {
+        $this->authorize('update', [Transfer::class, $transfer, $request->to_account_id]);
         $data = TransferUpdateData::from($request);
         $transfer = $this->transferService->updateTransfer($transfer, $data);
 
@@ -68,6 +73,7 @@ class TransferController extends Controller
     #[Response(['message' => 'Transfer deleted successfully'])]
     public function destroy(Transfer $transfer): JsonResponse
     {
+        $this->authorize('delete', $transfer);
         $this->transferService->deleteTransfer($transfer);
 
         return response()->json([

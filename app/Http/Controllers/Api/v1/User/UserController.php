@@ -37,6 +37,8 @@ class UserController extends Controller
     #[ResponseFromApiResource(UserCollection::class, User::class, paginate: 10)]
     public function index(IndexRequest $request): UserCollection
     {
+        $this->authorize('viewAny', User::class);
+
         return new UserCollection($this->userService->indexPaginated($request->per_page ?? 10));
     }
 
@@ -44,6 +46,8 @@ class UserController extends Controller
     #[ResponseFromApiResource(UserResource::class, User::class)]
     public function store(UserCreateRequest $request): UserResource
     {
+        $this->authorize('create', User::class);
+
         $data = UserCreateData::from($request);
 
         return new UserResource($this->userService->store($data));
@@ -53,6 +57,8 @@ class UserController extends Controller
     #[ResponseFromApiResource(UserResource::class, User::class, with: ['roles', 'settings', 'settings.language', 'settings.mainCurrency'])]
     public function show(User $user): UserResource
     {
+        $this->authorize('view', $user);
+
         return new UserResource($this->userService->show($user));
     }
 
@@ -60,6 +66,8 @@ class UserController extends Controller
     #[ResponseFromApiResource(UserResource::class, User::class)]
     public function update(UserUpdateRequest $request, User $user): UserResource
     {
+        $this->authorize('update', $user);
+
         $data = UserUpdateData::from($request);
 
         return new UserResource($this->userService->update($data, $user)->load('roles', 'settings', 'settings.language', 'settings.mainCurrency'));
@@ -67,6 +75,8 @@ class UserController extends Controller
 
     public function updateSettings(UserUpdateSettingsRequest $request, User $user): UserSettingResource
     {
+        $this->authorize('update', $user);
+
         $data = UserSettingData::from($request);
 
         $updatedSettings = $this->userService->updateSettings($data, $user)->load('language', 'mainCurrency');
@@ -76,6 +86,8 @@ class UserController extends Controller
 
     public function updatePassword(UserUpdatePasswordRequest $request, User $user): JsonResponse
     {
+        $this->authorize('update', $user);
+
         $data = UserUpdatePasswordData::from($request);
 
         $success = $this->userService->updatePassword($data, $user);

@@ -30,6 +30,11 @@ final readonly class TransferService
     {
         return \DB::transaction(function () use ($accountFrom, $data) {
             $accountTo = Account::findOrFail($data->account_to_id);
+            $userId = $accountFrom->user_id;
+
+            if ($userId !== $accountTo->user_id) {
+                throw new \Exception('You can only transfer to your own accounts');
+            }
 
             $this->accountService->increaseAccountBalance($accountFrom, $data->amount);
             $this->accountService->decreaseAccountBalance($accountTo, $data->amount);

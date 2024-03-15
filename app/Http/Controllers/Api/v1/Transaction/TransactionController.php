@@ -30,6 +30,7 @@ class TransactionController extends Controller
     #[ResponseFromApiResource(TransactionCollection::class, Transaction::class, with: ['categories'], paginate: 10)]
     public function index(Account $account): TransactionCollection
     {
+        $this->authorize('viewAny', [Transaction::class, $account]);
         $accountTransactions = $this->transactionService->getAccountTransactionsPaginated($account);
 
         return new TransactionCollection($accountTransactions);
@@ -39,6 +40,7 @@ class TransactionController extends Controller
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['categories'])]
     public function store(Account $account, TransactionRequest $request): TransactionResource
     {
+        $this->authorize('create', [Transaction::class, $account]);
         $data = TransactionData::from($request);
         $transaction = $this->transactionService->createTransactionForAccount($account, $data);
 
@@ -49,6 +51,7 @@ class TransactionController extends Controller
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['account', 'categories'])]
     public function show(Transaction $transaction): TransactionResource
     {
+        $this->authorize('view', $transaction);
         return new TransactionResource($transaction->load('account', 'categories'));
     }
 
@@ -56,6 +59,7 @@ class TransactionController extends Controller
     #[ResponseFromApiResource(TransactionResource::class, Transaction::class, with: ['categories'])]
     public function update(TransactionRequest $request, Transaction $transaction): TransactionResource
     {
+        $this->authorize('update', $transaction);
         $data = TransactionData::from($request);
         $transaction = $this->transactionService->updateTransaction($transaction, $data);
 
@@ -66,6 +70,7 @@ class TransactionController extends Controller
     #[Response(['message' => 'Transaction deleted successfully'])]
     public function destroy(Transaction $transaction): JsonResponse
     {
+        $this->authorize('delete', $transaction);
         $this->transactionService->deleteTransaction($transaction);
 
         return response()->json([

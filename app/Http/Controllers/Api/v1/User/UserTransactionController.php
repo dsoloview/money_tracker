@@ -27,16 +27,18 @@ class UserTransactionController extends Controller
     #[ResponseFromApiResource(TransactionCollection::class, Transaction::class, with: ['account'], paginate: 10)]
     public function index(User $user)
     {
-        $transactions = $this->userTransactionService->getUserTransactionsPaginated($user);
-        $minAmount = $this->userTransactionService->getMinTransactionAmount($user);
-        $maxAmount = $this->userTransactionService->getMaxTransactionAmount($user);
+        $this->authorize('view', $user);
 
-        return new TransactionCollection($transactions, $minAmount, $maxAmount);
+        $transactions = $this->userTransactionService->getUserTransactionsPaginated($user);
+
+        return new TransactionCollection($transactions);
     }
 
     #[Endpoint('Get min and max transaction amounts')]
     public function minMax(User $user)
     {
+        $this->authorize('view', $user);
+
         return new JsonResponse([
             'data' => [
                 'min' => $this->userTransactionService->getMinTransactionAmount($user),
