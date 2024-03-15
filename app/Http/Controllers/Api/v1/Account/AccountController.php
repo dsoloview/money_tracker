@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountRequest;
 use App\Http\Resources\Account\AccountCollection;
 use App\Http\Resources\Account\AccountResource;
+use App\Http\Resources\Currency\CurrencyResource;
 use App\Models\Account\Account;
 use App\Models\User;
+use App\Services\Account\AccountBalanceService;
 use App\Services\Account\AccountService;
 use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
@@ -21,7 +23,8 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 class AccountController extends Controller
 {
     public function __construct(
-        private readonly AccountService $accountService
+        private readonly AccountService $accountService,
+        private readonly AccountBalanceService $accountBalanceService
     ) {
     }
 
@@ -76,6 +79,21 @@ class AccountController extends Controller
 
         return response()->json([
             'message' => 'Account deleted successfully',
+        ]);
+    }
+
+    #[Endpoint('Get balance for a user')]
+    #[Response(['data' => ['balance' => 1000.00]])]
+    public function balance(User $user)
+    {
+        $this->authorize('viewAny', [Account::class, $user]);
+        $balance = $this->accountBalanceService->getUserAccountsBalance($user);
+
+        return response()->json([
+            'data' => [
+                'balance' => $balance,
+                'currency' => new CurrencyResource($user->currency),
+            ],
         ]);
     }
 }

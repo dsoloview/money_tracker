@@ -65,7 +65,13 @@ class User extends Authenticatable
 
     public function currency(): HasOneThrough
     {
-        return $this->hasOneThrough(Currency::class, UserSetting::class, 'user_id', 'id', 'id', 'currency_id');
+        return $this->hasOneThrough(Currency::class,
+            UserSetting::class,
+            'user_id',
+            'id',
+            'id',
+            'main_currency_id'
+        );
     }
 
     public function categories(): HasMany

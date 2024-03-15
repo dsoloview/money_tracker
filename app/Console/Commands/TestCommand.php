@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Transfer\Transfer;
+use App\Services\Currency\CurrencyConverterService;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -13,7 +13,9 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $transfer = Transfer::factory()->createOne();
-        dd($transfer);
+        $converter = new CurrencyConverterService();
+        $res = $converter->convert(100, 'TRY', 'EUR');
+
+        $this->info($res);
     }
 }

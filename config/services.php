@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'api' => [
+        'exchange_rate_api' => env('EXCHANGE_RATE_API_KEY', ''),
+    ]
+
 ];

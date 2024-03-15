@@ -17,6 +17,7 @@ class TransactionResource extends JsonResource
             'account_id' => $this->account_id,
             'comment' => $this->comment,
             'amount' => $this->amount,
+            'user_currency_amount' => $this->userCurrencyAmount,
             'account' => new AccountResource($this->whenLoaded('account')),
             'type' => $this->type,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),

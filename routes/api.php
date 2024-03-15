@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('users/{user}/transactions/min_max', [UserTransactionController::class, 'minMax'])->name('users.transactions.min_max');
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
+    Route::get('users/{user}/accounts/balance', [AccountController::class, 'balance'])->name('users.accounts.balance');
     Route::apiResource('accounts.transfers', TransferController::class)->shallow();
     Route::apiResource('accounts.transactions', TransactionController::class)->shallow();
     Route::prefix('users/{user}')->group(function () {

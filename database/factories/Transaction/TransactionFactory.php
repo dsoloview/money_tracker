@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Transaction;
 
-use App\Enums\Category\CategoryTransactionTypes;
+use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Transaction\Transaction;
@@ -18,7 +18,7 @@ class TransactionFactory extends Factory
         return [
             'comment' => $this->faker->word(),
             'amount' => $this->faker->randomFloat(2),
-            'type' => $this->faker->randomElement([CategoryTransactionTypes::INCOME, CategoryTransactionTypes::EXPENSE]),
+            'type' => $this->faker->randomElement([CategoryTransactionType::INCOME, CategoryTransactionType::EXPENSE]),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

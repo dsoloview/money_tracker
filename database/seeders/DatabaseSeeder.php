@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Seeders\Currency\CurrencySeeder;
+use Database\Seeders\ExchangeRate\ExchangeRateSeeder;
 use Database\Seeders\Language\LanguageSeeder;
 use Illuminate\Database\Seeder;
 
@@ -19,8 +19,9 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
         ]);
 
-        if (! app()->environment(['production', 'staging'])) {
+        if (!app()->environment(['production', 'staging'])) {
             $this->call([
+                ExchangeRateSeeder::class,
                 RoleSeeder::class,
                 UserSeeder::class,
             ]);

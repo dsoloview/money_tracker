@@ -6,6 +6,7 @@ use App\Models\Currency\Currency;
 use App\Models\Transaction\Transaction;
 use App\Models\Transfer\Transfer;
 use App\Models\User;
+use App\Services\Currency\CurrencyConverterService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,8 @@ use Illuminate\Support\Collection;
 class Account extends Model
 {
     use HasFactory;
+
+    protected $with = ['currency', 'user'];
 
     protected $fillable = [
         'user_id',
@@ -58,8 +61,29 @@ class Account extends Model
     public function balance(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
+        );
+    }
+
+    public function userCurrencyBalance(): Attribute
+    {
+        $currencyConverterService = new CurrencyConverterService();
+        $user = $this->user;
+        $accountCurrency = $this->currency->code;
+        $accountBalance = $this->balance;
+        $userMainCurrency = $user->currency->code;
+
+        if ($userMainCurrency !== $accountCurrency) {
+            $accountBalance = $currencyConverterService->convert(
+                $accountBalance,
+                $accountCurrency,
+                $userMainCurrency
+            );
+        }
+
+        return Attribute::make(
+            get: fn() => $accountBalance,
         );
     }
 }

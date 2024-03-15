@@ -12,9 +12,9 @@ enum DefaultExpenseCategories: string
     case CLOTHES = 'clothes';
     case OTHER_EXPENSE = 'other_expense';
 
-    public function getType(): CategoryTransactionTypes
+    public function getType(): CategoryTransactionType
     {
-        return CategoryTransactionTypes::EXPENSE;
+        return CategoryTransactionType::EXPENSE;
     }
 
     public function getTranslation(?string $languageCode = null): string

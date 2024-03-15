@@ -7,9 +7,9 @@ enum DefaultIncomeCategories: string
     case SALARY = 'salary';
     case OTHER_INCOME = 'other_income';
 
-    public static function getType(): CategoryTransactionTypes
+    public static function getType(): CategoryTransactionType
     {
-        return CategoryTransactionTypes::INCOME;
+        return CategoryTransactionType::INCOME;
     }
 
     public function getTranslation(?string $languageCode = null): string

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Transaction;
 
-use App\Enums\Category\CategoryTransactionTypes;
+use App\Enums\Category\CategoryTransactionType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +17,7 @@ class TransactionRequest extends FormRequest
             'categories_ids' => ['nullable', 'array'],
             'categories_ids.*' => ['required', 'exists:categories,id'],
             'date' => ['required', 'date'],
-            'type' => ['required', 'string', Rule::enum(CategoryTransactionTypes::class)],
+            'type' => ['required', 'string', Rule::enum(CategoryTransactionType::class)],
         ];
     }
 

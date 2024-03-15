@@ -11,7 +11,7 @@ class AccountService
 {
     public function getUserAccounts(User $user): Collection
     {
-        return $user->accounts->load('currency');
+        return $user->load('settings.mainCurrency')->accounts->load('currency');
     }
 
     public function saveAccountForUser(User $user, AccountData $data): Account

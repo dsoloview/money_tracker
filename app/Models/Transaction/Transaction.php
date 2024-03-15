@@ -5,9 +5,10 @@ namespace App\Models\Transaction;
 use Abbasudo\Purity\Filters\Resolve;
 use Abbasudo\Purity\Traits\Filterable;
 use Abbasudo\Purity\Traits\Sortable;
-use App\Enums\Category\CategoryTransactionTypes;
+use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
+use App\Services\Currency\CurrencyConverterService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +32,7 @@ class Transaction extends Model
     ];
 
     protected $casts = [
-        'type' => CategoryTransactionTypes::class,
+        'type' => CategoryTransactionType::class,
     ];
 
     public function account(): BelongsTo
@@ -47,8 +48,8 @@ class Transaction extends Model
     public function amount(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
         );
     }
 
@@ -63,7 +64,7 @@ class Transaction extends Model
         foreach ($params as $field => $value) {
             if ($field === 'amount') {
                 if (is_array($value)) {
-                    $value = array_map(fn ($v) => $v * 100, $value);
+                    $value = array_map(fn($v) => $v * 100, $value);
                 } else {
                     $value *= 100;
                 }
@@ -72,5 +73,23 @@ class Transaction extends Model
         }
 
         return $query;
+    }
+
+    public function userCurrencyAmount(): Attribute
+    {
+        $currencyConverterService = new CurrencyConverterService();
+        $user = $this->account->user;
+        $accountCurrency = $this->account->currency->code;
+        $transactionAmount = $this->amount;
+        $userMainCurrency = $user->currency->code;
+
+        if ($userMainCurrency !== $accountCurrency) {
+            $transactionAmount = $currencyConverterService->convert($transactionAmount, $accountCurrency,
+                $userMainCurrency);
+        }
+
+        return Attribute::make(
+            get: fn() => $transactionAmount,
+        );
     }
 }

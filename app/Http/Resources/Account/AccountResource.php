@@ -17,6 +17,7 @@ class AccountResource extends JsonResource
             'name' => $this->name,
             'bank' => $this->bank,
             'balance' => $this->balance,
+            'user_currency_balance' => $this->userCurrencyBalance,
             'user' => new UserResource($this->whenLoaded('user')),
             'currency' => new CurrencyResource($this->whenLoaded('currency')),
             'created_at' => $this->created_at,
