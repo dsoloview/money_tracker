@@ -7,7 +7,9 @@ use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
 use App\Models\Transaction\Transaction;
+use App\Services\Account\AccountBalanceService;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -52,6 +54,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function balance(): Attribute
+    {
+        $accountBalanceService = app(AccountBalanceService::class);
+
+        return Attribute::make(
+            get: fn() => $accountBalanceService->getUserAccountsBalance($this),
+        );
+    }
 
     public function settings(): HasOne
     {
