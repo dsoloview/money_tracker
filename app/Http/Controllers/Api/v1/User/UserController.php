@@ -54,7 +54,9 @@ class UserController extends Controller
     }
 
     #[Endpoint('Get a user by id')]
-    #[ResponseFromApiResource(UserResource::class, User::class, with: ['roles', 'settings', 'settings.language', 'settings.mainCurrency'])]
+    #[ResponseFromApiResource(UserResource::class, User::class, with: [
+        'roles', 'settings', 'settings.language', 'settings.mainCurrency'
+    ])]
     public function show(User $user): UserResource
     {
         $this->authorize('view', $user);
@@ -70,7 +72,8 @@ class UserController extends Controller
 
         $data = UserUpdateData::from($request);
 
-        return new UserResource($this->userService->update($data, $user)->load('roles', 'settings', 'settings.language', 'settings.mainCurrency'));
+        return new UserResource($this->userService->update($data, $user)->load('roles', 'settings', 'settings.language',
+            'settings.mainCurrency'));
     }
 
     public function updateSettings(UserUpdateSettingsRequest $request, User $user): UserSettingResource

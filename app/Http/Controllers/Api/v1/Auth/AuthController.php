@@ -27,7 +27,9 @@ class AuthController extends Controller
     }
 
     #[Endpoint('Register a new user')]
-    #[ResponseFromApiResource(UserResource::class, User::class, with: ['roles', 'settings', 'settings.language', 'settings.mainCurrency'] , additional: ['access_token' => 'string', 'token_type' => 'string'])]
+    #[ResponseFromApiResource(UserResource::class, User::class, with: [
+        'roles', 'settings', 'settings.language', 'settings.mainCurrency'
+    ], additional: ['access_token' => 'string', 'token_type' => 'string'])]
     public function register(UserCreateRequest $request): JsonResponse
     {
         \Log::debug('Trying to register user', ['request' => $request->email]);
@@ -45,13 +47,15 @@ class AuthController extends Controller
     }
 
     #[Endpoint('Login a user')]
-    #[ResponseFromApiResource(UserResource::class, User::class, with: ['roles', 'settings', 'settings.language', 'settings.mainCurrency'] , additional: ['access_token' => 'string', 'token_type' => 'string'])]
+    #[ResponseFromApiResource(UserResource::class, User::class, with: [
+        'roles', 'settings', 'settings.language', 'settings.mainCurrency'
+    ], additional: ['access_token' => 'string', 'token_type' => 'string'])]
     public function login(LoginRequest $request): JsonResponse
     {
         \Log::debug('Trying to login user', ['request' => $request->email]);
         $credentials = $request->only('email', 'password');
 
-        if (! Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             throw new AuthenticationException('Invalid credentials');
         }
 
@@ -61,7 +65,8 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => new UserResource(auth()->user()->load('roles', 'settings', 'settings.language', 'settings.mainCurrency')),
+            'user' => new UserResource(auth()->user()->load('roles', 'settings', 'settings.language',
+                'settings.mainCurrency')),
         ]);
 
     }
@@ -74,7 +79,7 @@ class AuthController extends Controller
         Auth::user()->tokens()->delete();
 
         return response()->json([
-            'message' => 'Tokens Revoked',
+            'success' => true,
         ]);
     }
 }

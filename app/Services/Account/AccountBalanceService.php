@@ -18,14 +18,14 @@ readonly class AccountBalanceService
 
     public function getUserAccountsBalance(User $user): float
     {
-        $accounts = $user->accounts->load('currency');
+        $accounts = $user->accounts;
         $totalBalance = 0;
 
         foreach ($accounts as $account) {
             $totalBalance += $this->getAccountBalanceInMainCurrency($account, $user);
         }
 
-        return $totalBalance;
+        return round($totalBalance, 2);
     }
 
     public function getAccountBalanceInMainCurrency(Account $account, User $user): float
