@@ -64,7 +64,7 @@ class UserTransactionService
                 $value['currency'], $user));
             $result->updateMinTransaction($currencyConverterService->convertToUserCurrency($value['min_transaction'],
                 $value['currency'], $user));
-            $result->updateMinTransaction($currencyConverterService->convertToUserCurrency($value['max_transaction'],
+            $result->updateMaxTransaction($currencyConverterService->convertToUserCurrency($value['max_transaction'],
                 $value['currency'], $user));
         }
 
