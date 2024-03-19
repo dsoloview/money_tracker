@@ -66,7 +66,7 @@ class Account extends Model
         );
     }
 
-    public function userCurrencyBalance(): Attribute
+    public function getUserCurrencyBalanceAttribute(): float
     {
         $currencyConverterService = new CurrencyConverterService();
         $user = $this->user;
@@ -81,9 +81,7 @@ class Account extends Model
                 $userMainCurrency
             );
         }
-
-        return Attribute::make(
-            get: fn() => $accountBalance,
-        );
+        
+        return $accountBalance;
     }
 }

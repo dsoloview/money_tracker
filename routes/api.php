@@ -36,8 +36,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('users', UserController::class);
     Route::patch('users/{user}/settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
     Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update_password');
-    Route::get('users/{user}/transactions', [UserTransactionController::class, 'index'])->name('users.transactions.index');
-    Route::get('users/{user}/transactions/min_max', [UserTransactionController::class, 'minMax'])->name('users.transactions.min_max');
+    Route::get('users/{user}/transactions',
+        [UserTransactionController::class, 'index'])->name('users.transactions.index');
+    Route::get('users/{user}/transactions/min_max',
+        [UserTransactionController::class, 'minMax'])->name('users.transactions.min_max');
+    Route::get('users/{user}/transactions/info',
+        [UserTransactionController::class, 'transactionsInfo'])->name('users.transactions.info');
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
     Route::get('users/{user}/accounts/balance', [AccountController::class, 'balance'])->name('users.accounts.balance');

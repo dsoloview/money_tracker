@@ -8,9 +8,10 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 /** @see \App\Models\Transaction\Transaction */
 class TransactionCollection extends ResourceCollection
 {
-    private int $minAmount;
-    private int $maxAmount;
 
+    /**
+     * @param  string  $resource
+     */
     public function __construct($resource)
     {
         parent::__construct($resource);

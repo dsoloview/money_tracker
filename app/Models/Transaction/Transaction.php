@@ -75,7 +75,7 @@ class Transaction extends Model
         return $query;
     }
 
-    public function userCurrencyAmount(): Attribute
+    public function getUserCurrencyAmountAttribute(): float
     {
         $currencyConverterService = new CurrencyConverterService();
         $user = $this->account->user;
@@ -88,8 +88,6 @@ class Transaction extends Model
                 $userMainCurrency);
         }
 
-        return Attribute::make(
-            get: fn() => $transactionAmount,
-        );
+        return $transactionAmount;
     }
 }

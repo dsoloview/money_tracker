@@ -83,7 +83,17 @@ class AccountController extends Controller
     }
 
     #[Endpoint('Get balance for a user')]
-    #[Response(['data' => ['balance' => 1000.00]])]
+    #[Response([
+        'data' => [
+            'balance' => 1000.00,
+            'currency' => [
+                'id' => 1,
+                'code' => 'USD',
+                'name' => 'United States Dollar',
+                'symbol' => '$',
+            ]
+        ]
+    ])]
     public function balance(User $user)
     {
         $this->authorize('viewAny', [Account::class, $user]);
