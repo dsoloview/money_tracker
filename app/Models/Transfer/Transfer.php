@@ -59,7 +59,15 @@ class Transfer extends Model
             'currency_id');
     }
 
-    public function amount(): Attribute
+    public function amountFrom(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
+        );
+    }
+
+    public function amountTo(): Attribute
     {
         return Attribute::make(
             get: fn($value) => $value / 100,

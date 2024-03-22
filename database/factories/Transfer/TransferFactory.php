@@ -17,7 +17,9 @@ class TransferFactory extends Factory
             'account_from_id' => Account::factory(),
             'account_to_id' => Account::factory(),
             'comment' => $this->faker->word(),
-            'amount' => $this->faker->randomFloat(2),
+            'amount_from' => $this->faker->randomFloat(2),
+            'amount_to' => $this->faker->randomFloat(2),
+            'date' => $this->faker->date(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
