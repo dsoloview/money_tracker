@@ -36,22 +36,16 @@ final readonly class TransferService
                 throw new \Exception('You can only transfer to your own accounts');
             }
 
-            $this->accountService->increaseAccountBalance($accountFrom, $data->amount);
-            $this->accountService->decreaseAccountBalance($accountTo, $data->amount);
+            $this->accountService->increaseAccountBalance($accountTo, $data->amount_from);
+            $this->accountService->decreaseAccountBalance($accountFrom, $data->amount_to);
 
-            $transferFrom = $accountFrom->transferFrom()->create([
+            return $accountFrom->transferFrom()->create([
                 'account_to_id' => $accountTo->id,
-                'amount' => $data->amount,
+                'amount_from' => $data->amount_from,
+                'amount_to' => $data->amount_to,
+                'date' => $data->date,
                 'comment' => $data->comment,
             ]);
-
-            $accountTo->transferTo()->create([
-                'account_from_id' => $accountFrom->id,
-                'amount' => $data->amount,
-                'comment' => $data->comment,
-            ]);
-
-            return $transferFrom;
         });
     }
 

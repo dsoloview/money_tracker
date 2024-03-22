@@ -7,6 +7,7 @@ use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
 use App\Models\Transaction\Transaction;
+use App\Models\Transfer\Transfer;
 use App\Services\Account\AccountBalanceService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -98,6 +99,18 @@ class User extends Authenticatable
     public function transactions(): HasManyThrough
     {
         return $this->hasManyThrough(Transaction::class, Account::class);
+    }
+
+    public function transfers(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Transfer::class,
+            Account::class,
+            'user_id',
+            'account_from_id',
+            'id',
+            'id'
+        );
     }
 
     public static function newFactory(): UserFactory

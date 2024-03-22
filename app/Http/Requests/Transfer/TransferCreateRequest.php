@@ -11,7 +11,9 @@ class TransferCreateRequest extends FormRequest
         return [
             'account_to_id' => ['required', 'exists:accounts,id'],
             'comment' => ['nullable', 'string', 'max:255'],
-            'amount' => ['required', 'integer'],
+            'amount_to' => ['numeric', 'required'],
+            'amount_from' => ['numeric', 'required'],
+            'date' => ['required', 'date'],
         ];
     }
 

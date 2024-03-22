@@ -14,7 +14,9 @@ class TransferResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->comment,
-            'amount' => $this->amount,
+            'amount_from' => $this->amount_from,
+            'amount_to' => $this->amount_to,
+            'date' => $this->date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 

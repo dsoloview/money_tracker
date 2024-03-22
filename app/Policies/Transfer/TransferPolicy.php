@@ -23,7 +23,8 @@ class TransferPolicy
 
     public function create(User $user, Account $account, int $accountToId): bool
     {
-        return $user->id === $account->user_id && $user->id === $accountToId;
+        $accountTo = Account::findOrFail($accountToId);
+        return $user->id === $account->user_id && $user->id === $accountTo->user_id;
     }
 
     public function update(User $user, Transfer $transfer, int $accountToId): bool

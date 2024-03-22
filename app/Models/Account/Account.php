@@ -81,7 +81,7 @@ class Account extends Model
                 $userMainCurrency
             );
         }
-        
+
         return $accountBalance;
     }
 }

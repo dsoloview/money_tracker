@@ -42,7 +42,7 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferResource::class, Transfer::class)]
     public function store(Account $account, TransferCreateRequest $request): TransferResource
     {
-        $this->authorize('create', [Transfer::class, $account, $request->to_account_id]);
+        $this->authorize('create', [Transfer::class, $account, $request->account_to_id]);
 
         $data = TransferData::from($request);
         $transferFrom = $this->transferService->createTransfer($account, $data);

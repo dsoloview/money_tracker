@@ -15,7 +15,7 @@ use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\Response;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 
-#[Group(name: 'User', description: 'User management')]
+#[Group(name: 'User transactions', description: 'User transactions')]
 #[Authenticated]
 class UserTransactionController extends Controller
 {

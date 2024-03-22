@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
 use App\Http\Controllers\Api\v1\User\UserTransactionController;
+use App\Http\Controllers\Api\v1\User\UserTransferController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,21 +35,30 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('users', UserController::class);
-    Route::patch('users/{user}/settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
-    Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.update_password');
-    Route::get('users/{user}/transactions',
-        [UserTransactionController::class, 'index'])->name('users.transactions.index');
-    Route::get('users/{user}/transactions/min_max',
-        [UserTransactionController::class, 'minMax'])->name('users.transactions.min_max');
-    Route::get('users/{user}/transactions/info',
-        [UserTransactionController::class, 'transactionsInfo'])->name('users.transactions.info');
+
     Route::apiResource('users.categories', CategoryController::class)->shallow();
     Route::apiResource('users.accounts', AccountController::class)->shallow();
-    Route::get('users/{user}/accounts/balance', [AccountController::class, 'balance'])->name('users.accounts.balance');
     Route::apiResource('accounts.transfers', TransferController::class)->shallow();
     Route::apiResource('accounts.transactions', TransactionController::class)->shallow();
+
     Route::prefix('users/{user}')->group(function () {
         Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
+        Route::patch('settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
+        Route::patch('password', [UserController::class, 'updatePassword'])->name('users.update_password');
+
+        Route::prefix('transactions')->group(function () {
+            Route::get('/', [UserTransactionController::class, 'index'])->name('users.transactions.index');
+            Route::get('min_max', [UserTransactionController::class, 'minMax'])->name('users.transactions.min_max');
+            Route::get('info', [UserTransactionController::class, 'transactionsInfo'])->name('users.transactions.info');
+        });
+
+        Route::prefix('accounts')->group(function () {
+            Route::get('balance', [AccountController::class, 'balance'])->name('users.accounts.balance');
+        });
+
+        Route::prefix('transfers')->group(function () {
+            Route::get('/', [UserTransferController::class, 'index'])->name('users.transfers.index');
+        });
     });
 
     Route::apiResource('roles', RoleController::class);

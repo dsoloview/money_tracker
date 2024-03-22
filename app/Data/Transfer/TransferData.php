@@ -9,7 +9,9 @@ class TransferData extends Data
     public function __construct(
         public int $account_to_id,
         public ?string $comment,
-        public int $amount,
+        public float $amount_from,
+        public float $amount_to,
+        public string $date,
     ) {
     }
 }
