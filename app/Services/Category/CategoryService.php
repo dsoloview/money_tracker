@@ -13,9 +13,21 @@ use Illuminate\Support\Collection;
 
 class CategoryService
 {
-    public function getUsersCategories(User $user)
+    public function getUsersCategories(User $user): Collection
     {
-        return $user->categories->load('parentCategory');
+        return $user->categories()->with('parentCategory')->get();
+    }
+
+    public function getUsersCategoriesTree(User $user): Collection
+    {
+        return $this->buildCategoryTree($user->categories->load('children'));
+    }
+
+    private function buildCategoryTree(Collection $categories, ?int $parentId = null): Collection
+    {
+        return $categories->filter(fn(Category $category) => $category->parent_category_id === $parentId)
+            ->map(fn(Category $category) => $category->setAttribute('children',
+                $this->buildCategoryTree($categories, $category->id)))->values();
     }
 
     public function update(Category $category, CategoryData $data): Category

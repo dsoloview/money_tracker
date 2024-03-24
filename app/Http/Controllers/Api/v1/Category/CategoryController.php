@@ -33,7 +33,7 @@ class CategoryController extends Controller
     public function index(User $user): CategoryCollection
     {
         $this->authorize('viewAny', [Category::class, $user]);
-        return new CategoryCollection($this->categoryService->getUsersCategories($user));
+        return new CategoryCollection($this->categoryService->getUsersCategoriesTree($user));
     }
 
     #[Endpoint('Create a new category for a user')]
