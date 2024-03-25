@@ -29,7 +29,7 @@ class CategoryController extends Controller
     }
 
     #[Endpoint('Get all categories for a user')]
-    #[ResponseFromApiResource(CategoryCollection::class, Category::class)]
+    #[ResponseFromApiResource(CategoryCollection::class, Category::class, with: ['children', 'icon'])]
     public function index(User $user): CategoryCollection
     {
         $this->authorize('viewAny', [Category::class, $user]);

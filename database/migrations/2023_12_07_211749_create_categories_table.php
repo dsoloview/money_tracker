@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent_category_id')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->string('icon')->nullable();
+            $table->unsignedBigInteger('icon_id')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('type')->default('expense');
@@ -28,6 +27,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
+
+            $table->foreign('icon_id')
+                ->references('id')
+                ->on('icons')
+                ->nullOnDelete();
 
             $table->index('type');
         });

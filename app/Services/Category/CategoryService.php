@@ -20,7 +20,7 @@ class CategoryService
 
     public function getUsersCategoriesTree(User $user): Collection
     {
-        return $this->buildCategoryTree($user->categories->load('children'));
+        return $this->buildCategoryTree($user->categories->load('children', 'icon'));
     }
 
     private function buildCategoryTree(Collection $categories, ?int $parentId = null): Collection

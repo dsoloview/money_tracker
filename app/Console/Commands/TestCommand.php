@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Currency\CurrencyConverterService;
+use Database\Seeders\Icon\IconSeeder;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -13,9 +13,7 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $converter = new CurrencyConverterService();
-        $res = $converter->convert(100, 'TRY', 'EUR');
-
-        $this->info($res);
+        $seeder = new IconSeeder();
+        $seeder->run();
     }
 }

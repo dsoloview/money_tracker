@@ -10,7 +10,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'parent_category_id' => ['nullable', 'int', 'exists:categories,id'],
-            'icon' => ['nullable', 'max:255'],
+            'icon_id' => ['nullable', 'integer', 'exists:icons,id'],
             'name' => ['required', 'max:255'],
             'description' => ['nullable', 'max:255'],
             'type' => ['required', 'string'],

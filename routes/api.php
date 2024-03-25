@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\v1\Account\AccountController;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
 use App\Http\Controllers\Api\v1\Category\CategoryController;
 use App\Http\Controllers\Api\v1\Currency\CurrencyController;
+use App\Http\Controllers\Api\v1\Icon\IconController;
 use App\Http\Controllers\Api\v1\Language\LanguageController;
 use App\Http\Controllers\Api\v1\Role\RoleController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
@@ -66,3 +67,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);
 Route::apiResource('languages', LanguageController::class)->only(['index', 'show']);
+Route::apiResource('icons', IconController::class)->only(['index', 'show']);

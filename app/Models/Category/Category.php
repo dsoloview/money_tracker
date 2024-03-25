@@ -3,6 +3,7 @@
 namespace App\Models\Category;
 
 use App\Enums\Category\CategoryTransactionType;
+use App\Models\Icon\Icon;
 use App\Models\Transaction\Transaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class Category extends Model
         'parent_category_id',
         'name',
         'type',
-        'icon',
+        'icon_id',
         'description',
     ];
 
@@ -46,5 +47,10 @@ class Category extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_category_id', 'id');
+    }
+
+    public function icon(): BelongsTo
+    {
+        return $this->belongsTo(Icon::class, 'icon_id', 'id');
     }
 }
