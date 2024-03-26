@@ -46,6 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('default_categories', [CategoryController::class, 'default'])->name('users.default_categories');
         Route::patch('settings', [UserController::class, 'updateSettings'])->name('users.update_settings');
         Route::patch('password', [UserController::class, 'updatePassword'])->name('users.update_password');
+        Route::get('categories/tree', [CategoryController::class, 'tree'])->name('users.categories.tree');
 
         Route::prefix('transactions')->group(function () {
             Route::get('/', [UserTransactionController::class, 'index'])->name('users.transactions.index');

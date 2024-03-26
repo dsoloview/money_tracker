@@ -29,8 +29,14 @@ class CategoryController extends Controller
     }
 
     #[Endpoint('Get all categories for a user')]
-    #[ResponseFromApiResource(CategoryCollection::class, Category::class, with: ['children', 'icon'])]
+    #[ResponseFromApiResource(CategoryCollection::class, Category::class, with: ['parentCategory', 'icon'])]
     public function index(User $user): CategoryCollection
+    {
+        $this->authorize('viewAny', [Category::class, $user]);
+        return new CategoryCollection($this->categoryService->getUsersCategories($user));
+    }
+
+    public function tree(User $user): CategoryCollection
     {
         $this->authorize('viewAny', [Category::class, $user]);
         return new CategoryCollection($this->categoryService->getUsersCategoriesTree($user));

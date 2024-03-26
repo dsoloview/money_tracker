@@ -15,7 +15,7 @@ class CategoryService
 {
     public function getUsersCategories(User $user): Collection
     {
-        return $user->categories()->with('parentCategory')->get();
+        return $user->categories()->with('parentCategory', 'icon')->get();
     }
 
     public function getUsersCategoriesTree(User $user): Collection
@@ -32,13 +32,26 @@ class CategoryService
 
     public function update(Category $category, CategoryData $data): Category
     {
-        $category->update($data->all());
+        if ($category->type !== $data->type) {
+            $category->children()->update(['type' => $data->type]);
+            $category->transactions()->update(['type' => $data->type]);
+            $category->children()->each(fn(Category $child) => $child->transactions()->update(['type' => $data->type]));
+            $data->parent_category_id = null;
+        }
 
+        $category->update($data->all());
         return $category;
     }
 
     public function delete(Category $category): bool
     {
+        if ($category->parent_category_id) {
+            $parentCategory = $category->parentCategory;
+            $transactions = $category->transactions()->get();
+            $category->transactions()->detach();
+            $parentCategory->transactions()->attach($transactions);
+        }
+
         return $category->delete();
     }
 
