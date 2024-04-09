@@ -11,6 +11,7 @@
         "php": ">=8.2",
         "abbasudo/laravel-purity": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
+        "irazasyed/telegram-bot-sdk": "^3.14",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
