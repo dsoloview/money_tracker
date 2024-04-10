@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\v1\Role\RoleController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
+use App\Http\Controllers\Api\v1\User\UserTelegramController;
 use App\Http\Controllers\Api\v1\User\UserTransactionController;
 use App\Http\Controllers\Api\v1\User\UserTransferController;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::prefix('transfers')->group(function () {
             Route::get('/', [UserTransferController::class, 'index'])->name('users.transfers.index');
+        });
+
+        Route::prefix('telegram')->group(function () {
+            Route::get('token', [UserTelegramController::class, 'token'])->name('users.telegram.token');
         });
     });
 

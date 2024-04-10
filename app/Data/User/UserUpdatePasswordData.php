@@ -11,7 +11,6 @@ class UserUpdatePasswordData extends Data
         public string $password,
         public string $password_confirmation,
 
-    )
-    {
+    ) {
     }
 }

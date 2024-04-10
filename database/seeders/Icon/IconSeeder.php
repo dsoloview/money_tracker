@@ -15,7 +15,7 @@ class IconSeeder extends Seeder
         foreach ($icons as $icon) {
             $name = pathinfo($icon, PATHINFO_FILENAME);
             $path = Storage::url($icon);
-            
+
             Icon::updateOrCreate(
                 [
                     'path' => $path,

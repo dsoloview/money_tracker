@@ -57,7 +57,6 @@ class TransactionService
             $transaction->update($saveData->all());
             $transaction->categories()->sync($data->categories_ids);
 
-
             return $transaction;
         });
     }

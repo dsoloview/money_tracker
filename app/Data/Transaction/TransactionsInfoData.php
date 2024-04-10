@@ -9,9 +9,13 @@ use Spatie\LaravelData\Data;
 class TransactionsInfoData extends Data
 {
     public CurrencyResource $currency;
+
     public float $total_expense;
+
     public float $total_income;
+
     public float $min_transaction;
+
     public float $max_transaction;
 
     public function __construct(

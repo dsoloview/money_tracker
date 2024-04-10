@@ -8,8 +8,7 @@ class TransactionRepository
 {
     public function getFilteredTransactionsInfoForUser(int $userId): array
     {
-        return Transaction
-            ::filterBy('$eq')
+        return Transaction::filterBy('$eq')
             ->filter()
             ->leftJoin('accounts', 'transactions.account_id', 'accounts.id')
             ->leftJoin('users', 'accounts.user_id', 'users.id')

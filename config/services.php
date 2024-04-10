@@ -33,6 +33,6 @@ return [
 
     'api' => [
         'exchange_rate_api' => env('EXCHANGE_RATE_API_KEY', ''),
-    ]
+    ],
 
 ];

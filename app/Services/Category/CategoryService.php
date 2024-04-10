@@ -25,8 +25,8 @@ class CategoryService
 
     private function buildCategoryTree(Collection $categories, ?int $parentId = null): Collection
     {
-        return $categories->filter(fn(Category $category) => $category->parent_category_id === $parentId)
-            ->map(fn(Category $category) => $category->setAttribute('children',
+        return $categories->filter(fn (Category $category) => $category->parent_category_id === $parentId)
+            ->map(fn (Category $category) => $category->setAttribute('children',
                 $this->buildCategoryTree($categories, $category->id)))->values();
     }
 
@@ -35,11 +35,12 @@ class CategoryService
         if ($category->type !== $data->type) {
             $category->children()->update(['type' => $data->type]);
             $category->transactions()->update(['type' => $data->type]);
-            $category->children()->each(fn(Category $child) => $child->transactions()->update(['type' => $data->type]));
+            $category->children()->each(fn (Category $child) => $child->transactions()->update(['type' => $data->type]));
             $data->parent_category_id = null;
         }
 
         $category->update($data->all());
+
         return $category;
     }
 

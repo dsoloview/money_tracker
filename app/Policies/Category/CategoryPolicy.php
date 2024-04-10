@@ -5,7 +5,6 @@ namespace App\Policies\Category;
 use App\Models\Category\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Database\Eloquent\Model;
 
 class CategoryPolicy
 {

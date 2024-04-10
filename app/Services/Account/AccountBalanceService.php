@@ -83,7 +83,6 @@ readonly class AccountBalanceService
         return $account;
     }
 
-
     public function increaseAccountBalance(Account $account, float $amount): Account
     {
         $account->balance += $amount;
