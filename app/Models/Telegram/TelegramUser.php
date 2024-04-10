@@ -16,7 +16,7 @@ class TelegramUser extends Model
         'telegram_id',
         'username',
         'user_id',
-        'chat_id'
+        'chat_id',
     ];
 
     public function user(): BelongsTo

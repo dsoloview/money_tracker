@@ -17,7 +17,7 @@ class TelegramToken extends Model
     ];
 
     protected $hidden = [
-        'token'
+        'token',
     ];
 
     protected function casts(): array

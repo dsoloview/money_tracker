@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 /** @see \App\Models\Transaction\Transaction */
 class TransactionCollection extends ResourceCollection
 {
-
     /**
      * @param  string  $resource
      */
@@ -16,7 +15,6 @@ class TransactionCollection extends ResourceCollection
     {
         parent::__construct($resource);
     }
-
 
     public function toArray(Request $request): array
     {

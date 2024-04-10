@@ -21,7 +21,7 @@ class StartBotCommand extends Command
         while (true) {
             /** @var Update[] $response */
             $response = Telegram::getUpdates([
-                'offset' => $updateId + 1
+                'offset' => $updateId + 1,
             ]);
 
             foreach ($response as $update) {

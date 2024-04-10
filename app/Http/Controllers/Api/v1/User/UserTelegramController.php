@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\v1\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Telegram\TelegramTokenResource;
 use App\Models\User;
 use App\Services\Telegram\TelegramTokenService;
 use Knuckles\Scribe\Attributes\Authenticated;
@@ -24,7 +23,7 @@ class UserTelegramController extends Controller
     #[Response([
         'data' => [
             'token' => 'string',
-        ]
+        ],
     ])]
     public function token(User $user)
     {
@@ -34,7 +33,7 @@ class UserTelegramController extends Controller
         return response()->json([
             'data' => [
                 'token' => $token,
-            ]
+            ],
         ]);
     }
 }

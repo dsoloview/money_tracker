@@ -70,7 +70,5 @@ class UserTransactionService
 
         return $result;
 
-
     }
-
 }

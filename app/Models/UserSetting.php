@@ -16,6 +16,7 @@ class UserSetting extends Model
         'main_currency_id',
         'language_id',
     ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

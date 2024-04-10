@@ -18,8 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Transaction extends Model
 {
-    use HasFactory;
     use Filterable;
+    use HasFactory;
     use Sortable;
 
     protected $fillable = [
@@ -28,7 +28,7 @@ class Transaction extends Model
         'type',
         'comment',
         'date',
-        'account_balance'
+        'account_balance',
     ];
 
     protected $casts = [
@@ -48,23 +48,23 @@ class Transaction extends Model
     public function amount(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value / 100,
-            set: fn($value) => $value * 100,
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
         );
     }
 
-    public function scopeFilter(Builder $query, array|null $params = null): Builder
+    public function scopeFilter(Builder $query, ?array $params = null): Builder
     {
         $this->bootFilter();
 
-        if (!isset($params)) {
+        if (! isset($params)) {
             $params = request()->query('filters', []);
         }
 
         foreach ($params as $field => $value) {
             if ($field === 'amount') {
                 if (is_array($value)) {
-                    $value = array_map(fn($v) => $v * 100, $value);
+                    $value = array_map(fn ($v) => $v * 100, $value);
                 } else {
                     $value *= 100;
                 }

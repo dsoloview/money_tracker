@@ -7,8 +7,11 @@ use App\Interfaces\IExchangeRateFetcher;
 class ExchangeRateApi implements IExchangeRateFetcher
 {
     private const API_URL = 'https://v6.exchangerate-api.com/v6';
+
     private const EXCHANGE_RATES_ENDPOINT = 'latest';
+
     private const SUPPORTED_CURRENCIES_ENDPOINT = 'codes';
+
     private const BASE_CURRENCY = 'USD';
 
     public function getExchangeRatesForUSD(): array
@@ -21,6 +24,7 @@ class ExchangeRateApi implements IExchangeRateFetcher
         }
 
         $data = $response->json();
+
         return $data['conversion_rates'];
     }
 

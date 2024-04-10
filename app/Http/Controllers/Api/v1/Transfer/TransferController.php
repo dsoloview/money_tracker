@@ -55,6 +55,7 @@ class TransferController extends Controller
     public function show(Transfer $transfer): TransferResource
     {
         $this->authorize('view', $transfer);
+
         return new TransferResource($transfer);
     }
 

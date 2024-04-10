@@ -72,7 +72,7 @@ final readonly class UserService
     public function updatePassword(UserUpdatePasswordData $data, User $user): bool
     {
         return $user->update([
-            'password' => $data->password
+            'password' => $data->password,
         ]);
     }
 
@@ -82,6 +82,7 @@ final readonly class UserService
         if ($currentUser->id === $user->id) {
             throw new \Exception('You cannot delete yourself');
         }
+
         return $user->delete();
     }
 

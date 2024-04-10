@@ -18,7 +18,6 @@ readonly class TelegramController
     {
         $type = $update->objectType();
 
-
         $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
             $update->getMessage()->getFrom()->getId(),
             $update->getMessage()->getChat()->getId(),
@@ -27,11 +26,13 @@ readonly class TelegramController
 
         if ($type === 'message' && str_starts_with($update->getMessage()->getText(), '/')) {
             $this->processCommand($update);
+
             return;
         }
 
         if ($type === 'message') {
             $this->processMessage($update, $telegramUser);
+
             return;
         }
 
@@ -47,6 +48,4 @@ readonly class TelegramController
     {
         Telegram::processCommand($update);
     }
-
-
 }

@@ -10,6 +10,7 @@ use Telegram\Bot\Commands\Command;
 class AuthorizeCommand extends Command
 {
     protected string $name = 'authorize';
+
     protected string $description = 'Authorize Command';
 
     public function handle()
@@ -19,10 +20,10 @@ class AuthorizeCommand extends Command
         ], [
             'state' => TelegramState::AUTH,
             'data' => [
-                'step' => TelegramAuthStateStep::EMAIL
-            ]
+                'step' => TelegramAuthStateStep::EMAIL,
+            ],
         ]);
-        
+
         $this->replyWithMessage([
             'text' => 'Send me your email address to authorize.',
         ]);

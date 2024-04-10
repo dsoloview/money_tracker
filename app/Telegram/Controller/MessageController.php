@@ -13,8 +13,9 @@ class MessageController implements ITelegramController
     {
         $state = $telegramUser->state;
 
-        if (!empty($state->state)) {
+        if (! empty($state->state)) {
             $this->processState($update, $telegramUser);
+
             return;
         }
 
@@ -32,7 +33,7 @@ class MessageController implements ITelegramController
     {
         Telegram::sendMessage([
             'chat_id' => $telegramUser->chat_id,
-            'text' => "Default message",
+            'text' => 'Default message',
         ]);
     }
 }

@@ -14,7 +14,7 @@ class TelegramUserState extends Model
     protected $fillable = [
         'telegram_user_id',
         'state',
-        'data'
+        'data',
     ];
 
     public function casts(): array
@@ -29,6 +29,4 @@ class TelegramUserState extends Model
     {
         return $this->belongsTo(TelegramUser::class, 'telegram_user_id', 'telegram_id');
     }
-
-
 }

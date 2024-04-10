@@ -31,11 +31,13 @@ class TelegramAuthController implements ITelegramController
 
         if ($step === TelegramAuthStateStep::EMAIL->value) {
             $this->processEmail($update, $telegramUser);
+
             return;
         }
 
         if ($step === TelegramAuthStateStep::TOKEN->value) {
             $this->processToken($update, $telegramUser);
+
             return;
         }
     }
@@ -45,10 +47,10 @@ class TelegramAuthController implements ITelegramController
         $text = $update->getMessage()->getText();
         $user = User::where('email', $text)->first();
 
-        if (!$user) {
+        if (! $user) {
             Telegram::sendMessage([
                 'chat_id' => $telegramUser->chat_id,
-                'text' => "User not found",
+                'text' => 'User not found',
             ]);
 
             return;
@@ -63,7 +65,7 @@ class TelegramAuthController implements ITelegramController
 
         Telegram::sendMessage([
             'chat_id' => $update->getMessage()->getChat()->getId(),
-            'text' => "Send me your token",
+            'text' => 'Send me your token',
         ]);
     }
 
@@ -72,10 +74,10 @@ class TelegramAuthController implements ITelegramController
         $text = $update->getMessage()->getText();
         $user = User::where('email', $telegramUser->state->data['email'])->first();
 
-        if (!Hash::check($text, $user->telegramToken->token)) {
+        if (! Hash::check($text, $user->telegramToken->token)) {
             Telegram::sendMessage([
                 'chat_id' => $telegramUser->chat_id,
-                'text' => "Invalid token",
+                'text' => 'Invalid token',
             ]);
 
             return;

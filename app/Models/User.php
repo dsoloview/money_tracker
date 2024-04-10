@@ -63,7 +63,7 @@ class User extends Authenticatable
         $accountBalanceService = app(AccountBalanceService::class);
 
         return Attribute::make(
-            get: fn() => $accountBalanceService->getUserAccountsBalance($this),
+            get: fn () => $accountBalanceService->getUserAccountsBalance($this),
         );
     }
 

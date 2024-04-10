@@ -55,7 +55,7 @@ class UserController extends Controller
 
     #[Endpoint('Get a user by id')]
     #[ResponseFromApiResource(UserResource::class, User::class, with: [
-        'roles', 'settings', 'settings.language', 'settings.mainCurrency'
+        'roles', 'settings', 'settings.language', 'settings.mainCurrency',
     ])]
     public function show(User $user): UserResource
     {

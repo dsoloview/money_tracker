@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Transfer extends Model
 {
-    use HasFactory;
     use Filterable;
+    use HasFactory;
     use Sortable;
 
     protected $fillable = [
@@ -62,16 +62,16 @@ class Transfer extends Model
     public function amountFrom(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value / 100,
-            set: fn($value) => $value * 100,
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
         );
     }
 
     public function amountTo(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value / 100,
-            set: fn($value) => $value * 100,
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100,
         );
     }
 }

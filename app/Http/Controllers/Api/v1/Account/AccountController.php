@@ -55,6 +55,7 @@ class AccountController extends Controller
     public function show(Account $account)
     {
         $this->authorize('view', $account);
+
         return new AccountResource($account->load('currency'));
     }
 
@@ -91,8 +92,8 @@ class AccountController extends Controller
                 'code' => 'USD',
                 'name' => 'United States Dollar',
                 'symbol' => '$',
-            ]
-        ]
+            ],
+        ],
     ])]
     public function balance(User $user)
     {

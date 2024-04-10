@@ -16,5 +16,4 @@ class UserTransferService
             ->with(['accountTo', 'accountTo.currency', 'accountFrom', 'accountFrom.currency'])
             ->paginate(10);
     }
-
 }

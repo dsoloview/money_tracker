@@ -33,12 +33,14 @@ class CategoryController extends Controller
     public function index(User $user): CategoryCollection
     {
         $this->authorize('viewAny', [Category::class, $user]);
+
         return new CategoryCollection($this->categoryService->getUsersCategories($user));
     }
 
     public function tree(User $user): CategoryCollection
     {
         $this->authorize('viewAny', [Category::class, $user]);
+
         return new CategoryCollection($this->categoryService->getUsersCategoriesTree($user));
     }
 
@@ -57,6 +59,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $this->authorize('view', $category);
+
         return new CategoryResource($category->load('parentCategory'));
     }
 
@@ -75,6 +78,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $this->authorize('delete', $category);
+
         return response()->json([
             'success' => $this->categoryService->delete($category),
         ]);

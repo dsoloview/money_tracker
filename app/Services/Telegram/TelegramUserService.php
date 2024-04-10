@@ -11,7 +11,7 @@ class TelegramUserService
     {
         return TelegramUser::where('telegram_id', $telegramId)->first();
     }
-    
+
     public function getTelegramUserByChatId(int $chatId): ?TelegramUser
     {
         return TelegramUser::where('chat_id', $chatId)->first();

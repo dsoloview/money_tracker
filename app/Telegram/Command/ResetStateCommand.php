@@ -9,6 +9,7 @@ use Telegram\Bot\Commands\Command;
 class ResetStateCommand extends Command
 {
     protected string $name = 'reset';
+
     protected string $description = 'Reset Command to reset the state of the user';
 
     public function handle()

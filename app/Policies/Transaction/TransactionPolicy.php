@@ -2,7 +2,6 @@
 
 namespace App\Policies\Transaction;
 
-use App\Enums\Role\Roles;
 use App\Models\Account\Account;
 use App\Models\Transaction\Transaction;
 use App\Models\User;

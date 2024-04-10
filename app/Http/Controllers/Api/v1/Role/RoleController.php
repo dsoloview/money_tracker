@@ -20,6 +20,7 @@ class RoleController extends Controller
     public function index(): RoleCollection
     {
         $this->authorize('viewAny', Role::class);
+
         return new RoleCollection(Role::all());
     }
 
@@ -28,6 +29,7 @@ class RoleController extends Controller
     public function show(Role $role): RoleResource
     {
         $this->authorize('view', $role);
+
         return new RoleResource($role);
     }
 }
