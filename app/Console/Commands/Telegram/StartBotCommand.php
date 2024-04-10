@@ -16,7 +16,7 @@ class StartBotCommand extends Command
     public function handle(): void
     {
         $updateId = -1;
-        $telegramController = new TelegramController();
+        $telegramController = app(TelegramController::class);
 
         while (true) {
             /** @var Update[] $response */

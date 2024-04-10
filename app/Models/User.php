@@ -6,6 +6,8 @@ use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
+use App\Models\Telegram\TelegramToken;
+use App\Models\Telegram\TelegramUser;
 use App\Models\Transaction\Transaction;
 use App\Models\Transfer\Transfer;
 use App\Services\Account\AccountBalanceService;
@@ -111,6 +113,16 @@ class User extends Authenticatable
             'id',
             'id'
         );
+    }
+
+    public function telegramUser(): HasOne
+    {
+        return $this->hasOne(TelegramUser::class);
+    }
+
+    public function telegramToken(): HasOne
+    {
+        return $this->hasOne(TelegramToken::class);
     }
 
     public static function newFactory(): UserFactory
