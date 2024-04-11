@@ -9,7 +9,9 @@ class TelegramUserService
 {
     public function getTelegramUserByTelegramId(int $telegramId): ?TelegramUser
     {
-        return TelegramUser::where('telegram_id', $telegramId)->first();
+        return TelegramUser::with([
+            'state', 'user', 'user.settings', 'user.settings.mainCurrency'
+        ])->where('telegram_id', $telegramId)->first();
     }
 
     public function getTelegramUserByChatId(int $chatId): ?TelegramUser
@@ -32,6 +34,20 @@ class TelegramUserService
     {
         $telegramUser->update([
             'user_id' => $user->id,
+        ]);
+    }
+
+    public function logout(TelegramUser $telegramUser): void
+    {
+        $telegramUser->update([
+            'user_id' => null,
+        ]);
+    }
+
+    public function logoutByTelegramId(int $telegramId): void
+    {
+        TelegramUser::where('telegram_id', $telegramId)->update([
+            'user_id' => null,
         ]);
     }
 }
