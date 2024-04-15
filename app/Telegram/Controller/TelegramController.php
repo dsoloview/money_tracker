@@ -22,11 +22,20 @@ readonly class TelegramController
     {
         $type = $update->objectType();
 
-        $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
-            $update->getMessage()->getFrom()->getId(),
-            $update->getMessage()->getChat()->getId(),
-            $update->getMessage()->getFrom()->getUsername()
-        );
+        if ($type === 'callback_query') {
+            $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
+                $update->getMessage()->getChat()->getId(),
+                $update->getMessage()->getChat()->getId(),
+                $update->getMessage()->getFrom()->getUsername()
+            );
+        } else {
+            $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
+                $update->getMessage()->getFrom()->getId(),
+                $update->getMessage()->getChat()->getId(),
+                $update->getMessage()->getFrom()->getUsername()
+            );
+        }
+
 
         if (!$this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
             $this->sendAuthorizationMessage($telegramUser);
@@ -41,6 +50,12 @@ readonly class TelegramController
 
         if ($type === 'message') {
             $this->processMessage($update, $telegramUser);
+
+            return;
+        }
+
+        if ($type === 'callback_query') {
+            $this->processCallbackQuery($update, $telegramUser);
 
             return;
         }
@@ -92,5 +107,11 @@ readonly class TelegramController
     {
         $this->telegramUserStateService->resetState($telegramUser);
         Telegram::processCommand($update);
+    }
+
+    private function processCallbackQuery(Update $update, TelegramUser $telegramUser): void
+    {
+        $callbackQueryController = new CallbackQueryController();
+        $callbackQueryController->process($update, $telegramUser);
     }
 }

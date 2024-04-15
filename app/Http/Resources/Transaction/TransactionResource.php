@@ -4,6 +4,7 @@ namespace App\Http\Resources\Transaction;
 
 use App\Http\Resources\Account\AccountResource;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Currency\CurrencyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,10 @@ class TransactionResource extends JsonResource
             'account_id' => $this->account_id,
             'comment' => $this->comment,
             'amount' => $this->amount,
-            'user_currency_amount' => $this->userCurrencyAmount,
+            'user_currency_amount' => [
+                'amount' => $this->user_currency_amount->getAmount(),
+                'currency' => new CurrencyResource($this->user_currency_amount->getCurrency()),
+            ],
             'account' => new AccountResource($this->whenLoaded('account')),
             'type' => $this->type,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),

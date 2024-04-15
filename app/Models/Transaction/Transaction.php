@@ -9,6 +9,7 @@ use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Services\Currency\CurrencyConverterService;
+use App\ValueObjects\UserCurrencyAmount;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,8 +49,8 @@ class Transaction extends Model
     public function amount(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
         );
     }
 
@@ -57,14 +58,14 @@ class Transaction extends Model
     {
         $this->bootFilter();
 
-        if (! isset($params)) {
+        if (!isset($params)) {
             $params = request()->query('filters', []);
         }
 
         foreach ($params as $field => $value) {
             if ($field === 'amount') {
                 if (is_array($value)) {
-                    $value = array_map(fn ($v) => $v * 100, $value);
+                    $value = array_map(fn($v) => $v * 100, $value);
                 } else {
                     $value *= 100;
                 }
@@ -75,7 +76,7 @@ class Transaction extends Model
         return $query;
     }
 
-    public function getUserCurrencyAmountAttribute(): float
+    public function getUserCurrencyAmountAttribute(): UserCurrencyAmount
     {
         $currencyConverterService = new CurrencyConverterService();
         $user = $this->account->user;
@@ -88,6 +89,11 @@ class Transaction extends Model
                 $userMainCurrency);
         }
 
-        return $transactionAmount;
+        $userCurrencyAmount = new UserCurrencyAmount();
+        $userCurrencyAmount->setAmount($transactionAmount);
+        $userCurrencyAmount->setCurrency($user->currency);
+
+
+        return $userCurrencyAmount;
     }
 }
