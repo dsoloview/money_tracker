@@ -17,7 +17,6 @@ class ExchangeRateApi implements IExchangeRateFetcher
     public function getExchangeRatesForUSD(): array
     {
 
-
         $query = self::API_URL.'/'.config('services.api.exchange_rate_api').'/'.self::EXCHANGE_RATES_ENDPOINT.'/'.self::BASE_CURRENCY;
         $response = \Http::get($query);
 
