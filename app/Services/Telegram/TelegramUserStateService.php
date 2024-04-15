@@ -28,6 +28,6 @@ class TelegramUserStateService
 
     public function resetState(TelegramUser $telegramUser): void
     {
-        $this->updateOrCreateStateByTelegramId($telegramUser->id, null, null);
+        $this->updateOrCreateStateByTelegramId($telegramUser->telegram_id, null, null);
     }
 }
