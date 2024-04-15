@@ -16,7 +16,7 @@ class TelegramUserStateService
         ]);
     }
 
-    public function updateOrCreateStateByTelegramId(int $telegramId, TelegramState $state, array $data = []): void
+    public function updateOrCreateStateByTelegramId(int $telegramId, ?TelegramState $state, ?array $data = []): void
     {
         TelegramUserState::updateOrCreate([
             'telegram_user_id' => $telegramId,
@@ -28,9 +28,6 @@ class TelegramUserStateService
 
     public function resetState(TelegramUser $telegramUser): void
     {
-        $telegramUser->state->updateOrCreate([
-            'state' => null,
-            'data' => null,
-        ]);
+        $this->updateOrCreateStateByTelegramId($telegramUser->id, null, null);
     }
 }
