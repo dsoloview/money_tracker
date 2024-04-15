@@ -36,7 +36,7 @@ readonly class TelegramController
             );
         }
 
-        if (! $this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
+        if (!$this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
             $this->sendAuthorizationMessage($telegramUser);
 
             return;
@@ -68,7 +68,7 @@ readonly class TelegramController
 
     private function isUserAuthorized(TelegramUser $telegramUser): bool
     {
-        return ! is_null($telegramUser->user_id);
+        return !is_null($telegramUser->user_id);
     }
 
     private function messageShouldBeAuthorized(Update $update, TelegramUser $telegramUser): bool
@@ -77,7 +77,7 @@ readonly class TelegramController
 
         $state = $telegramUser->state;
 
-        if ($state->state === TelegramState::AUTH && ! $this->isCommand($update)) {
+        if ($state?->state === TelegramState::AUTH && !$this->isCommand($update)) {
             return false;
         }
 
