@@ -28,7 +28,7 @@ class TelegramUserStateService
 
     public function resetState(TelegramUser $telegramUser): void
     {
-        $telegramUser->state->update([
+        $telegramUser->state->updateOrCreate([
             'state' => null,
             'data' => null,
         ]);
