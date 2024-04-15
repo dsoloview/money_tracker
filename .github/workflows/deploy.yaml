@@ -14,6 +14,6 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          username: ${{ secrets.USER }}
           password: ${{ secrets.PASSWORD }}
           script: cd ~/www/apitest.okoloblog.ru && sh ./.scripts/deploy.sh
