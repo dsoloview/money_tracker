@@ -13,6 +13,7 @@ class ResetStateCommand extends Command
     protected string $description = 'Reset Command to reset the state of the user';
 
     protected TelegramUserService $telegramUserService;
+
     protected TelegramUserStateService $telegramUserStateService;
 
     public function __construct(

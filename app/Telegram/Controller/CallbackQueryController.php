@@ -26,7 +26,7 @@ class CallbackQueryController implements ITelegramController
             'chat_id' => $telegramUser->chat_id,
             'message_id' => $update->getCallbackQuery()->getMessage()->getMessageId(),
         ]);
-        
+
         Telegram::sendMessage([
             'chat_id' => $telegramUser->chat_id,
             'text' => view('telegram.transactions',
@@ -35,13 +35,13 @@ class CallbackQueryController implements ITelegramController
             'reply_markup' => Keyboard::make()->inline()->row([
                 Keyboard::inlineButton([
                     'text' => '🔙 Back',
-                    'callback_data' => "transactions_page_".($page - 1),
+                    'callback_data' => 'transactions_page_'.($page - 1),
                 ]),
                 Keyboard::inlineButton([
                     'text' => '🔜 Next',
-                    'callback_data' => "transactions_page_".($page + 1),
+                    'callback_data' => 'transactions_page_'.($page + 1),
                 ]),
-            ])->setOneTimeKeyboard(true)
+            ])->setOneTimeKeyboard(true),
         ]);
     }
 }

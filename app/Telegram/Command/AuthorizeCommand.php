@@ -30,7 +30,6 @@ class AuthorizeCommand extends Command
             ]
         );
 
-
         $this->replyWithMessage([
             'text' => 'Send me your email address to authorize.',
         ]);

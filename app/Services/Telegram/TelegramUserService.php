@@ -10,7 +10,7 @@ class TelegramUserService
     public function getTelegramUserByTelegramId(int $telegramId): ?TelegramUser
     {
         return TelegramUser::with([
-            'state', 'user', 'user.settings', 'user.settings.mainCurrency'
+            'state', 'user', 'user.settings', 'user.settings.mainCurrency',
         ])->where('telegram_id', $telegramId)->first();
     }
 

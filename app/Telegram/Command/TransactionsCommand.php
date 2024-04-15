@@ -14,6 +14,7 @@ class TransactionsCommand extends Command
     protected string $description = 'Get info about your transactions';
 
     protected UserTransactionService $userTransactionService;
+
     protected TelegramUserService $telegramUserService;
 
     public function __construct(
@@ -33,16 +34,15 @@ class TransactionsCommand extends Command
         $user = $telegramUser->user;
         $transactions = $this->userTransactionService->getUserTransactionsPaginated($user);
 
-
         if ($transactions->isEmpty()) {
             $this->replyWithMessage([
                 'text' => 'You have no transactions yet.',
             ]);
+
             return;
         }
 
         $currentPage = $transactions->currentPage();
-
 
         $this->replyWithMessage([
             'text' => view('telegram.transactions',
@@ -51,13 +51,13 @@ class TransactionsCommand extends Command
             'reply_markup' => Keyboard::make()->inline()->row([
                 Keyboard::inlineButton([
                     'text' => '🔙 Back',
-                    'callback_data' => "transactions_page_".($currentPage - 1),
+                    'callback_data' => 'transactions_page_'.($currentPage - 1),
                 ]),
                 Keyboard::inlineButton([
                     'text' => '🔜 Next',
-                    'callback_data' => "transactions_page_".($currentPage + 1),
+                    'callback_data' => 'transactions_page_'.($currentPage + 1),
                 ]),
-            ])->setOneTimeKeyboard(true)
+            ])->setOneTimeKeyboard(true),
         ]);
     }
 }

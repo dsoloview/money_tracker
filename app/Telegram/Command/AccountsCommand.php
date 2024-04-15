@@ -13,6 +13,7 @@ class AccountsCommand extends Command
     protected string $description = 'Get info about your accounts';
 
     protected AccountService $accountService;
+
     protected TelegramUserService $telegramUserService;
 
     public function __construct(AccountService $accountService, TelegramUserService $telegramUserService)
@@ -31,14 +32,13 @@ class AccountsCommand extends Command
         $accounts = $this->accountService->getUserAccounts($user);
         $totalBalance = $accounts->sum('user_currency_balance');
 
-
         if ($accounts->isEmpty()) {
             $this->replyWithMessage([
                 'text' => 'You have no accounts yet.',
             ]);
+
             return;
         }
-
 
         $this->replyWithMessage([
             'text' => view('telegram.accounts',

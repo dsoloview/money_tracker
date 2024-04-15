@@ -7,6 +7,7 @@ use App\Models\Currency\Currency;
 class UserCurrencyAmount
 {
     public float $amount;
+
     public Currency $currency;
 
     public function getAmount(): float
@@ -28,6 +29,4 @@ class UserCurrencyAmount
     {
         $this->currency = $currency;
     }
-
-
 }
