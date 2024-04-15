@@ -9,6 +9,7 @@ use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Services\Currency\CurrencyConverterService;
+use App\ValueObjects\UserCurrencyAmount;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -75,7 +76,7 @@ class Transaction extends Model
         return $query;
     }
 
-    public function getUserCurrencyAmountAttribute(): float
+    public function getUserCurrencyAmountAttribute(): UserCurrencyAmount
     {
         $currencyConverterService = new CurrencyConverterService();
         $user = $this->account->user;
@@ -88,6 +89,10 @@ class Transaction extends Model
                 $userMainCurrency);
         }
 
-        return $transactionAmount;
+        $userCurrencyAmount = new UserCurrencyAmount();
+        $userCurrencyAmount->setAmount($transactionAmount);
+        $userCurrencyAmount->setCurrency($user->currency);
+
+        return $userCurrencyAmount;
     }
 }

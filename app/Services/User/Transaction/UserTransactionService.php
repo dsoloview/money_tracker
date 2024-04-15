@@ -10,14 +10,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserTransactionService
 {
-    public function getUserTransactionsPaginated(User $user): LengthAwarePaginator
+    public function getUserTransactionsPaginated(User $user, ?int $page = null): LengthAwarePaginator
     {
         return $user
             ->transactions()
             ->filter()
             ->sort()
             ->with('account', 'account.currency', 'categories')
-            ->paginate(10);
+            ->paginate(10, page: $page);
     }
 
     public function getMinTransactionAmount(User $user): int

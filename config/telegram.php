@@ -43,6 +43,9 @@ return [
                 \App\Telegram\Command\StartCommand::class,
                 \App\Telegram\Command\AuthorizeCommand::class,
                 \App\Telegram\Command\ResetStateCommand::class,
+                \App\Telegram\Command\LogoutCommand::class,
+                \App\Telegram\Command\AccountsCommand::class,
+                \App\Telegram\Command\TransactionsCommand::class,
             ],
         ],
 

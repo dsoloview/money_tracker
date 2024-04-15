@@ -15,6 +15,7 @@ class StartBotCommand extends Command
 
     public function handle(): void
     {
+        $this->info('Bot started');
         $updateId = -1;
         $telegramController = app(TelegramController::class);
 

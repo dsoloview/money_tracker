@@ -12,11 +12,23 @@ class ResetStateCommand extends Command
 
     protected string $description = 'Reset Command to reset the state of the user';
 
+    protected TelegramUserService $telegramUserService;
+
+    protected TelegramUserStateService $telegramUserStateService;
+
+    public function __construct(
+        TelegramUserService $telegramUserService,
+        TelegramUserStateService $telegramUserStateService
+    ) {
+        $this->telegramUserService = $telegramUserService;
+        $this->telegramUserStateService = $telegramUserStateService;
+    }
+
     public function handle()
     {
         $telegramId = $this->getUpdate()->getMessage()->getFrom()->getId();
-        $telegramUser = app(TelegramUserService::class)->getTelegramUserByTelegramId($telegramId);
-        app(TelegramUserStateService::class)->resetState($telegramUser);
+        $telegramUser = $this->telegramUserService->getTelegramUserByTelegramId($telegramId);
+        $this->telegramUserStateService->resetState($telegramUser);
 
         $this->replyWithMessage([
             'text' => 'State has been reset',
