@@ -21,3 +21,4 @@ yarn-error.log
 .scribe
 public/docs
 resources/views/scribe
+composer.phar
