@@ -12,11 +12,9 @@ class TelegramWebhookController extends Controller
         if ($token !== config('telegram.bots.mybot.token')) {
             abort(403);
         }
-        
-        $updates = Telegram::getWebhookUpdates();
 
-        foreach ($updates as $update) {
-            $telegramController->process($update);
-        }
+        $update = Telegram::getWebhookUpdates();
+
+        $telegramController->process($update);
     }
 }
