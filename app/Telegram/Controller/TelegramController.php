@@ -20,8 +20,44 @@ readonly class TelegramController
 
     public function process(Update $update): void
     {
-        $type = $update->objectType();
+        try {
+            $type = $update->objectType();
+            
+            $telegramUser = $this->getTelegramUser($update, $type);
 
+            if (!$this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
+                $this->sendAuthorizationMessage($telegramUser);
+
+                return;
+            }
+
+            if ($this->isCommand($update)) {
+                $this->processCommand($update, $telegramUser);
+
+                return;
+            }
+
+            if ($type === 'message') {
+                $this->processMessage($update, $telegramUser);
+
+                return;
+            }
+
+            if ($type === 'callback_query') {
+                $this->processCallbackQuery($update, $telegramUser);
+
+                return;
+            }
+        } catch (\Throwable $exception) {
+            Telegram::sendMessage([
+                'chat_id' => $update->getMessage()->getChat()->getId(),
+                'text' => 'An error occurred. Please try again later.',
+            ]);
+        }
+    }
+
+    private function getTelegramUser(Update $update, string $type): TelegramUser
+    {
         if ($type === 'callback_query') {
             $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
                 $update->getMessage()->getChat()->getId(),
@@ -36,29 +72,7 @@ readonly class TelegramController
             );
         }
 
-        if (!$this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
-            $this->sendAuthorizationMessage($telegramUser);
-
-            return;
-        }
-
-        if ($this->isCommand($update)) {
-            $this->processCommand($update, $telegramUser);
-
-            return;
-        }
-
-        if ($type === 'message') {
-            $this->processMessage($update, $telegramUser);
-
-            return;
-        }
-
-        if ($type === 'callback_query') {
-            $this->processCallbackQuery($update, $telegramUser);
-
-            return;
-        }
+        return $telegramUser;
     }
 
     private function isCommand(Update $update): bool
