@@ -4,6 +4,7 @@ namespace App\Telegram\Command;
 
 use App\Services\Account\AccountService;
 use App\Services\Telegram\TelegramUserService;
+use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Commands\Command;
 
 class AccountsCommand extends Command
@@ -24,11 +25,8 @@ class AccountsCommand extends Command
 
     public function handle()
     {
-        $telegramUser = $this->telegramUserService->getTelegramUserByTelegramId(
-            $this->getUpdate()->getMessage()->getFrom()->getId()
-        );
 
-        $user = $telegramUser->user;
+        $user = TgUser::user();
         $accounts = $this->accountService->getUserAccounts($user);
         $totalBalance = $accounts->sum('user_currency_balance');
 

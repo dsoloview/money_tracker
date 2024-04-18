@@ -5,6 +5,7 @@ namespace App\Telegram\Command;
 use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\TelegramAuthStateStep;
 use App\Telegram\Enum\TelegramState;
+use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Commands\Command;
 
 class AuthorizeCommand extends Command
@@ -23,7 +24,7 @@ class AuthorizeCommand extends Command
     public function handle()
     {
         $this->telegramUserStateService->updateOrCreateStateByTelegramId(
-            $this->getUpdate()->getMessage()->getFrom()->getId(),
+            TgUser::telegramId(),
             TelegramState::AUTH,
             [
                 'step' => TelegramAuthStateStep::EMAIL,

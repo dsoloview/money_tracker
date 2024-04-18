@@ -2,9 +2,9 @@
 
 namespace App\Telegram\Controller\Callback;
 
-use App\Models\Telegram\TelegramUser;
 use App\Services\User\Transaction\UserTransactionService;
 use App\Telegram\DTO\CallbackQuery;
+use App\Telegram\Facades\TgUser;
 use App\Telegram\Services\TelegramKeyboardService;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Objects\Update;
@@ -19,18 +19,17 @@ class TransactionCallbackController extends AbstractCallbackController
         $this->userTransactionService = $userTransactionService;
     }
 
-    protected function pagination(Update $update, TelegramUser $telegramUser, CallbackQuery $callbackQuery): void
+    protected function pagination(Update $update, CallbackQuery $callbackQuery): void
     {
-        $transactions = $this->userTransactionService->getUserTransactionsPaginated($telegramUser->user,
+        $user = TgUser::user();
+        $transactions = $this->userTransactionService->getUserTransactionsPaginated($user,
             $callbackQuery->data['page']);
 
         $currentPage = $transactions->currentPage();
         $totalPages = $transactions->lastPage();
 
-        $user = $telegramUser->user;
-
         Telegram::editMessageText([
-            'chat_id' => $telegramUser->chat_id,
+            'chat_id' => TgUser::chatId(),
             'message_id' => $update->getCallbackQuery()->getMessage()->getMessageId(),
             'text' => view('telegram.transactions',
                 compact('transactions', 'user'))->render(),

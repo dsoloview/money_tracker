@@ -17,6 +17,7 @@ enum AvailableTelegramCommands: string
             self::START->value,
             self::HELP->value,
             self::AUTHORIZE->value,
+            self::RESET->value,
         ];
     }
 

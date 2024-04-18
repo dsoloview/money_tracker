@@ -4,6 +4,7 @@ namespace App\Telegram\Command;
 
 use App\Services\Telegram\TelegramUserService;
 use App\Services\User\Transaction\UserTransactionService;
+use App\Telegram\Facades\TgUser;
 use App\Telegram\Services\Transaction\TransactionMessageService;
 use Telegram\Bot\Commands\Command;
 
@@ -30,10 +31,6 @@ class TransactionsCommand extends Command
 
     public function handle()
     {
-        $telegramUser = $this->telegramUserService->getTelegramUserByTelegramId(
-            $this->getUpdate()->getMessage()->getFrom()->getId()
-        );
-
-        $this->transactionMessageService->sendTransactionsMessage($telegramUser);
+        $this->transactionMessageService->sendTransactionsMessage(TgUser::get());
     }
 }

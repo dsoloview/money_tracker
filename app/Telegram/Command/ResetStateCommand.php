@@ -4,6 +4,7 @@ namespace App\Telegram\Command;
 
 use App\Services\Telegram\TelegramUserService;
 use App\Services\Telegram\TelegramUserStateService;
+use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Commands\Command;
 
 class ResetStateCommand extends Command
@@ -26,9 +27,7 @@ class ResetStateCommand extends Command
 
     public function handle()
     {
-        $telegramId = $this->getUpdate()->getMessage()->getFrom()->getId();
-        $telegramUser = $this->telegramUserService->getTelegramUserByTelegramId($telegramId);
-        $this->telegramUserStateService->resetState($telegramUser);
+        $this->telegramUserStateService->resetState(TgUser::get());
 
         $this->replyWithMessage([
             'text' => 'State has been reset',

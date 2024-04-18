@@ -3,6 +3,7 @@
 namespace App\Telegram\Command;
 
 use App\Services\Telegram\TelegramUserService;
+use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Commands\Command;
 
 class LogoutCommand extends Command
@@ -21,7 +22,7 @@ class LogoutCommand extends Command
     public function handle()
     {
         $this->telegramUserService->logoutByTelegramId(
-            $this->getUpdate()->getMessage()->getFrom()->getId()
+            TgUser::telegramId()
         );
 
         $this->replyWithMessage([

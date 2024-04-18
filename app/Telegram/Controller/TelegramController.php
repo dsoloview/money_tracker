@@ -3,17 +3,16 @@
 namespace App\Telegram\Controller;
 
 use App\Models\Telegram\TelegramUser;
-use App\Services\Telegram\TelegramUserService;
 use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\AvailableTelegramCommands;
 use App\Telegram\Enum\TelegramState;
+use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Objects\Update;
 
 readonly class TelegramController
 {
     public function __construct(
-        private TelegramUserService $telegramUserService,
         protected TelegramUserStateService $telegramUserStateService,
     ) {
     }
@@ -22,36 +21,36 @@ readonly class TelegramController
     {
         try {
             $type = $update->objectType();
-            
+
             $telegramUser = $this->getTelegramUser($update, $type);
 
-            if (!$this->isUserAuthorized($telegramUser) && $this->messageShouldBeAuthorized($update, $telegramUser)) {
-                $this->sendAuthorizationMessage($telegramUser);
+            if (!TgUser::isAuthorized() && $this->messageShouldBeAuthorized($update, $telegramUser)) {
+                $this->sendAuthorizationMessage();
 
                 return;
             }
 
             if ($this->isCommand($update)) {
-                $this->processCommand($update, $telegramUser);
+                $this->processCommand($update);
 
                 return;
             }
 
             if ($type === 'message') {
-                $this->processMessage($update, $telegramUser);
+                $this->processMessage($update);
 
                 return;
             }
 
             if ($type === 'callback_query') {
-                $this->processCallbackQuery($update, $telegramUser);
+                $this->processCallbackQuery($update);
 
                 return;
             }
         } catch (\Throwable $exception) {
             Telegram::sendMessage([
-                'chat_id' => $update->getMessage()->getChat()->getId(),
-                'text' => 'An error occurred. Please try again later.',
+                'chat_id' => TgUser::chatId(),
+                'text' => $exception->getMessage(),
             ]);
         }
     }
@@ -59,13 +58,13 @@ readonly class TelegramController
     private function getTelegramUser(Update $update, string $type): TelegramUser
     {
         if ($type === 'callback_query') {
-            $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
+            $telegramUser = TgUser::updateOrCreateTelegramUser(
                 $update->getMessage()->getChat()->getId(),
                 $update->getMessage()->getChat()->getId(),
                 $update->getMessage()->getFrom()->getUsername()
             );
         } else {
-            $telegramUser = $this->telegramUserService->updateOrCreateTelegramUser(
+            $telegramUser = TgUser::updateOrCreateTelegramUser(
                 $update->getMessage()->getFrom()->getId(),
                 $update->getMessage()->getChat()->getId(),
                 $update->getMessage()->getFrom()->getUsername()
@@ -78,11 +77,6 @@ readonly class TelegramController
     private function isCommand(Update $update): bool
     {
         return $update->objectType() === 'message' && str_starts_with($update->getMessage()->getText(), '/');
-    }
-
-    private function isUserAuthorized(TelegramUser $telegramUser): bool
-    {
-        return !is_null($telegramUser->user_id);
     }
 
     private function messageShouldBeAuthorized(Update $update, TelegramUser $telegramUser): bool
@@ -103,29 +97,29 @@ readonly class TelegramController
         return true;
     }
 
-    private function sendAuthorizationMessage(TelegramUser $telegramUser): void
+    private function sendAuthorizationMessage(): void
     {
         Telegram::sendMessage([
-            'chat_id' => $telegramUser->chat_id,
+            'chat_id' => TgUser::get()->chat_id,
             'text' => 'You are not authorized. Please use /authorize command to authorize.',
         ]);
     }
 
-    private function processMessage(Update $update, TelegramUser $telegramUser): void
+    private function processMessage(Update $update): void
     {
         $messageController = new MessageController();
-        $messageController->process($update, $telegramUser);
+        $messageController->process($update);
     }
 
-    private function processCommand(Update $update, TelegramUser $telegramUser): void
+    private function processCommand(Update $update): void
     {
-        $this->telegramUserStateService->resetState($telegramUser);
+        $this->telegramUserStateService->resetState(TgUser::get());
         Telegram::processCommand($update);
     }
 
-    private function processCallbackQuery(Update $update, TelegramUser $telegramUser): void
+    private function processCallbackQuery(Update $update): void
     {
         $callbackQueryController = new CallbackQueryController();
-        $callbackQueryController->process($update, $telegramUser);
+        $callbackQueryController->process($update);
     }
 }
