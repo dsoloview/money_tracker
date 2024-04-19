@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Telegram\Enum;
+namespace App\Telegram\Enum\State\Step;
 
 enum TelegramAuthStateStep: string
 {

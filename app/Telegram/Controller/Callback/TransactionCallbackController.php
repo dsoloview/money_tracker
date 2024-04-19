@@ -12,7 +12,7 @@ use Telegram\Bot\Objects\Update;
 class TransactionCallbackController extends AbstractCallbackController
 {
     private UserTransactionService $userTransactionService;
-    protected const AVAILABLE_TYPES = ['pagination'];
+    protected const array AVAILABLE_TYPES = ['pagination'];
 
     public function __construct(UserTransactionService $userTransactionService)
     {

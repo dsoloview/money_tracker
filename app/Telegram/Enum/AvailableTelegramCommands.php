@@ -10,6 +10,7 @@ enum AvailableTelegramCommands: string
     case AUTHORIZE = '/authorize';
     case HELP = '/help';
     case RESET = '/reset';
+    case NEW_TRANSACTION = '/new_transaction';
 
     public static function commandsWithoutAuthorization(): array
     {

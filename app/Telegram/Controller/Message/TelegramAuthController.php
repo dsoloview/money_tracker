@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Telegram\Controller;
+namespace App\Telegram\Controller\Message;
 
 use App\Models\User;
 use App\Services\Telegram\TelegramUserService;
 use App\Services\Telegram\TelegramUserStateService;
-use App\Telegram\Enum\TelegramAuthStateStep;
-use App\Telegram\Enum\TelegramState;
+use App\Telegram\Enum\State\Step\TelegramAuthStateStep;
+use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
 use App\Telegram\Intrerface\ITelegramController;
 use Illuminate\Support\Facades\Hash;

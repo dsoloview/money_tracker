@@ -69,6 +69,5 @@ class UserTransactionService
         }
 
         return $result;
-
     }
 }

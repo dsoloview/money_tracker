@@ -8,16 +8,19 @@ use Telegram\Bot\Objects\Update;
 
 abstract class AbstractCallbackController implements ITelegramController
 {
-    protected const AVAILABLE_TYPES = [];
+    protected const array AVAILABLE_TYPES = [];
 
     public function process(Update $update): void
     {
         $callbackQuery = CallbackQuery::fromJson($update->getCallbackQuery()->getData());
 
-        if (!in_array($callbackQuery->type, static::AVAILABLE_TYPES)) {
+        $group = $callbackQuery->group;
+
+        $methodName = $group->getCallbackType($callbackQuery->type)->getMethodName();
+        if (!in_array($methodName, static::AVAILABLE_TYPES)) {
             return;
         }
 
-        $this->{$callbackQuery->type}($update, $callbackQuery);
+        $this->{$methodName}($update, $callbackQuery);
     }
 }

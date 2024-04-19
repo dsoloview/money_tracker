@@ -4,7 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TelegramUser;
 use App\Models\Telegram\TelegramUserState;
-use App\Telegram\Enum\TelegramState;
+use App\Telegram\Enum\State\TelegramState;
 
 class TelegramUserStateService
 {

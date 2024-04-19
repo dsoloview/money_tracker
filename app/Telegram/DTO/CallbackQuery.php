@@ -17,7 +17,7 @@ class CallbackQuery
         $this->data = $data;
     }
 
-    public static function buildJson(CallbackGroup $group, string $type, array $data): string
+    public static function buildJson(CallbackGroup $group, string $type, array $data = []): string
     {
         return json_encode([
             'group' => $group->value,

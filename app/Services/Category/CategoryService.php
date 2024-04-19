@@ -4,6 +4,7 @@ namespace App\Services\Category;
 
 use App\Data\Category\CategoryData;
 use App\Data\Category\DefaultCategoryData;
+use App\Enums\Category\CategoryTransactionType;
 use App\Enums\Category\DefaultExpenseCategories;
 use App\Enums\Category\DefaultIncomeCategories;
 use App\Models\Category\Category;
@@ -23,10 +24,15 @@ class CategoryService
         return $this->buildCategoryTree($user->categories->load('children', 'icon'));
     }
 
+    public function getUsersCategoriesByType(User $user, CategoryTransactionType $type): Collection
+    {
+        return $user->categories()->where('type', $type)->get();
+    }
+
     private function buildCategoryTree(Collection $categories, ?int $parentId = null): Collection
     {
-        return $categories->filter(fn (Category $category) => $category->parent_category_id === $parentId)
-            ->map(fn (Category $category) => $category->setAttribute('children',
+        return $categories->filter(fn(Category $category) => $category->parent_category_id === $parentId)
+            ->map(fn(Category $category) => $category->setAttribute('children',
                 $this->buildCategoryTree($categories, $category->id)))->values();
     }
 
@@ -35,7 +41,7 @@ class CategoryService
         if ($category->type !== $data->type) {
             $category->children()->update(['type' => $data->type]);
             $category->transactions()->update(['type' => $data->type]);
-            $category->children()->each(fn (Category $child) => $child->transactions()->update(['type' => $data->type]));
+            $category->children()->each(fn(Category $child) => $child->transactions()->update(['type' => $data->type]));
             $data->parent_category_id = null;
         }
 
@@ -81,5 +87,10 @@ class CategoryService
         \Cache::put("default_categories_{$language->code}", $categories, 60 * 60 * 24);
 
         return $categories;
+    }
+
+    public function getCategoriesByType(CategoryTransactionType $type): Collection
+    {
+        return Category::where('type', $type)->get();
     }
 }

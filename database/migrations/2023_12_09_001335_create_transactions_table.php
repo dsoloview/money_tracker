@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
@@ -15,6 +14,7 @@ return new class extends Migration
             $table->bigInteger('amount');
             $table->string('type')->default('expense');
             $table->dateTime('date')->useCurrent();
+            $table->boolean('isFinished')->default(true);
             $table->timestamps();
 
             $table->foreign('account_id')

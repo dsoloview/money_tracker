@@ -46,6 +46,7 @@ return [
                 \App\Telegram\Command\LogoutCommand::class,
                 \App\Telegram\Command\AccountsCommand::class,
                 \App\Telegram\Command\TransactionsCommand::class,
+                \App\Telegram\Command\NewTransactionCommand::class,
             ],
         ],
 

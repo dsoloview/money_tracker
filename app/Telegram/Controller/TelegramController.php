@@ -5,7 +5,7 @@ namespace App\Telegram\Controller;
 use App\Models\Telegram\TelegramUser;
 use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\AvailableTelegramCommands;
-use App\Telegram\Enum\TelegramState;
+use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Objects\Update;
@@ -50,7 +50,7 @@ readonly class TelegramController
         } catch (\Throwable $exception) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
-                'text' => $exception->getMessage(),
+                'text' => $exception->getMessage().PHP_EOL.$exception->getTraceAsString(),
             ]);
         }
     }

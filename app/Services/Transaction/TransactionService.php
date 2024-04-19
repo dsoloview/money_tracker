@@ -7,20 +7,23 @@ use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Transaction\Transaction;
 use App\Services\Account\AccountBalanceService;
-use App\Services\Account\AccountService;
 use Illuminate\Support\Collection;
 
-class TransactionService
+readonly class TransactionService
 {
     public function __construct(
-        private readonly AccountService $accountService,
-        private readonly AccountBalanceService $accountBalanceService
+        private AccountBalanceService $accountBalanceService
     ) {
     }
 
     public function getAccountTransactions(Account $account): Collection
     {
         return $account->transactions->load('categories');
+    }
+
+    public function getTransactionById(int $transactionId): Transaction
+    {
+        return Transaction::findOrFail($transactionId);
     }
 
     public function getAccountTransactionsPaginated(Account $account): Collection
@@ -35,14 +38,19 @@ class TransactionService
             $transaction = $account->transactions()->create($saveData->all());
             $transaction->categories()->sync($data->categories_ids);
 
-            if ($data->type === CategoryTransactionType::INCOME) {
-                $this->accountBalanceService->increaseAccountBalance($account, $data->amount);
-            } else {
-                $this->accountBalanceService->decreaseAccountBalance($account, $data->amount);
-            }
+            $this->syncAccountBalanceForNewTransaction($transaction);
 
             return $transaction->load('categories');
         });
+    }
+
+    public function syncAccountBalanceForNewTransaction(Transaction $transaction): void
+    {
+        if ($transaction->type === CategoryTransactionType::INCOME) {
+            $this->accountBalanceService->increaseAccountBalance($transaction->account, $transaction->amount);
+        } else {
+            $this->accountBalanceService->decreaseAccountBalance($transaction->account, $transaction->amount);
+        }
     }
 
     public function updateTransaction(Transaction $transaction, TransactionData $data): Transaction

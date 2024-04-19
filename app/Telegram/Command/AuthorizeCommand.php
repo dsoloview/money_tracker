@@ -3,8 +3,8 @@
 namespace App\Telegram\Command;
 
 use App\Services\Telegram\TelegramUserStateService;
-use App\Telegram\Enum\TelegramAuthStateStep;
-use App\Telegram\Enum\TelegramState;
+use App\Telegram\Enum\State\Step\TelegramAuthStateStep;
+use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Commands\Command;
 

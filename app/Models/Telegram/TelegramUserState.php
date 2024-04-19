@@ -2,7 +2,7 @@
 
 namespace App\Models\Telegram;
 
-use App\Telegram\Enum\TelegramState;
+use App\Telegram\Enum\State\TelegramState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
