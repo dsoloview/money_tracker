@@ -17,7 +17,7 @@ class DevelopmentToolsAccessMiddleware
 
         $token = \Cache::get('development_tools_token_'.$ip);
 
-        if (!$token) {
+        if (! $token) {
             $token = $request->query('token');
         }
 

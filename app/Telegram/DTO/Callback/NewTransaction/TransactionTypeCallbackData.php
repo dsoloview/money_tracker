@@ -7,6 +7,7 @@ use App\Enums\Category\CategoryTransactionType;
 class TransactionTypeCallbackData
 {
     public CategoryTransactionType $type;
+
     public int $transactionId;
 
     public static function fromArray(array $data): self

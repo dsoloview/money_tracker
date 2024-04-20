@@ -7,7 +7,9 @@ use App\Telegram\Enum\Callback\CallbackGroup;
 class CallbackQuery
 {
     public CallbackGroup $group;
+
     public string $type;
+
     public array $data;
 
     public function __construct(CallbackGroup $group, string $type, array $data)

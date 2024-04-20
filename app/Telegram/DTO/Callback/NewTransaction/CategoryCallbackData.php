@@ -7,6 +7,7 @@ use App\Telegram\DTO\Callback\ICallbackData;
 class CategoryCallbackData implements ICallbackData
 {
     public int $categoryId;
+
     public int $transactionId;
 
     public static function fromArray(array $data): self

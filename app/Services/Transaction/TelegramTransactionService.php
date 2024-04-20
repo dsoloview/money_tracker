@@ -15,7 +15,7 @@ class TelegramTransactionService
             'amount' => 0,
             'comment' => 'Telegram transaction',
             'isFinished' => false,
-            'type' => CategoryTransactionType::EXPENSE
+            'type' => CategoryTransactionType::EXPENSE,
         ]);
     }
 

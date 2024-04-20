@@ -115,6 +115,4 @@ class NewTransactionCallbackController extends AbstractCallbackController
 
         $this->transactionMessageService->sendTransactionAmountMessage(TgUser::get());
     }
-
-
 }

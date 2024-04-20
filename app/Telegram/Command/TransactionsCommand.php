@@ -11,6 +11,7 @@ class TransactionsCommand extends Command
     protected string $name = 'transactions';
 
     protected string $description = 'Get info about your transactions';
+
     protected TransactionMessageService $transactionMessageService;
 
     public function __construct(

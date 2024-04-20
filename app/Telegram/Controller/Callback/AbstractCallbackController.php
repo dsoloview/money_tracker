@@ -17,7 +17,7 @@ abstract class AbstractCallbackController implements ITelegramController
         $group = $callbackQuery->group;
 
         $methodName = $group->getCallbackType($callbackQuery->type)->getMethodName();
-        if (!in_array($methodName, static::AVAILABLE_TYPES)) {
+        if (! in_array($methodName, static::AVAILABLE_TYPES)) {
             return;
         }
 

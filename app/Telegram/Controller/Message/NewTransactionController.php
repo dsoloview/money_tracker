@@ -62,7 +62,7 @@ readonly class NewTransactionController implements ITelegramController
             TelegramState::NEW_TRANSACTION,
             [
                 'step' => TelegramNewTransactionStateStep::COMMENT->value,
-                'transactionId' => $transactionId
+                'transactionId' => $transactionId,
             ]
         );
 
@@ -71,7 +71,7 @@ readonly class NewTransactionController implements ITelegramController
 
     private function validateAmount(string $amount): void
     {
-        if (!is_numeric($amount)) {
+        if (! is_numeric($amount)) {
             throw new \Exception('Amount must be a number');
         }
 
@@ -89,7 +89,7 @@ readonly class NewTransactionController implements ITelegramController
             TelegramState::NEW_TRANSACTION,
             [
                 'step' => TelegramNewTransactionStateStep::DATE->value,
-                'transactionId' => $transactionId
+                'transactionId' => $transactionId,
             ]
         );
 

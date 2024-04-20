@@ -24,7 +24,7 @@ readonly class TelegramController
 
             $telegramUser = $this->getTelegramUser($update, $type);
 
-            if (!TgUser::isAuthorized() && $this->messageShouldBeAuthorized($update, $telegramUser)) {
+            if (! TgUser::isAuthorized() && $this->messageShouldBeAuthorized($update, $telegramUser)) {
                 $this->sendAuthorizationMessage();
 
                 return;
@@ -93,7 +93,7 @@ readonly class TelegramController
 
         $state = $telegramUser->state;
 
-        if ($state?->state === TelegramState::AUTH && !$this->isCommand($update)) {
+        if ($state?->state === TelegramState::AUTH && ! $this->isCommand($update)) {
             return false;
         }
 

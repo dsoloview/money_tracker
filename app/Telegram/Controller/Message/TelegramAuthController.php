@@ -47,7 +47,7 @@ readonly class TelegramAuthController implements ITelegramController
         $text = $update->getMessage()->getText();
         $user = User::where('email', $text)->first();
 
-        if (!$user) {
+        if (! $user) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
                 'text' => 'User not found',
@@ -74,7 +74,7 @@ readonly class TelegramAuthController implements ITelegramController
         $text = $update->getMessage()->getText();
         $user = User::where('email', TgUser::state()?->data['email'])->first();
 
-        if (!Hash::check($text, $user->telegramToken->token)) {
+        if (! Hash::check($text, $user->telegramToken->token)) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
                 'text' => 'Invalid token',

@@ -34,7 +34,6 @@ class TelegramKeyboardService
             ]);
         }
 
-
         return Keyboard::make()->inline()->row($buttons)->setOneTimeKeyboard(true);
     }
 
@@ -49,7 +48,7 @@ class TelegramKeyboardService
                     'callback_data' => CallbackQuery::buildJson(CallbackGroup::NEW_TRANSACTION,
                         CallbackNewTransactionGroupType::ACCOUNT->value,
                         [$account->id]),
-                ])
+                ]),
             ]);
         }
 
@@ -89,8 +88,8 @@ class TelegramKeyboardService
                     'callback_data' => CallbackQuery::buildJson(CallbackGroup::NEW_TRANSACTION,
                         CallbackNewTransactionGroupType::CATEGORY->value, [
                             $category['isSelected'] ? '-'.$category['id'] : $category['id'],
-                            $transactionId
-                        ])
+                            $transactionId,
+                        ]),
                 ]);
             }
 

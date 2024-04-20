@@ -18,9 +18,7 @@
         "predis/predis": "^2.2",
         "spatie/laravel-data": "^4.0",
         "spatie/laravel-permission": "^6.1",
-        "symfony/security-bundle": "*",
-        "ext-zlib": "*",
-        "ext-bz2": "*"
+        "symfony/security-bundle": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

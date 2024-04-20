@@ -36,7 +36,6 @@ readonly class TransactionMessageService
         $currentPage = $transactions->currentPage();
         $totalPages = $transactions->lastPage();
 
-
         Telegram::sendMessage([
             'chat_id' => $telegramUser->chat_id,
             'text' => view('telegram.transactions',
@@ -83,7 +82,6 @@ readonly class TransactionMessageService
             'parse_mode' => 'HTML',
         ]);
     }
-
 
     public function sendTransactionTypesMessage(TelegramUser $telegramUser, int $transactionId): void
     {
