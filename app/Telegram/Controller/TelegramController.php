@@ -48,10 +48,18 @@ readonly class TelegramController
                 return;
             }
         } catch (\Throwable $exception) {
-            Telegram::sendMessage([
-                'chat_id' => TgUser::chatId(),
-                'text' => $exception->getMessage().PHP_EOL.$exception->getTraceAsString(),
-            ]);
+            if (app()->environment('local')) {
+                Telegram::sendMessage([
+                    'chat_id' => TgUser::chatId(),
+                    'text' => $exception->getMessage().PHP_EOL.$exception->getTraceAsString(),
+                ]);
+            } else {
+                Telegram::sendMessage([
+                    'chat_id' => TgUser::chatId(),
+                    'text' => 'Something went wrong. Please try again later. If the problem persists, please use /reset command.',
+                ]);
+            }
+
         }
     }
 

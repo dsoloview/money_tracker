@@ -61,16 +61,23 @@ class Handler extends ExceptionHandler
                 if ($e instanceof AuthenticationException) {
                     return response()->json([
                         'type' => 'unauthenticated',
-                        'message' => $e->getMessage(),
+                        'message' => 'Unauthenticated.',
                     ], 401);
                 }
 
-                return response()->json([
-                    'type' => 'internal_server_error',
-                    'message' => 'Internal server error.',
-                    'exception' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                ], 500);
+                if (app()->environment('local')) {
+                    return response()->json([
+                        'type' => 'internal_server_error',
+                        'message' => 'Internal server error.',
+                        'exception' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                    ], 500);
+                } else {
+                    return response()->json([
+                        'type' => 'internal_server_error',
+                        'message' => 'Internal server error.',
+                    ], 500);
+                }
             }
         });
     }

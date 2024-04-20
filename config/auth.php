@@ -2,6 +2,8 @@
 
 return [
 
+    'development_tools_token' => env('DEVELOPMENT_TOOLS_TOKEN', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

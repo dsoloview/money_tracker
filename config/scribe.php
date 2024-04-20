@@ -178,7 +178,9 @@ return [
         /*
          * Middleware to attach to the docs endpoint (if `add_routes` is true).
          */
-        'middleware' => [],
+        'middleware' => [
+            \App\Http\Middleware\DevelopmentToolsAccessMiddleware::class
+        ],
     ],
 
     'try_it_out' => [
