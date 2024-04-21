@@ -9,7 +9,7 @@ ssh-add ~/.ssh/money_tracker
 # Pull the latest version of the app
 git pull origin master
 
-/opt/php83/bin/php php artisan horizon:terminate
+/opt/php83/bin/php artisan horizon:terminate
 
 # Install composer dependencies
 /opt/php83/bin/php composer.phar install
