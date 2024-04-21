@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'middleware' => [\App\Http\Middleware\DevelopmentToolsAccessMiddleware::class],
+    'middleware' => ['web', \App\Http\Middleware\DevelopmentToolsAccessMiddleware::class],
 
     /*
     |--------------------------------------------------------------------------
