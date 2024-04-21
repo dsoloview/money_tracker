@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Interfaces\IExchangeRateFetcher;
 use App\Models\ExchangeRate\ExchangeRate;
 use Illuminate\Console\Command;
+use Log;
 
 class FetchExchangeRatesCommand extends Command
 {
@@ -14,6 +15,7 @@ class FetchExchangeRatesCommand extends Command
 
     public function handle(): void
     {
+        Log::info('Fetching exchange rates');
         $fetcher = app(IExchangeRateFetcher::class);
 
         $exchangeRates = $fetcher->getExchangeRatesForUSD();
@@ -24,5 +26,7 @@ class FetchExchangeRatesCommand extends Command
                 ['rate_to_usd' => $rate]
             );
         }
+
+        Log::info('Exchange rates fetched');
     }
 }
