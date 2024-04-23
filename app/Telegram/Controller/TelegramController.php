@@ -6,6 +6,7 @@ use App\Models\Telegram\TelegramUser;
 use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\AvailableTelegramCommands;
 use App\Telegram\Enum\State\TelegramState;
+use App\Telegram\Exception\TelegramExceptionHandler;
 use App\Telegram\Facades\TgUser;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Objects\Update;
@@ -13,7 +14,8 @@ use Telegram\Bot\Objects\Update;
 readonly class TelegramController
 {
     public function __construct(
-        protected TelegramUserStateService $telegramUserStateService,
+        private TelegramUserStateService $telegramUserStateService,
+        private TelegramExceptionHandler $exceptionHandler
     ) {
     }
 
@@ -24,7 +26,7 @@ readonly class TelegramController
 
             $telegramUser = $this->getTelegramUser($update, $type);
 
-            if (! TgUser::isAuthorized() && $this->messageShouldBeAuthorized($update, $telegramUser)) {
+            if (!TgUser::isAuthorized() && $this->messageShouldBeAuthorized($update, $telegramUser)) {
                 $this->sendAuthorizationMessage();
 
                 return;
@@ -48,17 +50,7 @@ readonly class TelegramController
                 return;
             }
         } catch (\Throwable $exception) {
-            if (app()->environment('local')) {
-                Telegram::sendMessage([
-                    'chat_id' => TgUser::chatId(),
-                    'text' => $exception->getMessage().PHP_EOL.$exception->getTraceAsString(),
-                ]);
-            } else {
-                Telegram::sendMessage([
-                    'chat_id' => TgUser::chatId(),
-                    'text' => 'Something went wrong. Please try again later. If the problem persists, please use /reset command.',
-                ]);
-            }
+            $this->exceptionHandler->handle($exception);
 
         }
     }
@@ -93,7 +85,7 @@ readonly class TelegramController
 
         $state = $telegramUser->state;
 
-        if ($state?->state === TelegramState::AUTH && ! $this->isCommand($update)) {
+        if ($state?->state === TelegramState::AUTH && !$this->isCommand($update)) {
             return false;
         }
 

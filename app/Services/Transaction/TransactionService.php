@@ -23,7 +23,7 @@ readonly class TransactionService
 
     public function getTransactionById(int $transactionId): Transaction
     {
-        return Transaction::findOrFail($transactionId);
+        return Transaction::withoutGlobalScopes()->findOrFail($transactionId);
     }
 
     public function getAccountTransactionsPaginated(Account $account): Collection

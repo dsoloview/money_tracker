@@ -3,7 +3,9 @@
 namespace App\Telegram\Services;
 
 use App\Enums\Category\CategoryTransactionType;
+use App\Models\Currency\Currency;
 use App\Telegram\DTO\CallbackQuery;
+use App\Telegram\Enum\Callback\Account\CallbackNewAccountGroupType;
 use App\Telegram\Enum\Callback\CallbackGroup;
 use App\Telegram\Enum\Callback\Transaction\CallbackNewTransactionGroupType;
 use App\Telegram\Enum\Callback\Transaction\CallbackTransactionGroupType;
@@ -103,6 +105,27 @@ class TelegramKeyboardService
         ]);
 
         $keyboard->row([$doneButton]);
+
+        return $keyboard->setOneTimeKeyboard(true)->setResizeKeyboard(true);
+    }
+
+    public static function getCurrenciesKeyboard(Collection $currencies): Keyboard
+    {
+        $keyboard = Keyboard::make()->inline();
+
+        foreach ($currencies->chunk(3) as $chunk) {
+            $row = [];
+            /** @var  Currency $currency */
+            foreach ($chunk as $currency) {
+                $row[] = Keyboard::inlineButton([
+                    'text' => $currency->code.' '.$currency->symbol,
+                    'callback_data' => CallbackQuery::buildJson(CallbackGroup::NEW_ACCOUNT,
+                        CallbackNewAccountGroupType::CURRENCY->value, [$currency->id]),
+                ]);
+            }
+
+            $keyboard->row($row);
+        }
 
         return $keyboard->setOneTimeKeyboard(true)->setResizeKeyboard(true);
     }

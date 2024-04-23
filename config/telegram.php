@@ -47,6 +47,8 @@ return [
                 \App\Telegram\Command\AccountsCommand::class,
                 \App\Telegram\Command\TransactionsCommand::class,
                 \App\Telegram\Command\NewTransactionCommand::class,
+                \App\Telegram\Command\CategoriesCommand::class,
+                \App\Telegram\Command\NewAccountCommand::class,
             ],
         ],
 
