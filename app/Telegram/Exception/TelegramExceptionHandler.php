@@ -9,6 +9,7 @@ class TelegramExceptionHandler
 {
     public function handle(\Throwable $exception)
     {
+        report($exception);
         if ($exception instanceof TelegramVisibleException) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
@@ -17,7 +18,7 @@ class TelegramExceptionHandler
 
             return;
         }
-        
+
         if (app()->environment('local')) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
