@@ -8,6 +8,11 @@ use Carbon\Carbon;
 
 class TelegramTransactionService
 {
+    public function __construct(
+        private TransactionService $transactionService
+    ) {
+    }
+
     public function createTelegramTransaction(int $accountId): Transaction
     {
         return Transaction::create([
@@ -21,7 +26,7 @@ class TelegramTransactionService
 
     public function setTransactionType(int $transactionId, CategoryTransactionType $type): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->type = $type;
         $transaction->save();
 
@@ -30,7 +35,7 @@ class TelegramTransactionService
 
     public function addTransactionCategory(int $transactionId, int $categoryId): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->categories()->attach($categoryId);
 
         return $transaction;
@@ -38,7 +43,7 @@ class TelegramTransactionService
 
     public function removeTransactionCategory(int $transactionId, int $categoryId): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->categories()->detach($categoryId);
 
         return $transaction;
@@ -46,7 +51,7 @@ class TelegramTransactionService
 
     public function setTransactionAmount(int $transactionId, int $amount): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->amount = $amount;
         $transaction->save();
 
@@ -55,7 +60,7 @@ class TelegramTransactionService
 
     public function setTransactionComment(int $transactionId, string $comment): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->comment = $comment;
         $transaction->save();
 
@@ -64,7 +69,7 @@ class TelegramTransactionService
 
     public function setTransactionDate(int $transactionId, Carbon $date): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->date = $date;
         $transaction->save();
 
@@ -73,7 +78,7 @@ class TelegramTransactionService
 
     public function finishTransaction(int $transactionId): Transaction
     {
-        $transaction = Transaction::find($transactionId);
+        $transaction = $this->transactionService->getTransactionById($transactionId);
         $transaction->isFinished = true;
         $transaction->save();
 
