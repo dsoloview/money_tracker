@@ -26,8 +26,8 @@ class NewAccountCallbackController extends AbstractCallbackController
             'message_id' => $update->getCallbackQuery()->getMessage()->getMessageId(),
             'reply_markup' => null
         ]);
-        
-        TelegramNewAccountCache::getAccountFromCache();
+
+        $account = TelegramNewAccountCache::getAccountFromCache();
 
         $currencyCallbackData = CurrencyCallbackData::fromArray($callbackQuery->data);
 
