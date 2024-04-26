@@ -10,6 +10,7 @@ use App\Models\Telegram\TelegramToken;
 use App\Models\Telegram\TelegramUser;
 use App\Models\Transaction\Transaction;
 use App\Models\Transfer\Transfer;
+use App\Notifications\Channels\TelegramChannel;
 use App\Services\Account\AccountBalanceService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -63,7 +64,7 @@ class User extends Authenticatable
         $accountBalanceService = app(AccountBalanceService::class);
 
         return Attribute::make(
-            get: fn () => $accountBalanceService->getUserAccountsBalance($this),
+            get: fn() => $accountBalanceService->getUserAccountsBalance($this),
         );
     }
 
@@ -120,6 +121,11 @@ class User extends Authenticatable
         return $this->hasOne(TelegramUser::class);
     }
 
+    public function isAuthorizedInTelegram(): bool
+    {
+        return $this->telegramUser !== null;
+    }
+
     public function telegramToken(): HasOne
     {
         return $this->hasOne(TelegramToken::class);
@@ -128,5 +134,14 @@ class User extends Authenticatable
     public static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    public function routeNotificationFor($driver, $notification = null)
+    {
+        if ($driver === TelegramChannel::class) {
+            return $this->telegramUser?->chat_id;
+        }
+
+        return parent::routeNotificationFor($driver, $notification);
     }
 }

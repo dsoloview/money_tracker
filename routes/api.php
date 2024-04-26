@@ -64,7 +64,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::prefix('telegram')->group(function () {
+            Route::get('', [UserTelegramController::class, 'getTelegramUser'])->name('users.telegram.user');
             Route::get('token', [UserTelegramController::class, 'token'])->name('users.telegram.token');
+            Route::post('logout', [UserTelegramController::class, 'logout'])->name('users.telegram.logout');
         });
     });
 
