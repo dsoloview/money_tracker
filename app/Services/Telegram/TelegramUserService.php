@@ -4,9 +4,15 @@ namespace App\Services\Telegram;
 
 use App\Models\Telegram\TelegramUser;
 use App\Models\User;
+use App\Notifications\Telegram\TelegramLogoutNotification;
 
 class TelegramUserService
 {
+    public function getUsersTelegramUser(User $user): ?TelegramUser
+    {
+        return $user->telegramUser;
+    }
+
     public function getTelegramUserByTelegramId(int $telegramId): ?TelegramUser
     {
         return TelegramUser::with([
@@ -35,6 +41,18 @@ class TelegramUserService
         $telegramUser->update([
             'user_id' => $user->id,
         ]);
+    }
+
+    public function logoutByUser(User $user): void
+    {
+        if (!$user->isAuthorizedInTelegram()) {
+            throw new \Exception('User does not have Telegram user.');
+        }
+
+        $telegramUser = $user->telegramUser;
+        $telegramUser->notify(new TelegramLogoutNotification());
+
+        $this->logout($telegramUser);
     }
 
     public function logout(TelegramUser $telegramUser): void

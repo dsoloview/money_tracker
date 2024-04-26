@@ -11,12 +11,12 @@ class TelegramUserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
             'id' => $this->id,
             'telegram_id' => $this->telegram_id,
+            'chat_id' => $this->chat_id,
             'username' => $this->username,
-            'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
