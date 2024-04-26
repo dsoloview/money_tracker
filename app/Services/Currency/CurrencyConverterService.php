@@ -36,9 +36,8 @@ class CurrencyConverterService
     private function getExchangeRateByCurrency(string $currency): float
     {
         /** ?? 1 is a hack for scribe docs generation */
-        return \Cache::remember(
+        return \Cache::tags(['exchange_rate'])->rememberForever(
             "exchange_rate_{$currency}",
-            now()->addHours(12),
             function () use ($currency) {
                 return ExchangeRate::where('currency', $currency)->first()->rate_to_usd ?? 1;
             }

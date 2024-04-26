@@ -27,6 +27,8 @@ class FetchExchangeRatesCommand extends Command
             );
         }
 
+        \Cache::tags(['exchange_rate'])->flush();
+
         Log::info('Exchange rates fetched');
     }
 }
