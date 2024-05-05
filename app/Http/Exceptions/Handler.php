@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Http\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -80,6 +80,8 @@ class Handler extends ExceptionHandler
                     ], 500);
                 }
             }
+            
+            return parent::render(request(), $e);
         });
     }
 }

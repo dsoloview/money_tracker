@@ -14,6 +14,20 @@ class AccountService
         return $user->load('settings.mainCurrency')->accounts->load('currency');
     }
 
+
+    public function getAccountByNameAndUser(string $name, User $user): ?Account
+    {
+        return $user->accounts()->where('name', $name)->first();
+    }
+
+    public function getAccountByNameUserAndCurrencyCode(string $name, User $user, string $currencyCode): ?Account
+    {
+        return $user->accounts()
+            ->where('name', $name)
+            ->whereHas('currency', fn($query) => $query->where('code', $currencyCode))
+            ->first();
+    }
+
     public function saveAccountForUser(User $user, AccountData $data): Account
     {
         return $user->accounts()->create($data->all())->load('currency');

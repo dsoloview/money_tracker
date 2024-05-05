@@ -3,12 +3,14 @@
 namespace App\Telegram\Services;
 
 use App\Enums\Category\CategoryTransactionType;
+use App\Enums\Import\ImportFormat;
 use App\Models\Currency\Currency;
 use App\Telegram\DTO\CallbackQuery;
 use App\Telegram\Enum\Callback\Account\CallbackNewAccountGroupType;
 use App\Telegram\Enum\Callback\CallbackGroup;
 use App\Telegram\Enum\Callback\Transaction\CallbackNewTransactionGroupType;
 use App\Telegram\Enum\Callback\Transaction\CallbackTransactionGroupType;
+use App\Telegram\Enum\Import\ImportMode;
 use Illuminate\Support\Collection;
 use Telegram\Bot\Keyboard\Keyboard;
 
@@ -128,5 +130,35 @@ class TelegramKeyboardService
         }
 
         return $keyboard->setOneTimeKeyboard(true)->setResizeKeyboard(true);
+    }
+
+    public static function getImportModeKeyboard(): Keyboard
+    {
+        $buttons = [];
+
+        $buttons[] = Keyboard::button([
+            'text' => ImportMode::CREATE_ABSENT_ENTITIES->value,
+        ]);
+
+        $buttons[] = Keyboard::inlineButton([
+            'text' => ImportMode::NOT_CREATE_ABSENT_ENTITIES->value,
+        ]);
+
+        return Keyboard::make()->row($buttons)->setOneTimeKeyboard(true);
+    }
+
+    public static function getImportFormatKeyboard(): Keyboard
+    {
+        $buttons = [];
+
+        $buttons[] = Keyboard::button([
+            'text' => ImportFormat::ZEN_MONEY->value,
+        ]);
+
+        $buttons[] = Keyboard::button([
+            'text' => ImportFormat::MONEY_TRACKER->value,
+        ]);
+
+        return Keyboard::make()->row($buttons)->setOneTimeKeyboard(true);
     }
 }
