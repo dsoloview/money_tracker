@@ -38,18 +38,18 @@ readonly class TransactionService
             $transaction = $account->transactions()->create($saveData->all());
             $transaction->categories()->sync($data->categories_ids);
 
-            $this->syncAccountBalanceForNewTransaction($transaction);
+            $this->syncAccountBalanceForNewTransaction($transaction, $account);
 
             return $transaction->load('categories');
         });
     }
 
-    public function syncAccountBalanceForNewTransaction(Transaction $transaction): void
+    public function syncAccountBalanceForNewTransaction(Transaction $transaction, Account $account): void
     {
         if ($transaction->type === CategoryTransactionType::INCOME) {
-            $this->accountBalanceService->increaseAccountBalance($transaction->account, $transaction->amount);
+            $this->accountBalanceService->increaseAccountBalance($account, $transaction->amount);
         } else {
-            $this->accountBalanceService->decreaseAccountBalance($transaction->account, $transaction->amount);
+            $this->accountBalanceService->decreaseAccountBalance($account, $transaction->amount);
         }
     }
 

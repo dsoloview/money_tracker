@@ -6,6 +6,7 @@ enum CategoryTransactionType: string
 {
     case INCOME = 'income';
     case EXPENSE = 'expense';
+    case TRANSFER = 'transfer';
 
     public function getTranslation(?string $languageCode = null): string
     {
@@ -17,6 +18,7 @@ enum CategoryTransactionType: string
         return match ($this) {
             self::INCOME => 1,
             self::EXPENSE => 2,
+            self::TRANSFER => 3,
         };
     }
 
@@ -25,11 +27,22 @@ enum CategoryTransactionType: string
         return match ($code) {
             1 => self::INCOME,
             2 => self::EXPENSE,
+            3 => self::TRANSFER,
         };
     }
 
     public function isIncome(): bool
     {
         return $this === self::INCOME;
+    }
+
+    public function isExpense(): bool
+    {
+        return $this === self::EXPENSE;
+    }
+
+    public function isTransfer(): bool
+    {
+        return $this === self::TRANSFER;
     }
 }

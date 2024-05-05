@@ -29,6 +29,14 @@ class CategoryService
         return $user->categories()->where('type', $type)->get();
     }
 
+    public function getUsersCategoriesByNamesAndType(
+        User $user,
+        ?array $categoriesNames,
+        CategoryTransactionType $type
+    ): Collection {
+        return $user->categories()->whereIn('name', $categoriesNames)->where('type', $type)->get();
+    }
+
     public function groupCategoriesByType(Collection $categories): Collection
     {
         return $categories->groupBy('type');
