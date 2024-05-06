@@ -9,26 +9,14 @@ use App\Telegram\Enum\Import\ImportMode;
 use App\Telegram\Enum\State\Step\TelegramImportStep;
 use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
-use App\Telegram\Intrerface\ITelegramController;
 use App\Telegram\Services\TelegramKeyboardService;
 use Telegram\Bot\Objects\Update;
 
-class ImportController implements ITelegramController
+class ImportController extends AbstractMessageController
 {
     public function __construct(
         private readonly TelegramUserStateService $telegramUserStateService
     ) {
-    }
-
-    public function process(Update $update): void
-    {
-        $step = TgUser::state()?->data['step'];
-
-        if ($step === null) {
-            throw new \Exception('Step is not defined');
-        }
-
-        $this->{$step}($update);
     }
 
     protected function importMode(Update $update): void

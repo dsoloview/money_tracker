@@ -2,6 +2,7 @@
 
 namespace App\Telegram\Enum\State;
 
+use App\Telegram\Controller\Message\ExportController;
 use App\Telegram\Controller\Message\ImportController;
 use App\Telegram\Controller\Message\NewAccountController;
 use App\Telegram\Controller\Message\NewTransactionController;
@@ -14,6 +15,7 @@ enum TelegramState: int
     case NEW_TRANSACTION = 2;
     case NEW_ACCOUNT = 3;
     case IMPORT = 4;
+    case EXPORT = 5;
 
     public function getStateController(): ITelegramController
     {
@@ -22,6 +24,7 @@ enum TelegramState: int
             self::NEW_TRANSACTION => app(NewTransactionController::class),
             self::NEW_ACCOUNT => app(NewAccountController::class),
             self::IMPORT => app(ImportController::class),
+            self::EXPORT => app(ExportController::class),
             default => throw new \Exception('Unexpected match value'),
         };
     }

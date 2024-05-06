@@ -8,13 +8,14 @@ use App\Services\Transaction\TransactionService;
 use App\Telegram\Enum\State\Step\TelegramNewTransactionStateStep;
 use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
-use App\Telegram\Intrerface\ITelegramController;
 use App\Telegram\Services\Transaction\TransactionMessageService;
 use Carbon\Carbon;
 use Telegram\Bot\Objects\Update;
 
-readonly class NewTransactionController implements ITelegramController
+class NewTransactionController extends AbstractMessageController
 {
+    private int $transactionId;
+
     public function __construct(
         private TransactionService $transactionService,
         private TelegramTransactionService $telegramTransactionService,
@@ -25,44 +26,22 @@ readonly class NewTransactionController implements ITelegramController
 
     public function process(Update $update): void
     {
-        $transactionId = TgUser::state()?->data['transactionId'];
-        $step = TgUser::state()?->data['step'];
-
-        if (empty($transactionId)) {
-            throw new \Exception('Step not found');
-        }
-
-        if ($step === TelegramNewTransactionStateStep::AMOUNT->value) {
-            $this->processAmount($update, $transactionId);
-
-            return;
-        }
-
-        if ($step === TelegramNewTransactionStateStep::COMMENT->value) {
-            $this->processComment($update, $transactionId);
-
-            return;
-        }
-
-        if ($step === TelegramNewTransactionStateStep::DATE->value) {
-            $this->processDate($update, $transactionId);
-
-            return;
-        }
+        $this->transactionId = TgUser::state()?->data['transactionId'];
+        parent::process($update);
     }
 
-    public function processAmount(Update $update, int $transactionId): void
+    public function amount(Update $update): void
     {
         $amount = $update->getMessage()->getText();
         $this->validateAmount($amount);
 
-        $this->telegramTransactionService->setTransactionAmount($transactionId, $amount);
+        $this->telegramTransactionService->setTransactionAmount($this->transactionId, $amount);
 
         $this->telegramUserStateService->updateState(TgUser::get(),
             TelegramState::NEW_TRANSACTION,
             [
                 'step' => TelegramNewTransactionStateStep::COMMENT->value,
-                'transactionId' => $transactionId,
+                'transactionId' => $this->transactionId,
             ]
         );
 
@@ -71,7 +50,7 @@ readonly class NewTransactionController implements ITelegramController
 
     private function validateAmount(string $amount): void
     {
-        if (! is_numeric($amount)) {
+        if (!is_numeric($amount)) {
             throw new \Exception('Amount must be a number');
         }
 
@@ -80,33 +59,33 @@ readonly class NewTransactionController implements ITelegramController
         }
     }
 
-    public function processComment(Update $update, int $transactionId): void
+    public function comment(Update $update): void
     {
         $comment = $update->getMessage()->getText();
-        $this->telegramTransactionService->setTransactionComment($transactionId, $comment);
+        $this->telegramTransactionService->setTransactionComment($this->transactionId, $comment);
 
         $this->telegramUserStateService->updateState(TgUser::get(),
             TelegramState::NEW_TRANSACTION,
             [
                 'step' => TelegramNewTransactionStateStep::DATE->value,
-                'transactionId' => $transactionId,
+                'transactionId' => $this->transactionId,
             ]
         );
 
         $this->transactionMessageService->sendDateMessage();
     }
 
-    public function processDate(Update $update, int $transactionId): void
+    public function date(Update $update): void
     {
         $date = $update->getMessage()->getText();
         $date = Carbon::parse($date);
 
-        $this->telegramTransactionService->setTransactionDate($transactionId, $date);
+        $this->telegramTransactionService->setTransactionDate($this->transactionId, $date);
 
         $this->telegramUserStateService->resetState(TgUser::get());
 
-        $transaction = $this->telegramTransactionService->finishTransaction($transactionId);
-        $this->transactionService->syncAccountBalanceForNewTransaction($transaction);
+        $transaction = $this->telegramTransactionService->finishTransaction($this->transactionId);
+        $this->transactionService->syncAccountBalanceForNewTransaction($transaction, $transaction->account);
 
         $this->transactionMessageService->sendTransactionMessage($transaction);
     }

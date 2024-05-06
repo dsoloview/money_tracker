@@ -6,7 +6,9 @@ use App\Data\Transaction\TransactionsInfoData;
 use App\Models\User;
 use App\Repositories\Transaction\TransactionRepository;
 use App\Services\Currency\CurrencyConverterService;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserTransactionService
 {
@@ -18,6 +20,16 @@ class UserTransactionService
             ->sort()
             ->with('account', 'account.currency', 'categories')
             ->paginate(10, page: $page);
+    }
+
+    public function getUserTransactionsFilteredByDates(User $user, Carbon $fromDate, Carbon $toDate): Collection
+    {
+        return $user
+            ->transactions()
+            ->whereDate('date', '>=', $fromDate)
+            ->whereDate('date', '<=', $toDate)
+            ->with('account', 'account.currency', 'categories')
+            ->get();
     }
 
     public function getMinTransactionAmount(User $user): int

@@ -20,7 +20,8 @@
         "predis/predis": "^2.2",
         "spatie/laravel-data": "^4.0",
         "spatie/laravel-permission": "^6.1",
-        "symfony/security-bundle": "*"
+        "symfony/security-bundle": "*",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
