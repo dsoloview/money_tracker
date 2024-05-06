@@ -8,12 +8,11 @@ use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\State\Step\TelegramAuthStateStep;
 use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
-use App\Telegram\Intrerface\ITelegramController;
 use Illuminate\Support\Facades\Hash;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Objects\Update;
 
-readonly class TelegramAuthController implements ITelegramController
+class TelegramAuthController extends AbstractMessageController
 {
     public function __construct(
         private TelegramUserStateService $telegramUserStateService,
@@ -21,33 +20,12 @@ readonly class TelegramAuthController implements ITelegramController
     ) {
     }
 
-    public function process(Update $update): void
-    {
-        $step = TgUser::state()?->data['step'];
-
-        if (empty($step)) {
-            throw new \Exception('Step not found');
-        }
-
-        if ($step === TelegramAuthStateStep::EMAIL->value) {
-            $this->processEmail($update);
-
-            return;
-        }
-
-        if ($step === TelegramAuthStateStep::TOKEN->value) {
-            $this->processToken($update);
-
-            return;
-        }
-    }
-
-    public function processEmail(Update $update): void
+    public function email(Update $update): void
     {
         $text = $update->getMessage()->getText();
         $user = User::where('email', $text)->first();
 
-        if (! $user) {
+        if (!$user) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
                 'text' => 'User not found',
@@ -69,12 +47,12 @@ readonly class TelegramAuthController implements ITelegramController
         ]);
     }
 
-    public function processToken(Update $update): void
+    public function token(Update $update): void
     {
         $text = $update->getMessage()->getText();
         $user = User::where('email', TgUser::state()?->data['email'])->first();
 
-        if (! Hash::check($text, $user->telegramToken->token)) {
+        if (!Hash::check($text, $user->telegramToken->token)) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
                 'text' => 'Invalid token',

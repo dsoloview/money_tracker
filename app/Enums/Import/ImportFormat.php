@@ -2,6 +2,7 @@
 
 namespace App\Enums\Import;
 
+use App\Imports\MoneyTrackerImport;
 use App\Imports\ZenMoneyImport;
 
 enum ImportFormat: string
@@ -17,7 +18,8 @@ enum ImportFormat: string
     public function validateFileExtension(string $fileExtension): bool
     {
         return match ($this) {
-            self::MONEY_TRACKER, self::ZEN_MONEY => $fileExtension === 'csv',
+            self::ZEN_MONEY => $fileExtension === 'csv',
+            self::MONEY_TRACKER => $fileExtension === 'xlsx',
             default => false,
         };
     }
@@ -26,6 +28,7 @@ enum ImportFormat: string
     {
         return match ($this) {
             self::ZEN_MONEY => ZenMoneyImport::class,
+            self::MONEY_TRACKER => MoneyTrackerImport::class,
             default => throw new \Exception('Import format not found'),
         };
     }

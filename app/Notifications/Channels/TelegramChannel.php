@@ -21,6 +21,17 @@ class TelegramChannel
             return;
         }
 
+
+        if (isset($message['document'])) {
+            \Telegram::sendDocument([
+                'chat_id' => $chatId,
+                'text' => $message['text'],
+                'document' => $message['document'],
+            ]);
+            return;
+
+        }
+
         \Telegram::sendMessage([
             'chat_id' => $chatId,
             'text' => $message['text'],

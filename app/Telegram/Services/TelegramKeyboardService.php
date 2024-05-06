@@ -151,13 +151,11 @@ class TelegramKeyboardService
     {
         $buttons = [];
 
-        $buttons[] = Keyboard::button([
-            'text' => ImportFormat::ZEN_MONEY->value,
-        ]);
-
-        $buttons[] = Keyboard::button([
-            'text' => ImportFormat::MONEY_TRACKER->value,
-        ]);
+        foreach (ImportFormat::cases() as $importFormat) {
+            $buttons[] = Keyboard::button([
+                'text' => $importFormat->value,
+            ]);
+        }
 
         return Keyboard::make()->row($buttons)->setOneTimeKeyboard(true);
     }

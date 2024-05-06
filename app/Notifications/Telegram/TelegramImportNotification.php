@@ -4,8 +4,9 @@ namespace App\Notifications\Telegram;
 
 use App\Notifications\Channels\TelegramChannel;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TelegramImportNotification extends TelegramNotification
+class TelegramImportNotification extends AbstractTelegramNotification implements ShouldQueue
 {
     use Queueable;
 

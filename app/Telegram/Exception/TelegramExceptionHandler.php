@@ -22,7 +22,7 @@ class TelegramExceptionHandler
         if (app()->environment('local')) {
             Telegram::sendMessage([
                 'chat_id' => TgUser::chatId(),
-                'text' => $exception->getMessage(),
+                'text' => $exception->getMessage().PHP_EOL.$exception->getTraceAsString(),
             ]);
         } else {
             Telegram::sendMessage([

@@ -7,29 +7,17 @@ use App\Services\Telegram\TelegramUserStateService;
 use App\Telegram\Enum\State\Step\TelegramNewAccountStateStep;
 use App\Telegram\Enum\State\TelegramState;
 use App\Telegram\Facades\TgUser;
-use App\Telegram\Intrerface\ITelegramController;
 use App\Telegram\Processor\TelegramNewAccountCache;
 use App\Telegram\Services\Account\AccountMessageService;
 use Telegram\Bot\Objects\Update;
 
-readonly class NewAccountController implements ITelegramController
+class NewAccountController extends AbstractMessageController
 {
     public function __construct(
         private AccountMessageService $accountMessageService,
         private TelegramUserStateService $telegramUserStateService,
         private CurrencyService $currencyService
     ) {
-    }
-
-    public function process(Update $update): void
-    {
-        $step = TgUser::state()?->data['step'];
-
-        if ($step === null) {
-            throw new \Exception('Step is not defined');
-        }
-
-        $this->{$step}($update);
     }
 
     public function name(Update $update): void
