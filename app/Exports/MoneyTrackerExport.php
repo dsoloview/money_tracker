@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Enums\Category\CategoryTransactionType;
 use App\Models\Transaction\Transaction;
+use App\Models\Transfer\Transfer;
 use App\Models\User;
 use App\Services\User\Transaction\UserTransactionService;
 use App\Services\User\Transfer\UserTransferService;
@@ -66,17 +67,18 @@ class MoneyTrackerExport implements FromCollection, WithHeadings, ShouldAutoSize
             ]);
         }
 
+        /** @var Transfer $transfer */
         foreach ($transfers as $transfer) {
             $resultCollection->push([
                 'Date' => $transfer->date,
                 'Type' => CategoryTransactionType::TRANSFER->value,
                 'Categories' => null,
                 'Account' => $transfer->accountFrom->name,
-                'Amount' => $transfer->amount,
+                'Amount' => $transfer->amount_from,
                 'Currency' => $transfer->accountFrom->currency->code,
                 'Comment' => $transfer->comment,
                 'Transfer Account' => $transfer->accountTo->name,
-                'Transfer Amount' => $transfer->amount,
+                'Transfer Amount' => $transfer->amount_to,
                 'Transfer Currency' => $transfer->accountTo->currency->code,
             ]);
         }
