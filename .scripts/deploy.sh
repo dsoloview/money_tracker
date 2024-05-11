@@ -23,9 +23,6 @@ git pull origin master
 # Run database migrations
 /opt/php83/bin/php artisan migrate
 
-# Run database migrations
-/opt/php83/bin/php artisan migrate
-
 ## Run docs generation
 #/opt/php83/bin/php artisan scribe:generate
 
