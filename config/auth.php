@@ -3,6 +3,7 @@
 return [
 
     'development_tools_token' => env('DEVELOPMENT_TOOLS_TOKEN', ''),
+    'development_tools_whitelist_ips' => explode(',', env('DEVELOPMENT_TOOLS_WHITELIST_IPS', '')),
 
     /*
     |--------------------------------------------------------------------------

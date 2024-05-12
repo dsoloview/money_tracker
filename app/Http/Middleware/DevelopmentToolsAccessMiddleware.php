@@ -15,9 +15,13 @@ class DevelopmentToolsAccessMiddleware
 
         $ip = $request->ip();
 
+        if (in_array($ip, config('auth.development_tools_whitelist_ips'))) {
+            return $next($request);
+        }
+
         $token = \Cache::get('development_tools_token_'.$ip);
 
-        if (! $token) {
+        if (!$token) {
             $token = $request->query('token');
         }
 
