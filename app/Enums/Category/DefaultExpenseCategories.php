@@ -21,4 +21,9 @@ enum DefaultExpenseCategories: string
     {
         return __("default_categories.{$this->value}", [], $languageCode);
     }
+
+    public static function count(): int
+    {
+        return count(self::cases());
+    }
 }

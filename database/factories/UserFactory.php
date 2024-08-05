@@ -28,7 +28,9 @@ class UserFactory extends Factory
     public function configure(): UserFactory
     {
         return $this->afterCreating(function (User $user) {
-            $user->settings()->save(UserSetting::factory()->make());
+            if (!app()->environment(['testing'])) {
+                $user->settings()->save(UserSetting::factory()->make());
+            }
         });
     }
 }

@@ -13,13 +13,7 @@ class AccountService
     {
         return $user->load('settings.mainCurrency')->accounts->load('currency');
     }
-
-
-    public function getAccountByNameAndUser(string $name, User $user): ?Account
-    {
-        return $user->accounts()->where('name', $name)->first();
-    }
-
+    
     public function getAccountByNameUserAndCurrencyCode(string $name, User $user, string $currencyCode): ?Account
     {
         return $user->accounts()

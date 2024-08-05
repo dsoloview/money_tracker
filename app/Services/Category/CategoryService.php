@@ -51,7 +51,7 @@ class CategoryService
 
     public function update(Category $category, CategoryData $data): Category
     {
-        if ($category->type !== $data->type) {
+        if ($category->type->value !== $data->type) {
             $category->children()->update(['type' => $data->type]);
             $category->transactions()->update(['type' => $data->type]);
             $category->children()->each(fn(Category $child) => $child->transactions()->update(['type' => $data->type]));

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             IconSeeder::class,
         ]);
 
-        if (! app()->environment(['production', 'staging'])) {
+        if (!app()->environment(['production', 'staging'])) {
             $this->call([
                 ExchangeRateSeeder::class,
                 RoleSeeder::class,

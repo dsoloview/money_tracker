@@ -28,17 +28,21 @@ class TransactionFactory extends Factory
 
     public function configure(): TransactionFactory
     {
-        return $this->afterCreating(function (Transaction $transaction) {
-            $rand = rand(0, 1);
+        if (!app()->environment(['testing'])) {
+            return $this->afterCreating(function (Transaction $transaction) {
+                $rand = rand(0, 1);
 
-            if ($rand) {
-                $rand = rand(1, 3);
-                for ($i = 0; $i < $rand; $i++) {
+                if ($rand) {
+                    $rand = rand(1, 3);
+                    for ($i = 0; $i < $rand; $i++) {
+                        $transaction->categories()->save(Category::factory()->make());
+                    }
                     $transaction->categories()->save(Category::factory()->make());
                 }
-                $transaction->categories()->save(Category::factory()->make());
-            }
 
-        });
+            });
+        }
+
+        return $this;
     }
 }
