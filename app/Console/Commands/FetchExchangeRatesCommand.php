@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Interfaces\IExchangeRateFetcher;
+use App\Api\ExchangeRate\Interfaces\IExchangeRateFetcher;
 use App\Models\ExchangeRate\ExchangeRate;
 use Illuminate\Console\Command;
 use Log;
@@ -20,10 +20,10 @@ class FetchExchangeRatesCommand extends Command
 
         $exchangeRates = $fetcher->getExchangeRatesForUSD();
 
-        foreach ($exchangeRates as $currency => $rate) {
+        foreach ($exchangeRates->getExchangeRates() as $exchangeRate) {
             ExchangeRate::updateOrCreate(
-                ['currency' => $currency],
-                ['rate_to_usd' => $rate]
+                ['currency' => $exchangeRate->getCurrency()],
+                ['rate_to_usd' => $exchangeRate->getRateToUsd()]
             );
         }
 

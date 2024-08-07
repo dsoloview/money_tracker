@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Api\ExchangeRate\ExchangeRateApi;
-use App\Interfaces\IExchangeRateFetcher;
+use App\Api\ExchangeRate\Implementations\ExchangeRateApi\ExchangeRateApi;
+use App\Api\ExchangeRate\Implementations\ExchangeRateApi\ResponseMapper;
+use App\Api\ExchangeRate\Interfaces\IExchangeRateFetcher;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(IExchangeRateFetcher::class, ExchangeRateApi::class);
+        $this->app->singleton(IExchangeRateFetcher::class, function () {
+            return new ExchangeRateApi(new ResponseMapper);
+        });
+
     }
 
     /**
@@ -22,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::shouldBeStrict(! $this->app->isProduction());
+        Model::shouldBeStrict(!$this->app->isProduction());
     }
 }
