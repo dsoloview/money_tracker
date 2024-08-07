@@ -7,6 +7,7 @@ use App\Data\Transfer\TransferUpdateData;
 use App\Models\Account\Account;
 use App\Models\Transfer\Transfer;
 use App\Services\Account\AccountService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 final readonly class TransferService
@@ -21,7 +22,7 @@ final readonly class TransferService
         return $account->transfers;
     }
 
-    public function getAccountTransfersPaginated(Account $account): Collection
+    public function getAccountTransfersPaginated(Account $account): LengthAwarePaginator
     {
         return $account->transfers->paginate();
     }
@@ -36,8 +37,8 @@ final readonly class TransferService
                 throw new \Exception('You can only transfer to your own accounts');
             }
 
-            $this->accountService->increaseAccountBalance($accountTo, $data->amount_from);
-            $this->accountService->decreaseAccountBalance($accountFrom, $data->amount_to);
+            $this->accountService->increaseAccountBalance($accountTo, $data->amount_to);
+            $this->accountService->decreaseAccountBalance($accountFrom, $data->amount_from);
 
             return $accountFrom->transferFrom()->create([
                 'account_to_id' => $accountTo->id,
@@ -55,21 +56,24 @@ final readonly class TransferService
             $oldTransferFrom = $transfer->accountFrom;
             $oldTransferTo = $transfer->accountTo;
 
-            $this->accountService->increaseAccountBalance($oldTransferFrom, $transfer->amount);
-            $this->accountService->decreaseAccountBalance($oldTransferTo, $transfer->amount);
+            $this->accountService->increaseAccountBalance($oldTransferFrom, $transfer->amount_from);
+            $this->accountService->decreaseAccountBalance($oldTransferTo, $transfer->amount_to);
 
             $newTransferFrom = Account::findOrFail($data->account_from_id);
             $newTransferTo = Account::findOrFail($data->account_to_id);
 
-            $this->accountService->decreaseAccountBalance($newTransferFrom, $data->amount);
-            $this->accountService->increaseAccountBalance($newTransferTo, $data->amount);
+            $this->accountService->decreaseAccountBalance($newTransferFrom, $data->amount_from);
+            $this->accountService->increaseAccountBalance($newTransferTo, $data->amount_to);
 
             $transfer->update([
                 'account_from_id' => $newTransferFrom->id,
                 'account_to_id' => $newTransferTo->id,
-                'amount' => $data->amount,
+                'amount_from' => $data->amount_from,
+                'amount_to' => $data->amount_to,
                 'comment' => $data->comment,
             ]);
+
+            return $transfer;
         });
     }
 
@@ -79,8 +83,8 @@ final readonly class TransferService
             $transferFrom = $transfer->accountFrom;
             $transferTo = $transfer->accountTo;
 
-            $this->accountService->increaseAccountBalance($transferFrom, $transfer->amount);
-            $this->accountService->decreaseAccountBalance($transferTo, $transfer->amount);
+            $this->accountService->increaseAccountBalance($transferFrom, $transfer->amount_from);
+            $this->accountService->decreaseAccountBalance($transferTo, $transfer->amount_to);
 
             $transfer->delete();
         });

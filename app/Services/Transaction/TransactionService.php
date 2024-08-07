@@ -7,9 +7,10 @@ use App\Enums\Category\CategoryTransactionType;
 use App\Models\Account\Account;
 use App\Models\Transaction\Transaction;
 use App\Services\Account\AccountBalanceService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-readonly class TransactionService
+class TransactionService
 {
     public function __construct(
         private AccountBalanceService $accountBalanceService
@@ -26,9 +27,9 @@ readonly class TransactionService
         return Transaction::withoutGlobalScopes()->findOrFail($transactionId);
     }
 
-    public function getAccountTransactionsPaginated(Account $account): Collection
+    public function getAccountTransactionsPaginated(Account $account): LengthAwarePaginator
     {
-        return $account->transactions()->paginate(10)->load('categories');
+        return $account->transactions()->with('categories')->paginate(10);
     }
 
     public function createTransactionForAccount(Account $account, TransactionData $data): Transaction

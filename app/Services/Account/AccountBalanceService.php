@@ -9,7 +9,7 @@ use App\Models\Transaction\Transaction;
 use App\Models\User;
 use App\Services\Currency\CurrencyConverterService;
 
-readonly class AccountBalanceService
+class AccountBalanceService
 {
     public function __construct(
         private CurrencyConverterService $currencyConverterService

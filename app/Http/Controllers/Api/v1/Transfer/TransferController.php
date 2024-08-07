@@ -63,7 +63,7 @@ class TransferController extends Controller
     #[ResponseFromApiResource(TransferResource::class, Transfer::class)]
     public function update(Transfer $transfer, TransferUpdateRequest $request): TransferResource
     {
-        $this->authorize('update', [Transfer::class, $transfer, $request->to_account_id]);
+        $this->authorize('update', [Transfer::class, $transfer, $request->account_to_id]);
         $data = TransferUpdateData::from($request);
         $transfer = $this->transferService->updateTransfer($transfer, $data);
 

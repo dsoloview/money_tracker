@@ -67,7 +67,7 @@ class AccountBalanceServiceTest extends SeededTestCase
 
     public function testItUpdatesAccountBalanceWhenTransactionIsUpdatedWhenIncome()
     {
-        // Arrange
+
         $account = Account::factory()->make(['balance' => 1000]);
 
         $transaction = Mockery::mock(Transaction::class);

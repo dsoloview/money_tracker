@@ -10,7 +10,8 @@ class TransferUpdateData extends Data
         public int $account_from_id,
         public int $account_to_id,
         public ?string $comment,
-        public int $amount,
+        public int $amount_from,
+        public int $amount_to,
     ) {
     }
 }
