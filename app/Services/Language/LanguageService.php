@@ -3,7 +3,7 @@
 namespace App\Services\Language;
 
 use App\Models\Language\Language;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class LanguageService
 {

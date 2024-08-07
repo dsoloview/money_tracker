@@ -25,12 +25,12 @@ class TelegramUserService
         return TelegramUser::where('chat_id', $chatId)->first();
     }
 
-    public function updateOrCreateTelegramUser(int $userId, int $chatId, string $username): TelegramUser
+    public function updateOrCreateTelegramUser(int $telegramId, int $chatId, string $username): TelegramUser
     {
         return TelegramUser::updateOrCreate([
-            'telegram_id' => $userId,
+            'telegram_id' => $telegramId,
         ], [
-            'telegram_id' => $userId,
+            'telegram_id' => $telegramId,
             'chat_id' => $chatId,
             'username' => $username,
         ]);

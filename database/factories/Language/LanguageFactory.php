@@ -13,7 +13,7 @@ class LanguageFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->word(),
+            'code' => $this->faker->unique()->word(),
             'name' => $this->faker->name(),
             'native_name' => $this->faker->name(),
             'created_at' => Carbon::now(),

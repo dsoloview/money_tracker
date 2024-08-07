@@ -28,7 +28,7 @@ class TelegramUser extends Model
 
     public function state(): HasOne
     {
-        return $this->hasOne(TelegramUserState::class, 'telegram_user_id', 'telegram_id');
+        return $this->hasOne(TelegramUserState::class, 'telegram_user_id', 'id');
     }
 
     public function isAuthorized(): bool

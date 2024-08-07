@@ -16,10 +16,28 @@ class TelegramUserStateService
         ]);
     }
 
-    public function updateOrCreateStateByTelegramId(int $telegramId, ?TelegramState $state, ?array $data = []): void
-    {
+    public function updateOrCreateStateByTelegramId(
+        int $telegramId,
+        ?TelegramState $state,
+        ?array $data = []
+    ): void {
+        $telegramUser = TelegramUser::where('telegram_id', $telegramId)->firstOrFail();
+
         TelegramUserState::updateOrCreate([
-            'telegram_user_id' => $telegramId,
+            'telegram_user_id' => $telegramUser->id,
+        ], [
+            'state' => $state,
+            'data' => $data,
+        ]);
+    }
+
+    public function updateOrCreateStateByTelegramUserId(
+        int $telegramUserId,
+        ?TelegramState $state,
+        ?array $data = []
+    ) {
+        TelegramUserState::updateOrCreate([
+            'telegram_user_id' => $telegramUserId,
         ], [
             'state' => $state,
             'data' => $data,
@@ -28,6 +46,6 @@ class TelegramUserStateService
 
     public function resetState(TelegramUser $telegramUser): void
     {
-        $this->updateOrCreateStateByTelegramId($telegramUser->telegram_id, null, null);
+        $this->updateOrCreateStateByTelegramUserId($telegramUser->id, null, null);
     }
 }

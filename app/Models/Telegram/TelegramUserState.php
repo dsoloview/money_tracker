@@ -27,6 +27,6 @@ class TelegramUserState extends Model
 
     public function telegramUser(): BelongsTo
     {
-        return $this->belongsTo(TelegramUser::class, 'telegram_user_id', 'telegram_id');
+        return $this->belongsTo(TelegramUser::class, 'telegram_user_id', 'id');
     }
 }
