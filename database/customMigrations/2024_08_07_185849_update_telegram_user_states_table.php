@@ -7,19 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('telegram_user_states', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('telegram_user_id');
-            $table->string('state')->nullable();
-            $table->json('data')->nullable();
-            $table->timestamps();
-
+        Schema::table('telegram_user_states', function (Blueprint $table) {
+            $table->dropForeign(['telegram_user_id']);
+            $table->dropIndex('telegram_user_states_telegram_user_id_foreign');
+            $table->unsignedBigInteger('telegram_user_id')->change();
             $table->foreign('telegram_user_id')->references('id')->on('telegram_users')->cascadeOnDelete();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('telegram_user_states');
     }
 };
