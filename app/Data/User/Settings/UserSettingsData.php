@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Data\User\Setting;
+namespace App\Data\User\Settings;
 
 use Spatie\LaravelData\Data;
 
-class UserSettingData extends Data
+class UserSettingsData extends Data
 {
     public function __construct(
         public int $main_currency_id,

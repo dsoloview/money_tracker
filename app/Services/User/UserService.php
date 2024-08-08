@@ -3,23 +3,23 @@
 namespace App\Services\User;
 
 use App\Data\Category\CategoryData;
-use App\Data\User\Setting\UserSettingData;
+use App\Data\User\Settings\UserSettingsData;
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;
 use App\Data\User\UserUpdatePasswordData;
 use App\Enums\Role\Roles;
 use App\Models\Category\Category;
 use App\Models\User;
-use App\Models\UserSetting;
+use App\Models\UserSettings;
 use App\Services\Category\CategoryService;
-use App\Services\User\Setting\UserSettingService;
+use App\Services\User\Settings\UserSettingsService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 final readonly class UserService
 {
     public function __construct(
-        private readonly UserSettingService $userSettingService,
+        private readonly UserSettingsService $userSettingService,
         private readonly CategoryService $categoryService,
     ) {
     }
@@ -41,7 +41,7 @@ final readonly class UserService
 
             $user->assignRole(Roles::user->value);
 
-            $this->userSettingService->createSettingForUser($user, $data->settings);
+            $this->userSettingService->createSettingsForUser($user, $data->settings);
 
             $user->categories()->createMany($this->categoryService->getDefaultForLanguage($user->language)->toArray());
 
@@ -64,9 +64,9 @@ final readonly class UserService
         });
     }
 
-    public function updateSettings(UserSettingData $data, User $user): UserSetting
+    public function updateSettings(UserSettingsData $data, User $user): UserSettings
     {
-        return $this->userSettingService->updateSettingForUser($user, $data);
+        return $this->userSettingService->updateSettingsForUser($user, $data);
     }
 
     public function updatePassword(UserUpdatePasswordData $data, User $user): bool

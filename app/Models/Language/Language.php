@@ -3,7 +3,7 @@
 namespace App\Models\Language;
 
 use App\Models\User;
-use App\Models\UserSetting;
+use App\Models\UserSettings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,11 +17,11 @@ class Language extends Model
 
     public function userSettings(): HasMany
     {
-        return $this->hasMany(UserSetting::class, 'language_id', 'id');
+        return $this->hasMany(UserSettings::class, 'language_id', 'id');
     }
 
     public function user(): HasManyThrough
     {
-        return $this->hasManyThrough(UserSetting::class, User::class, 'language_id', 'user_id', 'id', 'id');
+        return $this->hasManyThrough(UserSettings::class, User::class, 'language_id', 'user_id', 'id', 'id');
     }
 }

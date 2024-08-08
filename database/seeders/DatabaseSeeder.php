@@ -20,12 +20,11 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             LanguageSeeder::class,
             IconSeeder::class,
+            RoleSeeder::class,
         ]);
 
-        if (!app()->environment(['production', 'staging'])) {
+        if (!app()->environment(['production', 'staging', 'testing'])) {
             $this->call([
-                ExchangeRateSeeder::class,
-                RoleSeeder::class,
                 UserSeeder::class,
             ]);
         }

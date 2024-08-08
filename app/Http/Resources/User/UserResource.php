@@ -3,7 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\RoleResource;
-use App\Http\Resources\User\UserSetting\UserSettingResource;
+use App\Http\Resources\User\UserSettings\UserSettingsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'balance' => $this->when('balance', $this->balance),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
-            'settings' => new UserSettingResource($this->whenLoaded('settings')),
+            'settings' => new UserSettingsResource($this->whenLoaded('settings')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

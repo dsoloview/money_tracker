@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Language;
 
 use App\Http\Resources\User\UserResource;
-use App\Http\Resources\User\UserSetting\UserSettingResource;
+use App\Http\Resources\User\UserSettings\UserSettingsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +16,7 @@ class LanguageResource extends JsonResource
             'id' => $this->id,
             'code' => $this->code,
             'name' => $this->name,
-            'user_settings' => UserSettingResource::collection($this->whenLoaded('userSettings')),
+            'user_settings' => UserSettingsResource::collection($this->whenLoaded('userSettings')),
             'users' => UserResource::collection($this->whenLoaded('user')),
         ];
     }

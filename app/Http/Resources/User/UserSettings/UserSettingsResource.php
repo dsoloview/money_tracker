@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\User\UserSetting;
+namespace App\Http\Resources\User\UserSettings;
 
 use App\Http\Resources\Currency\CurrencyResource;
 use App\Http\Resources\Language\LanguageResource;
@@ -8,8 +8,8 @@ use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\UserSetting */
-class UserSettingResource extends JsonResource
+/** @mixin \App\Models\UserSettings */
+class UserSettingsResource extends JsonResource
 {
     public function toArray(Request $request): array
     {

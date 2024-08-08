@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\User;
 
-use App\Data\User\Setting\UserSettingData;
+use App\Data\User\Settings\UserSettingsData;
 use App\Data\User\UserCreateData;
 use App\Data\User\UserUpdateData;
 use App\Data\User\UserUpdatePasswordData;
@@ -14,7 +14,7 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\User\UserUpdateSettingsRequest;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
-use App\Http\Resources\User\UserSetting\UserSettingResource;
+use App\Http\Resources\User\UserSettings\UserSettingsResource;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -76,15 +76,15 @@ class UserController extends Controller
             'settings.mainCurrency'));
     }
 
-    public function updateSettings(UserUpdateSettingsRequest $request, User $user): UserSettingResource
+    public function updateSettings(UserUpdateSettingsRequest $request, User $user): UserSettingsResource
     {
         $this->authorize('update', $user);
 
-        $data = UserSettingData::from($request);
+        $data = UserSettingsData::from($request);
 
         $updatedSettings = $this->userService->updateSettings($data, $user)->load('language', 'mainCurrency');
 
-        return new UserSettingResource($updatedSettings);
+        return new UserSettingsResource($updatedSettings);
     }
 
     public function updatePassword(UserUpdatePasswordRequest $request, User $user): JsonResponse

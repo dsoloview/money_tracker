@@ -70,18 +70,18 @@ class User extends Authenticatable
 
     public function settings(): HasOne
     {
-        return $this->hasOne(UserSetting::class);
+        return $this->hasOne(UserSettings::class);
     }
 
     public function language(): HasOneThrough
     {
-        return $this->hasOneThrough(Language::class, UserSetting::class, 'user_id', 'id', 'id', 'language_id');
+        return $this->hasOneThrough(Language::class, UserSettings::class, 'user_id', 'id', 'id', 'language_id');
     }
 
     public function currency(): HasOneThrough
     {
         return $this->hasOneThrough(Currency::class,
-            UserSetting::class,
+            UserSettings::class,
             'user_id',
             'id',
             'id',

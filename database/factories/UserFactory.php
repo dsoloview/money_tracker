@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\UserSetting;
+use App\Models\UserSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -29,7 +29,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             if (!app()->environment(['testing'])) {
-                $user->settings()->save(UserSetting::factory()->make());
+                $user->settings()->save(UserSettings::factory()->make());
             }
         });
     }

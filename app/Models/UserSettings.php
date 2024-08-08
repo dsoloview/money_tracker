@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserSetting extends Model
+class UserSettings extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_settings';
     protected $fillable = [
         'main_currency_id',
         'language_id',

@@ -2,7 +2,7 @@
 
 namespace App\Data\User;
 
-use App\Data\User\Setting\UserSettingData;
+use App\Data\User\Settings\UserSettingsData;
 use Spatie\LaravelData\Data;
 
 class UserCreateData extends Data
@@ -11,7 +11,7 @@ class UserCreateData extends Data
         public string $name,
         public string $email,
         public string $password,
-        public UserSettingData $settings,
+        public UserSettingsData $settings,
     ) {
     }
 }
