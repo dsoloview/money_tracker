@@ -10,6 +10,19 @@ jobs:
       - name: Get latest code
         uses: actions/checkout@v2
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, xml, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
