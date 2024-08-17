@@ -27,6 +27,10 @@ class Transfer extends Model
         'date',
     ];
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
     public function accountFrom(): BelongsTo
     {
         return $this->belongsTo(Account::class, 'account_from_id');
@@ -62,16 +66,16 @@ class Transfer extends Model
     public function amountFrom(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
         );
     }
 
     public function amountTo(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
         );
     }
 }

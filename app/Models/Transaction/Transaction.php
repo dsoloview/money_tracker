@@ -38,6 +38,7 @@ class Transaction extends Model
 
     protected $casts = [
         'type' => CategoryTransactionType::class,
+        'date' => 'datetime',
     ];
 
     public function account(): BelongsTo
@@ -53,8 +54,8 @@ class Transaction extends Model
     public function amount(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
         );
     }
 
@@ -62,14 +63,14 @@ class Transaction extends Model
     {
         $this->bootFilter();
 
-        if (! isset($params)) {
+        if (!isset($params)) {
             $params = request()->query('filters', []);
         }
 
         foreach ($params as $field => $value) {
             if ($field === 'amount') {
                 if (is_array($value)) {
-                    $value = array_map(fn ($v) => $v * 100, $value);
+                    $value = array_map(fn($v) => $v * 100, $value);
                 } else {
                     $value *= 100;
                 }
