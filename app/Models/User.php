@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function settings(): HasOne
     {
-        return $this->hasOne(UserSettings::class);
+        return $this->hasOne(UserSettings::class, 'user_id', 'id');
     }
 
     public function language(): HasOneThrough

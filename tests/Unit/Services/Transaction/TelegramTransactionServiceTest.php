@@ -157,7 +157,7 @@ class TelegramTransactionServiceTest extends TestCase
             ->andReturn($transaction);
 
         $updatedTransaction = $this->telegramTransactionService->finishTransaction($transaction->id);
-        
+
         $this->assertInstanceOf(Transaction::class, $updatedTransaction);
         $this->assertTrue($updatedTransaction->isFinished);
     }

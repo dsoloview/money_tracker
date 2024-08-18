@@ -40,7 +40,7 @@ class AccountServiceTest extends SeededTestCase
             ->create();
 
         $accounts = $this->accountService->getUserAccounts($user);
-        
+
         $this->assertTrue($accounts->first()->relationLoaded('currency'));
     }
 

@@ -141,7 +141,7 @@ class TelegramUserServiceTest extends TestCase
         $telegramUser = TelegramUser::factory()->create(['telegram_id' => 123456, 'user_id' => $user->id]);
 
         $this->telegramUserService->logoutByTelegramId(123456);
-        
+
         $this->assertDatabaseHas('telegram_users', [
             'telegram_id' => 123456,
             'user_id' => null,

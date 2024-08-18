@@ -35,7 +35,7 @@ class LanguageServiceTest extends TestCase
     public function testIndexUsesCache()
     {
         Language::factory()->count(5)->create();
-        
+
         Cache::shouldReceive('remember')
             ->once()
             ->with('languages', 60 * 60 * 24, \Closure::class)

@@ -172,7 +172,7 @@ class TransferServiceTest extends TestCase
 
         $accountFrom->refresh();
         $accountTo->refresh();
-        
+
         $this->assertEquals(1300, $accountFrom->balance);
         $this->assertEquals(200, $accountTo->balance);
     }
