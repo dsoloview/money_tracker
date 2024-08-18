@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
                     ], 401);
                 }
 
-                if (app()->environment('local')) {
+                if (app()->environment('local', 'testing')) {
                     return response()->json([
                         'type' => 'internal_server_error',
                         'message' => 'Internal server error.',

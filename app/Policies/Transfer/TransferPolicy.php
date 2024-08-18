@@ -30,7 +30,9 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer, int $accountToId): bool
     {
-        return $user->id === $transfer->accountTo->user_id && $user->id === $accountToId;
+        $accountTo = Account::findOrFail($accountToId);
+
+        return $user->id === $transfer->accountTo->user_id && $user->id === $accountTo->user_id;
     }
 
     public function delete(User $user, Transfer $transfer): bool

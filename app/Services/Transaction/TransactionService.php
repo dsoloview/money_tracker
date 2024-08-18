@@ -29,7 +29,7 @@ class TransactionService
 
     public function getAccountTransactionsPaginated(Account $account): LengthAwarePaginator
     {
-        return $account->transactions()->with('categories')->paginate(10);
+        return $account->transactions()->with('categories', 'account')->paginate(10);
     }
 
     public function createTransactionForAccount(Account $account, TransactionData $data): Transaction

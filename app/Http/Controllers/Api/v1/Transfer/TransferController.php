@@ -56,7 +56,7 @@ class TransferController extends Controller
     {
         $this->authorize('view', $transfer);
 
-        return new TransferResource($transfer);
+        return new TransferResource($transfer->load('accountFrom', 'accountTo'));
     }
 
     #[Endpoint('Update transfer')]
