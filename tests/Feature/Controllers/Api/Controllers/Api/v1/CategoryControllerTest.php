@@ -85,8 +85,12 @@ class CategoryControllerTest extends TestCase
     {
         $category = Category::factory()->createOne([
             'user_id' => $this->user->id,
+            'type' => CategoryTransactionType::EXPENSE->value,
         ]);
-        $newCategory = Category::factory()->createOne();
+        $newCategory = Category::factory()->createOne([
+            'user_id' => $this->user->id,
+            'type' => CategoryTransactionType::EXPENSE->value,
+        ]);
 
         Sanctum::actingAs($this->user);
 
