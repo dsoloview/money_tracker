@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers\Api\Controllers\Api\v1;
+namespace Tests\Feature\Controllers\Api\Controllers\Api\v1\User;
 
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;

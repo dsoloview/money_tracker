@@ -12,4 +12,9 @@ trait WithTestUser
     {
         $this->user = User::factory()->hasSettings()->create();
     }
+
+    protected function createTestUser(): User
+    {
+        return User::factory()->hasSettings()->create();
+    }
 }
