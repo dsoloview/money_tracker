@@ -25,6 +25,7 @@ git pull origin master
 
 /opt/php83/bin/php artisan db:seed --class=DeploySeeder
 
+
 ## Run docs generation
 #/opt/php83/bin/php artisan scribe:generate
 
