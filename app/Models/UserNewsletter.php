@@ -14,6 +14,9 @@ class UserNewsletter extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'user_id',
+        'newsletter_id',
+        'channel_id',
         'period',
         'subscribed_at',
         'unsubscribed_at',
