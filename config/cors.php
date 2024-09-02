@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
@@ -19,7 +18,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => explode(',', env('FRONTEND_URL', ['*'])),
+    'allowed_origins' => explode(',', env('FRONTEND_URL', '*')),
 
     'allowed_origins_patterns' => [],
 
