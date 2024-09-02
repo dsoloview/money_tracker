@@ -6,6 +6,7 @@ use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Currency\Currency;
 use App\Models\Language\Language;
+use App\Models\Newsletter\Newsletter;
 use App\Models\Telegram\TelegramToken;
 use App\Models\Telegram\TelegramUser;
 use App\Models\Transaction\Transaction;
@@ -15,6 +16,7 @@ use App\Services\Account\AccountBalanceService;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -129,6 +131,11 @@ class User extends Authenticatable
     public function telegramToken(): HasOne
     {
         return $this->hasOne(TelegramToken::class);
+    }
+
+    public function newsletters(): BelongsToMany
+    {
+        return $this->belongsToMany(Newsletter::class, 'users_newsletters', 'user_id', 'newsletter_id');
     }
 
     public static function newFactory(): UserFactory

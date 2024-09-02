@@ -6,10 +6,13 @@ use App\Http\Controllers\Api\v1\Category\CategoryController;
 use App\Http\Controllers\Api\v1\Currency\CurrencyController;
 use App\Http\Controllers\Api\v1\Icon\IconController;
 use App\Http\Controllers\Api\v1\Language\LanguageController;
+use App\Http\Controllers\Api\v1\Newsletter\NewsletterChannelsController;
+use App\Http\Controllers\Api\v1\Newsletter\NewsletterController;
 use App\Http\Controllers\Api\v1\Role\RoleController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
+use App\Http\Controllers\Api\v1\User\UserNewsletterController;
 use App\Http\Controllers\Api\v1\User\UserTelegramController;
 use App\Http\Controllers\Api\v1\User\UserTransactionController;
 use App\Http\Controllers\Api\v1\User\UserTransferController;
@@ -68,9 +71,30 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('token', [UserTelegramController::class, 'token'])->name('users.telegram.token');
             Route::post('logout', [UserTelegramController::class, 'logout'])->name('users.telegram.logout');
         });
+
+        Route::get('newsletters', [UserNewsletterController::class, 'index'])->name('users.newsletters.index');
+        Route::prefix('newsletters/{userNewsletter}')->group(function () {
+            Route::post('subscribe',
+                [UserNewsletterController::class, 'subscribe'])->name('users.newsletters.subscribe');
+            Route::post('unsubscribe',
+                [UserNewsletterController::class, 'unsubscribe'])->name('users.newsletters.unsubscribe');
+            Route::get('', [UserNewsletterController::class, 'show'])->name('users.newsletters.show');
+            Route::patch('', [UserNewsletterController::class, 'update'])->name('users.newsletters.update');
+        });
     });
 
     Route::apiResource('roles', RoleController::class);
+
+    Route::prefix('newsletters')->group(function () {
+        Route::get('', [NewsletterController::class, 'index'])->name('newsletters.index');
+        Route::get('{newsletter}', [NewsletterController::class, 'show'])->name('newsletters.show');
+    });
+
+    Route::prefix('newsletter_channels')->group(function () {
+        Route::get('', [NewsletterChannelsController::class, 'index'])->name('newsletter_channels.index');
+        Route::get('show{newsletterChanel}',
+            [NewsletterChannelsController::class, 'show'])->name('newsletter_channels.show');
+    });
 });
 
 Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);

@@ -12,6 +12,7 @@ use App\Models\Category\Category;
 use App\Models\User;
 use App\Models\UserSettings;
 use App\Services\Category\CategoryService;
+use App\Services\User\Newsletter\UserNewsletterService;
 use App\Services\User\Settings\UserSettingsService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -21,6 +22,7 @@ final readonly class UserService
     public function __construct(
         private readonly UserSettingsService $userSettingService,
         private readonly CategoryService $categoryService,
+        private readonly UserNewsletterService $userNewsletterService,
     ) {
     }
 
@@ -44,6 +46,7 @@ final readonly class UserService
             $this->userSettingService->createSettingsForUser($user, $data->settings);
 
             $user->categories()->createMany($this->categoryService->getDefaultForLanguage($user->language)->toArray());
+            $this->userNewsletterService->createNewslettersForUser($user);
 
             return $user;
         });

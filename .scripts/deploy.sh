@@ -23,6 +23,8 @@ git pull origin master
 # Run database migrations
 /opt/php83/bin/php artisan migrate
 
+/opt/php83/bin/php artisan db:seed --class=DeploySeeder
+
 ## Run docs generation
 #/opt/php83/bin/php artisan scribe:generate
 

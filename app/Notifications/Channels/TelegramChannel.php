@@ -27,6 +27,7 @@ class TelegramChannel
                 'chat_id' => $chatId,
                 'text' => $message['text'],
                 'document' => $message['document'],
+                'parse_mode' => 'HTML'
             ]);
             return;
 
@@ -35,6 +36,7 @@ class TelegramChannel
         \Telegram::sendMessage([
             'chat_id' => $chatId,
             'text' => $message['text'],
+            'parse_mode' => 'HTML'
         ]);
     }
 }
