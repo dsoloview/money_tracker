@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Newsletter\NewsletterPeriodsEnum;
 use App\Models\Newsletter\Newsletter;
 use App\Models\Newsletter\NewsletterChannel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -41,5 +42,10 @@ class UserNewsletter extends Model
     public function channel(): BelongsTo
     {
         return $this->belongsTo(NewsletterChannel::class);
+    }
+
+    public function scopeSubscribed(Builder $query): Builder
+    {
+        return $query->where('subscribed', true);
     }
 }

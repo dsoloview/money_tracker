@@ -37,12 +37,18 @@ class UserNewsletterService
         }
 
         return UserNewsletter::with('newsletter', 'newsletter.availableChannels', 'channel')
-            ->where('user_id', $user->id)->get();
+            ->where('user_id', $user->id)
+            ->whereHas('newsletter', fn($query) => $query->active())
+            ->get();
     }
 
-    public function getNewslettersByPeriod(NewsletterPeriodsEnum $period): Collection
+    public function getSubscribedNewslettersByPeriod(NewsletterPeriodsEnum $period): Collection
     {
-        return UserNewsletter::with('user')->where('period', $period)->get();
+        return UserNewsletter::with('user', 'user.currency', 'user.telegramUser', 'channel')
+            ->subscribed()
+            ->where('period', $period)
+            ->whereHas('newsletter', fn($query) => $query->active())
+            ->get();
     }
 
     public function createNewslettersForUser(User $user): void

@@ -5,6 +5,7 @@ namespace App\Models\Newsletter;
 use App\Enums\Newsletter\NewsletterPeriodsEnum;
 use App\Enums\Newsletter\NewslettersEnum;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -34,5 +35,10 @@ class Newsletter extends Model
     public function getAvailablePeriodsAttribute(): array
     {
         return NewsletterPeriodsEnum::toArrayWithTranslations();
+    }
+
+    public function scopeActive($query): Builder
+    {
+        return $query->where('active', true);
     }
 }

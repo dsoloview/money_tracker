@@ -10,7 +10,7 @@ class NewsletterService
     public function getAll(): Collection
     {
         return \Cache::rememberForever('newsletters', function () {
-            return Newsletter::with('availableChannels')->get();
+            return Newsletter::with('availableChannels')->active()->get();
         });
     }
 

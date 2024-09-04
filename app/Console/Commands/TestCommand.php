@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Newsletter\NewsletterPeriodsEnum;
+use App\Services\Newsletter\Sender\NewsletterSender;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -12,6 +14,7 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $this->info('Test command');
+        $sender = app(NewsletterSender::class);
+        $sender->send(NewsletterPeriodsEnum::DAILY);
     }
 }
