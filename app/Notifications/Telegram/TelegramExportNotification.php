@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Telegram;
 
-use App\Notifications\Channels\TelegramChannel;
 use Telegram\Bot\FileUpload\InputFile;
 
 class TelegramExportNotification extends AbstractTelegramNotification
@@ -14,11 +13,6 @@ class TelegramExportNotification extends AbstractTelegramNotification
     {
         $this->success = $success;
         $this->inputFile = $inputFile;
-    }
-
-    public function via($notifiable): string
-    {
-        return TelegramChannel::class;
     }
 
     public function toTelegram($notifiable): array

@@ -3,7 +3,6 @@
 namespace App\Newsletters\Telegram;
 
 use App\Data\Newsletter\StatisticsNewsletterData;
-use App\Notifications\Channels\TelegramChannel;
 use App\Notifications\Telegram\AbstractTelegramNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,11 +16,6 @@ class TelegramStatisticsNewsletter extends AbstractTelegramNotification implemen
     public function __construct(StatisticsNewsletterData $data)
     {
         $this->data = $data;
-    }
-
-    public function via($notifiable): string
-    {
-        return TelegramChannel::class;
     }
 
     public function toTelegram(object $notifiable): array

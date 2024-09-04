@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Telegram;
 
-use App\Notifications\Channels\TelegramChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -15,11 +14,6 @@ class TelegramImportNotification extends AbstractTelegramNotification implements
     public function __construct(bool $success)
     {
         $this->success = $success;
-    }
-
-    public function via($notifiable): string
-    {
-        return TelegramChannel::class;
     }
 
     public function toTelegram($notifiable): array
