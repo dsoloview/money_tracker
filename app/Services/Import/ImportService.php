@@ -86,12 +86,13 @@ class ImportService
         if ($account === null || $categories->isEmpty()) {
             return;
         }
+
         $transactionData = new TransactionData(
-            $this->row->getDate(),
+            $this->row->getComment(),
             $this->row->getAmount(),
             $categories->pluck('id')->toArray(),
             $this->row->getType(),
-
+            $this->row->getDate()
         );
 
         $this->transactionService->createTransactionForAccount($account, $transactionData);
@@ -207,11 +208,19 @@ class ImportService
     {
         $categoriesNames = $this->row->getCategoriesNames();
 
-        return \Cache::tags("import_{$this->user->id}")->remember("import_categories_{$this->row->getCategoriesNamesString()}_{$this->user->id}",
-            now()->addMinute(), function () use ($categoriesNames) {
-                return $this->categoryService->getUsersCategoriesByNamesAndType($this->user, $categoriesNames,
-                    $this->row->getType());
-            });
+        $cache = \Cache::get("import_categories_{$this->row->getCategoriesNamesString()}_{$this->user->id}");
+
+        if ($cache) {
+            return $cache;
+        }
+
+        $categories = $this->categoryService->getUsersCategoriesByNamesAndType($this->user, $categoriesNames,
+            $this->row->getType());
+
+        \Cache::put("import_categories_{$this->row->getCategoriesNamesString()}_{$this->user->id}", $categories,
+            now()->addMinute());
+
+        return $categories;
     }
 
     private function getOrCreateCategories(): Collection

@@ -152,18 +152,18 @@ class ZenMoneyRow
     public static function fromArray(array $data): self
     {
         $dto = new self();
-        $dto->setDate($data['date']);
-        $dto->setCategoryName($data['categoryname']);
-        $dto->setPayee($data['payee']);
-        $dto->setComment($data['comment']);
-        $dto->setOutcomeAccountName($data['outcomeaccountname']);
-        $dto->setOutcome($data['outcome']);
-        $dto->setOutcomeCurrencyShortTitle($data['outcomecurrencyshorttitle']);
-        $dto->setIncomeAccountName($data['incomeaccountname']);
-        $dto->setIncome($data['income']);
-        $dto->setIncomeCurrencyShortTitle($data['incomecurrencyshorttitle']);
-        $dto->setCreatedDate($data['createddate']);
-        $dto->setChangedDate($data['changeddate']);
+        $dto->setDate(trim($data['date'] ?? ''));
+        $dto->setCategoryName(trim($data['categoryname'] ?? ''));
+        $dto->setPayee(trim($data['payee'] ?? ''));
+        $dto->setComment(trim($data['comment'] ?? ''));
+        $dto->setOutcomeAccountName(trim($data['outcomeaccountname'] ?? ''));
+        $dto->setOutcome(trim($data['outcome'] ?? ''));
+        $dto->setOutcomeCurrencyShortTitle(trim($data['outcomecurrencyshorttitle'] ?? ''));
+        $dto->setIncomeAccountName(trim($data['incomeaccountname'] ?? ''));
+        $dto->setIncome(trim($data['income'] ?? ''));
+        $dto->setIncomeCurrencyShortTitle(trim($data['incomecurrencyshorttitle'] ?? ''));
+        $dto->setCreatedDate(trim($data['createddate'] ?? ''));
+        $dto->setChangedDate(trim($data['changeddate'] ?? ''));
 
         return $dto;
     }

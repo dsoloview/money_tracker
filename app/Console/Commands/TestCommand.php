@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Newsletter\NewsletterPeriodsEnum;
-use App\Services\Newsletter\Sender\NewsletterSender;
+use App\Enums\Category\CategoryTransactionType;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -14,7 +14,12 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $sender = app(NewsletterSender::class);
-        $sender->send(NewsletterPeriodsEnum::DAILY);
+        $categoryService = app(\App\Services\Category\CategoryService::class);
+        $user = User::find(1);
+
+        $categories = $categoryService->getUsersCategoriesByNamesAndType($user, ['Продукты'],
+            CategoryTransactionType::EXPENSE);
+
+        dd($categories);
     }
 }

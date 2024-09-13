@@ -27,8 +27,10 @@ class ZenMoneyImport implements ToCollection, WithHeadingRow, IImport
      */
     public function collection(Collection $collection): void
     {
+        \DB::raw('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
         \DB::beginTransaction();
         try {
+            \Cache::tags(["import_{$this->user->id}"])->flush();
             foreach ($collection as $row) {
                 $zenMoneyRow = ZenMoneyRow::fromArray($row->toArray());
                 $importRow = ZenMoneyRowToImportRowMapper::map($zenMoneyRow);

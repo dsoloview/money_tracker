@@ -19,7 +19,7 @@ class UserTransactionService
             ->filter()
             ->sort()
             ->with('account', 'account.currency', 'categories')
-            ->paginate(10, page: $page);
+            ->paginate(perPage: request()->get('per_page') ?? 10, page: $page);
     }
 
     public function getUserTransactionsFilteredByDates(User $user, Carbon $fromDate, Carbon $toDate): Collection

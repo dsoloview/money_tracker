@@ -130,6 +130,11 @@ class ImportController extends AbstractMessageController
             ImportMode::from($importMode),
             TgUser::user()
         );
+        
+        \Telegram::sendMessage([
+            'chat_id' => $update->getMessage()->getChat()->getId(),
+            'text' => 'Import started. You will receive a message when it is finished.',
+        ]);
 
         dispatch(new TelegramImportJob($import, $filePath, TgUser::get()));
     }

@@ -28,6 +28,8 @@ class TransactionPolicy
 
     public function update(User $user, Transaction $transaction): bool
     {
+        \Log::info($user->id);
+        \Log::info($transaction);
         return $user->id === $transaction->account->user_id;
     }
 

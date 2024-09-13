@@ -51,7 +51,7 @@ class ZenMoneyRowToImportRowMapper
         if ($categoryName === null) {
             return [];
         }
-        
+
         $categories = explode(', ', $categoryName);
 
         return array_map(function ($category) {

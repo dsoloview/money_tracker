@@ -12,6 +12,7 @@ class TransactionData extends Data
         public float $amount,
         public array $categories_ids,
         public CategoryTransactionType $type,
+        public string $date,
     ) {
     }
 }

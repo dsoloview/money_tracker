@@ -32,10 +32,10 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
         ]);
 
-        if (!app()->environment(['production', 'staging', 'testing'])) {
-            $this->call([
-                UserSeeder::class,
-            ]);
-        }
+//        if (!app()->environment(['production', 'staging', 'testing'])) {
+//            $this->call([
+//                UserSeeder::class,
+//            ]);
+//        }
     }
 }
