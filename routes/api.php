@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\v1\Language\LanguageController;
 use App\Http\Controllers\Api\v1\Newsletter\NewsletterChannelsController;
 use App\Http\Controllers\Api\v1\Newsletter\NewsletterController;
 use App\Http\Controllers\Api\v1\Role\RoleController;
+use App\Http\Controllers\Api\v1\Search\SearchController;
 use App\Http\Controllers\Api\v1\Transaction\TransactionController;
 use App\Http\Controllers\Api\v1\Transfer\TransferController;
 use App\Http\Controllers\Api\v1\User\UserController;
@@ -95,6 +96,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('show{newsletterChanel}',
             [NewsletterChannelsController::class, 'show'])->name('newsletter_channels.show');
     });
+
+    Route::get('search', [SearchController::class, 'search']);
 });
 
 Route::apiResource('currencies', CurrencyController::class)->only(['index', 'show']);

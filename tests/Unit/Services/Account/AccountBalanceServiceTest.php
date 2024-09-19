@@ -79,6 +79,7 @@ class AccountBalanceServiceTest extends SeededTestCase
             amount: 150,
             categories_ids: [],
             type: CategoryTransactionType::INCOME,
+            date: now(),
         );
 
         $currencyConverterService = Mockery::mock(CurrencyConverterService::class);
@@ -103,6 +104,7 @@ class AccountBalanceServiceTest extends SeededTestCase
             amount: 150,
             categories_ids: [],
             type: CategoryTransactionType::EXPENSE,
+            date: now()
         );
 
         $currencyConverterService = Mockery::mock(CurrencyConverterService::class);
@@ -127,6 +129,7 @@ class AccountBalanceServiceTest extends SeededTestCase
             amount: 150,
             categories_ids: [],
             type: CategoryTransactionType::EXPENSE,
+            date: now()
         );
 
         $currencyConverterService = Mockery::mock(CurrencyConverterService::class);

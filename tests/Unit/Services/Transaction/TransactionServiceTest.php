@@ -70,6 +70,7 @@ class TransactionServiceTest extends TestCase
             amount: 100,
             categories_ids: $categories->pluck('id')->toArray(),
             type: CategoryTransactionType::INCOME,
+            date: now()
         );
 
         $this->accountBalanceService
@@ -129,6 +130,7 @@ class TransactionServiceTest extends TestCase
             amount: 150,
             categories_ids: $categories->pluck('id')->toArray(),
             type: CategoryTransactionType::EXPENSE,
+            date: now()
         );
 
         $this->accountBalanceService

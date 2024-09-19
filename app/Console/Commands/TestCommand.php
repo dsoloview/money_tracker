@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Category\CategoryTransactionType;
-use App\Models\User;
+use App\Http\Controllers\Api\v1\Search\SearchController;
+use App\Http\Requests\Search\SearchRequest;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -14,12 +14,9 @@ class TestCommand extends Command
 
     public function handle(): void
     {
-        $categoryService = app(\App\Services\Category\CategoryService::class);
-        $user = User::find(1);
-
-        $categories = $categoryService->getUsersCategoriesByNamesAndType($user, ['Продукты'],
-            CategoryTransactionType::EXPENSE);
-
-        dd($categories);
+        $controller = app(SearchController::class);
+        $controller->search(new SearchRequest([
+            'query' => 'Test'
+        ]));
     }
 }

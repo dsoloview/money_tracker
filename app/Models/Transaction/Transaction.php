@@ -10,6 +10,7 @@ use App\Models\Account\Account;
 use App\Models\Category\Category;
 use App\Models\Scopes\FinishedTransactionScope;
 use App\Services\Currency\CurrencyConverterService;
+use App\Traits\ElasticSearchable;
 use App\ValueObjects\UserCurrencyAmount;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Laravel\Scout\Searchable;
 
 #[ScopedBy(FinishedTransactionScope::class)]
 class Transaction extends Model
@@ -25,6 +27,8 @@ class Transaction extends Model
     use Filterable;
     use HasFactory;
     use Sortable;
+    use ElasticSearchable;
+    use Searchable;
 
     protected $fillable = [
         'account_id',
@@ -99,5 +103,29 @@ class Transaction extends Model
         $userCurrencyAmount->setCurrency($user->currency);
 
         return $userCurrencyAmount;
+    }
+
+    public function toSearchableArray(): array
+    {
+
+
+        return [
+            'comment' => $this->comment,
+        ];
+    }
+
+    public function toElasticSearchableArray(): array
+    {
+        $this->loadMissing('account');
+
+        return [
+            'comment' => $this->comment,
+            'user_id' => $this->account?->user_id,
+        ];
+    }
+
+    public function shouldBeSearchable()
+    {
+        return $this->isFinished;
     }
 }

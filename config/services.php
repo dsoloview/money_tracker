@@ -35,4 +35,13 @@ return [
         'exchange_rate_api' => env('EXCHANGE_RATE_API_KEY', ''),
     ],
 
+    'elasticsearch' => [
+        'enabled' => env('ELASTICSEARCH_ENABLED', false),
+        'connection' => [
+            'host' => env('ELASTICSEARCH_HOST', 'localhost'),
+            'port' => env('ELASTICSEARCH_PORT', 9200),
+            'scheme' => env('ELASTICSEARCH_SCHEME', 'http'),
+        ],
+    ],
+
 ];

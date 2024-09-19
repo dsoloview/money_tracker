@@ -116,6 +116,23 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+    elasticsearch:
+        image: elasticsearch:8.15.1
+        ports:
+            - '${FORWARD_ELASTICSEARCH_PORT:-9200}:9200'
+            - '${FORWARD_ELASTICSEARCH_TRANSPORT_PORT:-9300}:9300'
+        environment:
+            discovery.type: single-node
+            xpack.security.enabled: 'false'
+            "ES_JAVA_OPTS": "-Xms2g -Xmx2g"
+        volumes:
+            - sail-elasticsearch:/usr/share/elasticsearch/data
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:9200" ]
+            retries: 3
+            timeout: 5s
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
@@ -123,4 +140,6 @@ volumes:
     sail-mysql:
         driver: local
     sail-redis:
+        driver: local
+    sail-elasticsearch:
         driver: local

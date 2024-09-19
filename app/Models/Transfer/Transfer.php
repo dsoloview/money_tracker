@@ -6,17 +6,21 @@ use Abbasudo\Purity\Traits\Filterable;
 use Abbasudo\Purity\Traits\Sortable;
 use App\Models\Account\Account;
 use App\Models\Currency\Currency;
+use App\Traits\ElasticSearchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Laravel\Scout\Searchable;
 
 class Transfer extends Model
 {
     use Filterable;
     use HasFactory;
     use Sortable;
+    use ElasticSearchable;
+    use Searchable;
 
     protected $fillable = [
         'account_from_id',
@@ -77,5 +81,21 @@ class Transfer extends Model
             get: fn($value) => $value / 100,
             set: fn($value) => $value * 100,
         );
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'comment' => $this->comment,
+        ];
+    }
+
+    public function toElasticSearchableArray(): array
+    {
+        $this->loadMissing('accountFrom');
+        return [
+            'comment' => $this->comment,
+            'user_id' => $this->accountFrom?->user_id,
+        ];
     }
 }
