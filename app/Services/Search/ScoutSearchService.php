@@ -14,13 +14,11 @@ class ScoutSearchService implements ISearchService
 {
     private int $userId;
 
-    public function __construct()
-    {
-        $this->userId = \Auth::id();
-    }
 
     public function search(string $query): SearchData
     {
+        $this->userId = \Auth::id();
+
         $categories = $this->getCategories($query);
         $transactions = $this->getTransactions($query);
         $transfers = $this->getTransfers($query);
