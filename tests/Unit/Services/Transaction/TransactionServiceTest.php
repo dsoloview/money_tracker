@@ -57,7 +57,7 @@ class TransactionServiceTest extends TestCase
         $result = $this->transactionService->getAccountTransactionsPaginated($account);
 
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
-        $this->assertCount(10, $result->items());
+        $this->assertCount(15, $result->items());
     }
 
     public function testCreateTransactionForAccount()
